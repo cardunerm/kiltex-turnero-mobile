@@ -3,45 +3,42 @@ import { Text, Modal } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useState } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //Screen
 
 import HomeScreen from "./Screen/HomeScreen";
 import CourtsScreen from "./Screen/CourtsScreen";
 import MyTurno from "./Screen/MyTurno";
-import Login from './Login/Login';
+import Login from "./Login/Login";
 import Home from "./Components/Home";
 import DetailsCourts from "./Components/DetailsCourts";
 
 const Stack = createNativeStackNavigator();
 function MyStack() {
   return (
-    <Stack.Navigator
-    initialRouteName="Courts"
-    >
-      <Stack.Screen 
-      name="Courts" 
-      component={CourtsScreen}
-      options={{
-        title:"Canchas",
-        headerTitleAlign:"center"
-      }}
-       />
-      <Stack.Screen 
-      name="Details" 
-      component={DetailsCourts}
-      options={{
-        title:"Detalles",
-      }}
-       />
-      
+    <Stack.Navigator initialRouteName="Courts">
+      <Stack.Screen
+        name="Courts"
+        component={CourtsScreen}
+        options={{
+          title: "Canchas",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Details"
+        component={DetailsCourts}
+        options={{
+          title: "Detalles",
+        }}
+      />
     </Stack.Navigator>
   );
 }
 
 const Tab = createBottomTabNavigator();
-function MyTabs({setVisbLogin}) {
+function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Court"
@@ -69,7 +66,7 @@ function MyTabs({setVisbLogin}) {
         name="Turno"
         component={MyTurno}
         options={{
-          title:"Turnos",
+          title: "Turnos",
           tabBarLabel: "Turnos",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -80,18 +77,13 @@ function MyTabs({setVisbLogin}) {
           ),
         }}
       />
-        <Tab.Screen
+      <Tab.Screen
         name="Perfil"
-        
         component={HomeScreen}
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="account"
-              size={size}
-              color={color}
-            />
+            <MaterialCommunityIcons name="account" size={size} color={color} />
           ),
         }}
       />
@@ -99,17 +91,27 @@ function MyTabs({setVisbLogin}) {
   );
 }
 
-
 const Navigation = () => {
-const [visbLogin,setVisbLogin]=useState(true)
- const [visbNaveg,setVisbNaveg]=useState(false)
+  const [visbLogin, setVisbLogin] = useState(true);
+
   return (
     <NavigationContainer>
-      <Login
-      visbLogin={visbLogin}
-      setVisbLogin={setVisbLogin}
-      />
-      <MyTabs />
+      <Stack.Navigator initialRouteName="login">
+        <Stack.Screen
+          name="login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="body"
+          component={MyTabs}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

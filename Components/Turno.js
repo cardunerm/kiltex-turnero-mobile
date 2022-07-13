@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 
 const Turno = () => {
   return (
@@ -12,6 +12,9 @@ const Turno = () => {
             <Text style={[styles.titulo,styles.horario]}>Tiempo del Turno</Text>
             <Text style={[styles.titulo,styles.cancha]}>Cancha del Turno</Text>
           </View>
+          <Pressable style={styles.btnCancelar}>
+            <Text style={styles.btnCancelarText}>Cancelar Turno</Text>
+          </Pressable>
         </View>
       </ScrollView>
     </>
@@ -25,6 +28,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 20,
     borderRadius: 5,
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -36,9 +41,9 @@ const styles = StyleSheet.create({
   },
   contTurno: {
     paddingVertical:20,
+    paddingHorizontal:20,
   },
   titulo:{
-    paddingLeft:20,
     fontSize:17,
   },
   fecha:{
@@ -51,5 +56,15 @@ const styles = StyleSheet.create({
     fontWeight:'500',
     borderBottomColor:'#03408c6e',
     borderBottomWidth:.5,
+  },
+  btnCancelar:{
+    backgroundColor:'blue',
+    paddingVertical:5,
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:20,
+  },
+  btnCancelarText:{
+    color:'#fff',
+    textAlign:'center',
   },
 });
