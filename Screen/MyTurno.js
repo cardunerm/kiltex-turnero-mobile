@@ -3,7 +3,14 @@ import { Text,FlatList } from 'react-native';
 import Turno from '../Components/Turno';
 
 const MyTurno = () => {
-  const [turnos, setTurnos] = useState([1,2,3,4]);
+  const turnos= [
+    {'id':1},
+    {'id':2},
+    {'id':3},
+  ];
+
+  // Salta un  error , se deberia arreglar una ves que se implementen peticiones a la api 
+  //con el llamado get de la lista de
   return (
     <>
       <FlatList

@@ -16,11 +16,13 @@ import { useForm, Controller } from "react-hook-form";
 import Registrarse from "./Registrarse";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import RecoverPasswod from "./RecoverPasswod";
 const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
   const navigation = useNavigation();
 
   //Hooks
   const [visbRegister, setVisbRegister] = useState(false);
+  const [visbRecuperarPass, setVisbRecuperarPass] = useState(false);
   const [usuario, setUsuario] = useState();
   const [token, setToken] = useState();
 
@@ -48,16 +50,13 @@ useEffect(() => {
       const us = await AsyncStorage.getItem("usuario");
       const usar = JSON.parse(us);
       setUsuario(usar);
-      console.log(us);
+      
     } catch (er) {
       console.log(er);
     }
   };
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
+  const {reset,control,handleSubmit,formState: { errors },
   } = useForm({
     defaultValues: {
       user: "",
@@ -78,10 +77,11 @@ useEffect(() => {
     //setVisbLogin(!visbLogin);
     if (usuario.user === data.user && usuario.password === data.password) {
       navigation.navigate("body")
-      console.log("se inicio");
+      
+      reset();
     } else {
       alertNoSesion()
-      console.log('no')
+      
     }
   };
 
@@ -167,10 +167,10 @@ useEffect(() => {
             <Text 
             style={styles.textOlvContraseña}
             onPress={() => {
-              setVisbRegister(!visbRegister);
+              setVisbRecuperarPass(!visbRecuperarPass);
             }}
             >
-              ¿Olvidaste la contraseña?
+              ¿Olvidaste tu contraseña?
             </Text>
           </View>
         </ScrollView>
@@ -178,6 +178,10 @@ useEffect(() => {
       <Registrarse
         visbRegister={visbRegister}
         setVisbRegister={setVisbRegister}
+      />
+      <RecoverPasswod
+      visbRecuperarPass={visbRecuperarPass}
+      setVisbRecuperarPass={setVisbRecuperarPass}
       />
     </>
   );

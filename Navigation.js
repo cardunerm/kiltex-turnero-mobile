@@ -13,6 +13,13 @@ import MyTurno from "./Screen/MyTurno";
 import Login from "./Login/Login";
 import Home from "./Components/Home";
 import DetailsCourts from "./Components/DetailsCourts";
+//Stack Perfil
+import UserAndPassStack from "./StackPerfil/UserAndPassStack";
+import ContactStack from "./StackPerfil/ContactStack";
+import NotificacionesStack from "./StackPerfil/NotificacionesStack";
+//Stack Usuario
+import PasswordStack from "./StackUsuario/PasswordStack";
+import EmailStack from "./StackUsuario/EmailStack";
 
 const Stack = createNativeStackNavigator();
 function MyStack() {
@@ -36,6 +43,76 @@ function MyStack() {
     </Stack.Navigator>
   );
 }
+
+
+function MyStackPerfil() {
+  return (
+    <Stack.Navigator initialRouteName="Perfil1">
+      <Stack.Screen
+        name="Perfil1"
+        component={HomeScreen}
+        options={{
+          title: "Perfil",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="userAndPass"
+        component={MyStackUsuario}
+        options={{
+          title: "Usuario",
+          headerTitleAlign: "center",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Contactanos"
+        component={ContactStack}
+        options={{
+          title: "Contacto",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Notificaciones"
+        component={NotificacionesStack}
+        options={{
+          title: "Notificaciones",
+          headerTitleAlign: "center",
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function MyStackUsuario(){
+  return (
+    <Stack.Navigator initialRouteName="usuario">
+      <Stack.Screen
+        name="usuario"
+        component={UserAndPassStack}
+        options={{
+          title: "Usuario",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Contraseña"
+        component={PasswordStack}
+        options={{
+          title: "Contraseña",
+        }}
+      />
+      <Stack.Screen
+        name="E-mail"
+        component={EmailStack}
+        options={{
+          title: "E-mail",
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -79,12 +156,13 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Perfil"
-        component={HomeScreen}
+        component={MyStackPerfil}
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" size={size} color={color} />
           ),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

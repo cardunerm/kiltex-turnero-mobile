@@ -91,6 +91,7 @@ const SolicitarTurno = ({solTurno,setSolTurno,detCourts}) => {
           setSolTurno(!solTurno)
           console.log('Se solicito el turno: Cancha: '+ Turno.cancha+', Fecha: '+Turno.fecha+', Tiempo: '+Turno.tiempo)
           //En esta parte se enviaria el turno a la Api
+          
         }}
         >
           <Text style={styles.textBtnTurno}>Solicitar Turno</Text>

@@ -15,49 +15,47 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Registrarse = ({ visbRegister, setVisbRegister }) => {
-//HOOKS
-const [valor, setValor]=useState('')
-const [valorP, setValorP]=useState('')
+const RecoverPasswod = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
+  //HOOKS
+  const [valor, setValor] = useState();
 
-//Funciones
+  //Funciones
 
+  const registrarUsuario = async (data) => {
+    try {
+      await AsyncStorage.setItem("usuario", JSON.stringify(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-const registrarUsuario = async (data) => {
-  try {
-    await  AsyncStorage.setItem('usuario', JSON.stringify(data))
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-  const {reset,control,handleSubmit,formState: { errors },} = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       user: "",
       password: "",
     },
   });
 
-
   const onSubmit = (data) => {
-    setValor(data)
-    registrarUsuario(data)
-    setVisbRegister(!visbRegister);
-    reset();
-    
+    setValor(data);
+    registrarUsuario(data);
   };
 
   return (
-    <Modal visible={visbRegister}>
+    <Modal visible={visbRecuperarPass}>
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.banner}>
             <Pressable
               style={styles.back}
               onPress={() => {
-                setVisbRegister(!visbRegister);
+                setVisbRecuperarPass(!visbRecuperarPass);
               }}
             >
               <MaterialCommunityIcons
@@ -66,77 +64,55 @@ const registrarUsuario = async (data) => {
                 color="#fff"
               />
             </Pressable>
-            <Text style={styles.bannerText}>Registrarse</Text>
+            <Text style={styles.bannerText}>¿Olvidaste tu contraseña?</Text>
           </View>
-          <View style={styles.form}
-          autoComplete='off'
-          >
-            <Text style={styles.label}>Email</Text>
+          <View style={styles.form}>
+            <Text style={styles.label}>Ingresa tu E-mail</Text>
             <Controller
               control={control}
               rules={{
                 required: "Este campo es requerido",
                 minLength: {
                   value: 4,
-                  message: "La cantidad minima son 4 caracteres",
+                  message: "La cantidad minima son 7 caracteres",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                keepSubmitCount={false}
                   style={styles.input}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                   placeholder="E-mail"
-                  
                 />
               )}
               name="user"
             />
             <Text style={styles.errorText}>{errors.user?.message}</Text>
-            <Text style={styles.label}>Password</Text>
-            <Controller
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-                minLength: {
-                  value: 4,
-                  message: "La cantidad minima son 4 caracteres",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  secureTextEntry={true}
-                  keyboardType="numeric"
-                  placeholder="contraseña"
-                />
-              )}
-              name="password"
-            />
-            <Text style={styles.errorText}>{errors.password?.message}</Text>
-
             <View>
               <Pressable
                 style={styles.button}
                 color
                 onPress={handleSubmit(onSubmit)}
               >
-                <Text style={styles.btnText}>Registrar</Text>
+                <Text style={styles.btnText}>Recuperar Contraseña</Text>
               </Pressable>
             </View>
           </View>
+          <View style={styles.mensajeContainer}>
+            <Text style={styles.mensaje}>
+              Se te enviara un correo con las indicaciones a seguir para
+              recuperar tu contraseña
+            </Text>
+          </View>
         </ScrollView>
+        
       </View>
     </Modal>
   );
 };
 
-export default Registrarse;
+export default RecoverPasswod;
 
 const styles = StyleSheet.create({
   container: {
@@ -171,6 +147,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: "900",
+    marginTop: 30,
   },
   form: {
     marginHorizontal: 20,
@@ -216,5 +193,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontWeight: "700",
     //Recordar subrayar texto
+  },
+  mensajeContainer: {
+    
+    marginVertical:80,
+    marginHorizontal:35,
+  },
+  mensaje: {
+    color: "#ccc",
+    fontSize:15,
+    fontWeight:'600',
   },
 });

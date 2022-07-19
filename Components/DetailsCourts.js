@@ -12,8 +12,8 @@ import axios from "axios";
 
 import SolicitarTurno from "./SolicitarTurno";
 const DetailsCourts = ({ route }) => {
-  const id = route.params;
-  console.log(id);
+  const id = route.params
+  console.log(route)
   const [detCourts, setDetCourts] = useState({});
   const [solTurno, setSolTurno] = useState(false);
   const filter = {
@@ -29,7 +29,7 @@ const DetailsCourts = ({ route }) => {
       .get(url)
       .then((response) => {
         setDetCourts(response.data);
-        console.log(response.data);
+      
       })
       .catch((e) => {
         console.log(e);

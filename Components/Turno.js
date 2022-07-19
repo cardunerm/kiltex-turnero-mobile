@@ -1,7 +1,22 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable ,Alert} from "react-native";
 
 const Turno = () => {
+
+//Hooks
+
+
+
+const alertEliminarTurno = () => {
+  Alert.alert("¿Esta seguro de eliminar este turno?", "Una vez eliminado no se podra recuperar. Debera solicitar otro turno", [
+    {text:'No'},
+    {text:'Si,Eliminar', onPress:() => {
+      //Se realizaria la peticion a la api para eliminar el turno
+      console.log('Se elimino el turno')
+    }}
+  ]);
+};
+
   return (
     <>
       <ScrollView>
@@ -12,7 +27,11 @@ const Turno = () => {
             <Text style={[styles.titulo,styles.horario]}>Tiempo del Turno</Text>
             <Text style={[styles.titulo,styles.cancha]}>Cancha del Turno</Text>
           </View>
-          <Pressable style={styles.btnCancelar}>
+          <Pressable 
+          onPress={()=>{
+            alertEliminarTurno()
+          }}
+          style={styles.btnCancelar}>
             <Text style={styles.btnCancelarText}>Cancelar Turno</Text>
           </Pressable>
         </View>
@@ -26,7 +45,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
-    marginVertical: 20,
+    marginTop: 40,
     borderRadius: 5,
     borderBottomEndRadius:20,
     borderBottomStartRadius:20,
