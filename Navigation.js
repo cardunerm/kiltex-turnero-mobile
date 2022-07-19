@@ -3,45 +3,119 @@ import { Text, Modal } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useState } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //Screen
 
 import HomeScreen from "./Screen/HomeScreen";
 import CourtsScreen from "./Screen/CourtsScreen";
 import MyTurno from "./Screen/MyTurno";
-import Login from './Login/Login';
+import Login from "./Login/Login";
 import Home from "./Components/Home";
 import DetailsCourts from "./Components/DetailsCourts";
+//Stack Perfil
+import UserAndPassStack from "./StackPerfil/UserAndPassStack";
+import ContactStack from "./StackPerfil/ContactStack";
+import NotificacionesStack from "./StackPerfil/NotificacionesStack";
+//Stack Usuario
+import PasswordStack from "./StackUsuario/PasswordStack";
+import EmailStack from "./StackUsuario/EmailStack";
 
 const Stack = createNativeStackNavigator();
 function MyStack() {
   return (
-    <Stack.Navigator
-    initialRouteName="Courts"
-    >
-      <Stack.Screen 
-      name="Courts" 
-      component={CourtsScreen}
-      options={{
-        title:"Canchas",
-        headerTitleAlign:"center"
-      }}
-       />
-      <Stack.Screen 
-      name="Details" 
-      component={DetailsCourts}
-      options={{
-        title:"Detalles",
-      }}
-       />
-      
+    <Stack.Navigator initialRouteName="Courts">
+      <Stack.Screen
+        name="Courts"
+        component={CourtsScreen}
+        options={{
+          title: "Canchas",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Details"
+        component={DetailsCourts}
+        options={{
+          title: "Detalles",
+        }}
+      />
     </Stack.Navigator>
   );
 }
 
+
+function MyStackPerfil() {
+  return (
+    <Stack.Navigator initialRouteName="Perfil1">
+      <Stack.Screen
+        name="Perfil1"
+        component={HomeScreen}
+        options={{
+          title: "Perfil",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="userAndPass"
+        component={MyStackUsuario}
+        options={{
+          title: "Usuario",
+          headerTitleAlign: "center",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Contactanos"
+        component={ContactStack}
+        options={{
+          title: "Contacto",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Notificaciones"
+        component={NotificacionesStack}
+        options={{
+          title: "Notificaciones",
+          headerTitleAlign: "center",
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function MyStackUsuario(){
+  return (
+    <Stack.Navigator initialRouteName="usuario">
+      <Stack.Screen
+        name="usuario"
+        component={UserAndPassStack}
+        options={{
+          title: "Usuario",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Contraseña"
+        component={PasswordStack}
+        options={{
+          title: "Contraseña",
+        }}
+      />
+      <Stack.Screen
+        name="E-mail"
+        component={EmailStack}
+        options={{
+          title: "E-mail",
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+
 const Tab = createBottomTabNavigator();
-function MyTabs({setVisbLogin}) {
+function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Court"
@@ -69,7 +143,7 @@ function MyTabs({setVisbLogin}) {
         name="Turno"
         component={MyTurno}
         options={{
-          title:"Turnos",
+          title: "Turnos",
           tabBarLabel: "Turnos",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -80,36 +154,42 @@ function MyTabs({setVisbLogin}) {
           ),
         }}
       />
-        <Tab.Screen
+      <Tab.Screen
         name="Perfil"
-        
-        component={HomeScreen}
+        component={MyStackPerfil}
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="account"
-              size={size}
-              color={color}
-            />
+            <MaterialCommunityIcons name="account" size={size} color={color} />
           ),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
   );
 }
 
-
 const Navigation = () => {
-const [visbLogin,setVisbLogin]=useState(true)
- const [visbNaveg,setVisbNaveg]=useState(false)
+  const [visbLogin, setVisbLogin] = useState(true);
+
   return (
     <NavigationContainer>
-      <Login
-      visbLogin={visbLogin}
-      setVisbLogin={setVisbLogin}
-      />
-      <MyTabs />
+      <Stack.Navigator initialRouteName="login">
+        <Stack.Screen
+          name="login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="body"
+          component={MyTabs}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import { environment } from "../env/env.develop";
 import axios from "axios";
 
+import SolicitarTurno from "./SolicitarTurno";
 const DetailsCourts = ({ route }) => {
-  const id = route.params;
-  console.log(id);
+  const id = route.params
+  console.log(route)
   const [detCourts, setDetCourts] = useState({});
-
+  const [solTurno, setSolTurno] = useState(false);
   const filter = {
     filter: "",
     page: 0,
@@ -21,7 +29,7 @@ const DetailsCourts = ({ route }) => {
       .get(url)
       .then((response) => {
         setDetCourts(response.data);
-        console.log(response.data);
+      
       })
       .catch((e) => {
         console.log(e);
@@ -33,30 +41,41 @@ const DetailsCourts = ({ route }) => {
   }, []);
 
   return (
-    <>
+    <><ScrollView>
       <View>
-        <ScrollView>
+        
           <View style={styles.card}>
             <Text style={styles.titulo}>{detCourts.name}</Text>
 
             <View style={styles.contImg}>
               <Image
-                style={styles.img}
+                style={!solTurno ? styles.img : styles.img2}
                 source={require("../assets/court1.jpg")}
               />
             </View>
-            <View>
+            <View style={!solTurno ? styles.card2 : styles.card1}>
               <Text style={styles.titulo}>{detCourts.sport}</Text>
               <Text style={styles.titulo}>{detCourts.description}</Text>
             </View>
           </View>
+
           <Pressable
           style={styles.btnAddTurno}
+          onPress={() => {
+            setSolTurno(!solTurno);
+          }}
           >
-            <Text  style={styles.btnAddTurnoText}>Solicitar Turno</Text>
+            <Text style={styles.btnAddTurnoText}>
+              {solTurno ? "Cancelar Turno" : "Solicitar Turno"}
+            </Text>
           </Pressable>
-        </ScrollView>
-      </View>
+          <SolicitarTurno
+            detCourts={detCourts}
+            solTurno={solTurno}
+            setSolTurno={setSolTurno}
+          />
+        
+      </View></ScrollView>
     </>
   );
 };
@@ -66,6 +85,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
+    paddingBottom:10,
     marginVertical: 20,
     borderRadius: 45,
     shadowColor: "#000",
@@ -76,6 +96,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
+  },
+  card2: {},
+  card1: {
+    /*backgroundColor: "#fff",
+    marginHorizontal: 20,
+    marginVertical: 20,
+    borderRadius: 45,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,*/
+    backgroundColor: "red",
+    height: 0,
+    
   },
   titulo: {
     textAlign: "center",
@@ -89,20 +127,26 @@ const styles = StyleSheet.create({
     borderBottomColor: "#d6d3d3ed",
     borderBottomWidth: 1,
     paddingVertical: 5,
+    marginHorizontal:15,
   },
   img: {
     width: 350,
     height: 300,
   },
-  btnAddTurno:{
-    backgroundColor:'blue',
-    marginHorizontal:20,
+  img2: {
+    width: 350,
+    height: 300,
   },
-  btnAddTurnoText:{
-    color:'#fff',
-    paddingVertical:10,
-    fontSize:20,
-    fontWeight:'600',
-    textAlign:'center'
-  }
+  btnAddTurno: {
+    backgroundColor: "blue",
+    marginHorizontal: 20,
+    marginTop: 40,
+  },
+  btnAddTurnoText: {
+    color: "#fff",
+    paddingVertical: 10,
+    fontSize: 20,
+    fontWeight: "600",
+    textAlign: "center",
+  },
 });

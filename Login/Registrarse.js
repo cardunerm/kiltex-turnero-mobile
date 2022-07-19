@@ -11,109 +11,85 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
+  Animated,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import Registrarse from "./Registrarse";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import RecoverPasswod from "./RecoverPasswod";
-const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
-  const navigation = useNavigation();
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-  //Hooks
-  const [visbRegister, setVisbRegister] = useState(false);
-  const [visbRecuperarPass, setVisbRecuperarPass] = useState(false);
-  const [usuario, setUsuario] = useState();
-  const [token, setToken] = useState();
+const Registrarse = ({ visbRegister, setVisbRegister }) => {
+//HOOKS
+const [valor, setValor]=useState('')
+const [valorP, setValorP]=useState('')
 
-  /*
-const obtenerDatos = async () => {
-  try{
-   const usuario =	await AsyncStorage.getItem('usuario')
-   const us=JSON.parse(usuario)
-   console.log('el usuar: ')
-   setUsuario(usuario)
-  } catch(error){
-    console.log(error)
+//Funciones
+
+
+const registrarUsuario = async (data) => {
+  try {
+    await  AsyncStorage.setItem('usuario', JSON.stringify(data))
+  } catch (e) {
+    console.log(e)
   }
 }
-useEffect(() => {
-  obtenerDatos();
-}, []);
-*/
-  useEffect(() => {
-    obtenerDato();
-  }, [visbRegister]);
 
-  const obtenerDato = async () => {
-    try {
-      const us = await AsyncStorage.getItem("usuario");
-      const usar = JSON.parse(us);
-      setUsuario(usar);
-      
-    } catch (er) {
-      console.log(er);
-    }
-  };
-
-  const {reset,control,handleSubmit,formState: { errors },
-  } = useForm({
+  const {reset,control,handleSubmit,formState: { errors },} = useForm({
     defaultValues: {
       user: "",
       password: "",
     },
   });
-  const alertNoSesion = ()=> {
-    Alert.alert(
-      'No se pudo iniciar sesion',
-      'El usuario o la contraseña son incorrectos',
-      [
-        {text:'OK'},
-      ]
-    )
-  }
+
 
   const onSubmit = (data) => {
-    //setVisbLogin(!visbLogin);
-    if (usuario.user === data.user && usuario.password === data.password) {
-      navigation.navigate("body")
-      
-      reset();
-    } else {
-      alertNoSesion()
-      
-    }
+    setValor(data)
+    registrarUsuario(data)
+    setVisbRegister(!visbRegister);
+    reset();
+    
   };
 
   return (
-    <>
+    <Modal visible={visbRegister}>
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.banner}>
-            <Image
-              style={styles.imgBanner}
-              source={require("../assets/LogoPadelPrueba.jpg")}
-            />
+            <Pressable
+              style={styles.back}
+              onPress={() => {
+                setVisbRegister(!visbRegister);
+              }}
+            >
+              <MaterialCommunityIcons
+                name="arrow-left"
+                size={24}
+                color="#fff"
+              />
+            </Pressable>
+            <Text style={styles.bannerText}>Registrarse</Text>
           </View>
-          <View style={styles.form}>
+          <View style={styles.form}
+          autoComplete='off'
+          >
             <Text style={styles.label}>Email</Text>
             <Controller
               control={control}
               rules={{
                 required: "Este campo es requerido",
                 minLength: {
-                  value: 7,
-                  message: "La cantidad minima son 7 caracteres",
+                  value: 4,
+                  message: "La cantidad minima son 4 caracteres",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
+                keepSubmitCount={false}
                   style={styles.input}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                   placeholder="E-mail"
-                  keyboardType='email-address'
+                  
                 />
               )}
               name="user"
@@ -133,11 +109,11 @@ useEffect(() => {
                 <TextInput
                   style={styles.input}
                   onBlur={onBlur}
-                  placeholder="contraseña"
                   onChangeText={onChange}
                   value={value}
                   secureTextEntry={true}
                   keyboardType="numeric"
+                  placeholder="contraseña"
                 />
               )}
               name="password"
@@ -150,59 +126,51 @@ useEffect(() => {
                 color
                 onPress={handleSubmit(onSubmit)}
               >
-                <Text style={styles.btnText}>Iniciar Sesion</Text>
+                <Text style={styles.btnText}>Registrar</Text>
               </Pressable>
             </View>
-            <Text style={styles.textRegister}>
-              ¿No posee una cuenta?{" "}
-              <Text
-                style={styles.textRegister2}
-                onPress={() => {
-                  setVisbRegister(!visbRegister);
-                }}
-              >
-                Registrarse
-              </Text>
-            </Text>
-            <Text 
-            style={styles.textOlvContraseña}
-            onPress={() => {
-              setVisbRecuperarPass(!visbRecuperarPass);
-            }}
-            >
-              ¿Olvidaste tu contraseña?
-            </Text>
           </View>
         </ScrollView>
       </View>
-      <Registrarse
-        visbRegister={visbRegister}
-        setVisbRegister={setVisbRegister}
-      />
-      <RecoverPasswod
-      visbRecuperarPass={visbRecuperarPass}
-      setVisbRecuperarPass={setVisbRecuperarPass}
-      />
-    </>
+    </Modal>
   );
 };
 
-export default Login;
+export default Registrarse;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 8,
     backgroundColor: "#2b2b2d",
   },
   banner: {
+    backgroundColor: "#399edea8",
+    paddingBottom: 50,
+    paddingTop: 100,
+    marginBottom: 50,
+    borderBottomEndRadius: 30,
+    borderBottomStartRadius: 30,
+  },
+  back: {
+    backgroundColor: "#0965a1",
+    width: 70,
     flexDirection: "row",
     justifyContent: "center",
+    position: "absolute",
+    top: 0,
+    paddingTop: 50,
+    paddingBottom: 30,
+    marginLeft: 5,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
+    borderColor: "#399edea8",
+    borderWidth: 1,
   },
-  imgBanner: {
-    marginTop: 50,
-    width: 450,
-    height: 300,
+  bannerText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: "900",
   },
   form: {
     marginHorizontal: 20,
@@ -242,7 +210,6 @@ const styles = StyleSheet.create({
   textRegister: {
     paddingVertical: 10,
     fontSize: 15,
-    textAlign: "center",
   },
   textRegister2: {
     color: "#fff",
@@ -250,8 +217,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     //Recordar subrayar texto
   },
-  textOlvContraseña:{
-    textAlign:'center',
-    color:'#eee'
-  }
 });

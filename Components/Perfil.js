@@ -1,16 +1,56 @@
-import React from "react";
-import { ScrollView, Text, View, StyleSheet, Pressable } from "react-native";
+import React, { useState } from "react";
+import {
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  Image,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Login from "../Login/Login";
+import { useNavigation } from "@react-navigation/native";
 
 const Perfil = () => {
+  const navigation = useNavigation();
+  const [logout, setLogout] = useState();
   return (
     <>
       <View style={styles.container}>
         <ScrollView>
-          <Text>Perfil</Text>
-          <Pressable style={styles.logout}>
-            <MaterialCommunityIcons name="logout" size={34} color="black" />
-          </Pressable>
+          <View style={styles.imgPerfilContainer}>
+            <Image
+              style={styles.imgPerfil}
+              source={require("../assets/LogoPadelPrueba.jpg")}
+            />
+            <Text style={styles.name}>Usuario 1</Text>
+          </View>
+          <View style={styles.funcionalidadContainer}>
+            <Pressable
+              style={[styles.funcionalidad, styles.funcionalidad1]}
+              onPress={() => navigation.navigate("Contactanos")}
+            >
+              <Text style={styles.funcionalidadText}>Contactanos</Text>
+            </Pressable>
+            <Pressable
+              style={styles.funcionalidad}
+              onPress={() => navigation.navigate("Notificaciones")}
+            >
+              <Text style={styles.funcionalidadText}>Notificaciones</Text>
+            </Pressable>
+            <Pressable
+              style={styles.funcionalidad}
+              onPress={() => navigation.navigate("userAndPass")}
+            >
+              <Text style={styles.funcionalidadText}>Usuario</Text>
+            </Pressable>
+            <Pressable
+              style={styles.funcionalidad}
+              onPress={() => navigation.navigate("login")}
+            >
+              <Text style={styles.textCerrarSesion}>Cerrara sesion</Text>
+            </Pressable>
+          </View>
         </ScrollView>
       </View>
     </>
@@ -24,13 +64,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginVertical: 2,
   },
-  logout: {
-    backgroundColor: "red",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginLeft: 10,
-    borderRadius: 50,
-    paddingVertical: 10,
-    width: 60,
+  imgPerfilContainer: {
+    flexDirection: "column",
+    alignItems:'center',
+    marginTop: 30,
   },
+  imgPerfil: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    marginBottom:20,
+  },
+  name:{
+    fontSize:18,
+  },
+  funcionalidadContainer: {
+    marginVertical: 20,
+  },
+  funcionalidad1: {
+    borderTopColor: "#999",
+    borderTopWidth: 1,
+  },
+  funcionalidad: {
+    borderBottomColor: "#999",
+    borderBottomWidth: 1,
+  },
+  funcionalidadText: {
+    paddingVertical: 25,
+    fontSize: 20,
+    fontWeight: "600",
+    paddingLeft: 20,
+  },
+  textCerrarSesion:{
+    color:'blue',
+    paddingVertical: 25,
+    fontSize: 20,
+    paddingLeft: 20,
+  }
 });
