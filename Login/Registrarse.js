@@ -15,44 +15,80 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { environment } from "../env/env.develop";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 
 const Registrarse = ({ visbRegister, setVisbRegister }) => {
-//HOOKS
-const [valor, setValor]=useState('')
-const [valorP, setValorP]=useState('')
+  //HOOKS
+  const [valor, setValor] = useState("");
+  const [valorP, setValorP] = useState("");
 
-//Funciones
+  //Funciones
+  
+  const registerApi = (user) => {
+    const url = environment.api.url + "/api/v1/Auth/register";
+    axios
+      .post(url, user)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((e) => {
+        
+        console.log(e.response.data);
+        //alertNoRegister(e.response.data)
+      });
+  };
+ 
+
+  const registrarUsuario = async (data) => {
+    //Se envia al nuevo usuario y con la informacion de este se envia el token
+    try {
+      await AsyncStorage.setItem("usuario", JSON.stringify(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const alertNoRegister = (data) => {
+    Alert.alert('No se pudo registrar',data, [
+      { text: "OK" },
+    ]);
+  };
 
 
-const registrarUsuario = async (data) => {
-  try {
-    await  AsyncStorage.setItem('usuario', JSON.stringify(data))
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-  const {reset,control,handleSubmit,formState: { errors },} = useForm({
+  const {
+    reset,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
-      user: "",
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-
   const onSubmit = (data) => {
-    setValor(data)
-    registrarUsuario(data)
-    setVisbRegister(!visbRegister);
-    reset();
+ 
     
+    console.log(user)
+    console.log(data)
+    registerApi(data)
+    
+    //setVisbRegister(!visbRegister);
+    reset();
   };
 
   return (
     <Modal visible={visbRegister}>
-      <View style={styles.container}>
-        <ScrollView>
+      
+        <View style={styles.container}>
+          <ScrollView>
           <View style={styles.banner}>
             <Pressable
               style={styles.back}
@@ -64,13 +100,64 @@ const registrarUsuario = async (data) => {
                 name="arrow-left"
                 size={24}
                 color="#fff"
+                onPress={() => {
+                  setVisbRegister(!visbRegister);
+                }}
               />
             </Pressable>
             <Text style={styles.bannerText}>Registrarse</Text>
           </View>
-          <View style={styles.form}
-          autoComplete='off'
-          >
+          <View style={styles.form} autoComplete="off">
+            <Text style={styles.label}>Nombre</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+                minLength: {
+                  value: 4,
+                  message: "La cantidad minima son 4 caracteres",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  keepSubmitCount={false}
+                  style={styles.input}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Nombre"
+                  keyboardType="default"
+                />
+              )}
+              name="firstName"
+            />
+            <Text style={styles.errorText}>{errors.firstName?.message}</Text>
+
+            <Text style={styles.label}>Apellido</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+                minLength: {
+                  value: 4,
+                  message: "La cantidad minima son 4 caracteres",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  keepSubmitCount={false}
+                  style={styles.input}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Apellido"
+                  keyboardType="default"
+                />
+              )}
+              name="lastName"
+            />
+            <Text style={styles.errorText}>{errors.lastName?.message}</Text>
+
             <Text style={styles.label}>Email</Text>
             <Controller
               control={control}
@@ -83,7 +170,7 @@ const registrarUsuario = async (data) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                keepSubmitCount={false}
+                  keepSubmitCount={false}
                   style={styles.input}
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -92,10 +179,10 @@ const registrarUsuario = async (data) => {
                   
                 />
               )}
-              name="user"
+              name="emailAddress"
             />
-            <Text style={styles.errorText}>{errors.user?.message}</Text>
-            <Text style={styles.label}>Password</Text>
+            <Text style={styles.errorText}>{errors.emailAddress?.message}</Text>
+            <Text style={styles.label}>Contraseña</Text>
             <Controller
               control={control}
               rules={{
@@ -112,13 +199,38 @@ const registrarUsuario = async (data) => {
                   onChangeText={onChange}
                   value={value}
                   secureTextEntry={true}
-                  keyboardType="numeric"
-                  placeholder="contraseña"
+                 
+                  placeholder="Contraseña"
                 />
               )}
               name="password"
             />
             <Text style={styles.errorText}>{errors.password?.message}</Text>
+
+            <Text style={styles.label}>Confirmar Contraseña</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+                minLength: {
+                  value: 4,
+                  message: "La cantidad minima son 4 caracteres",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={true}
+                  
+                  placeholder="Confirmar contraseña"
+                />
+              )}
+              name="confirmPassword"
+            />
+            <Text style={styles.errorText}>{errors.confirmPassword?.message}</Text>
 
             <View>
               <Pressable
@@ -130,8 +242,9 @@ const registrarUsuario = async (data) => {
               </Pressable>
             </View>
           </View>
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      
     </Modal>
   );
 };
@@ -145,8 +258,8 @@ const styles = StyleSheet.create({
   },
   banner: {
     backgroundColor: "#399edea8",
-    paddingBottom: 50,
-    paddingTop: 100,
+    paddingBottom: 30,
+    paddingTop: 50,
     marginBottom: 50,
     borderBottomEndRadius: 30,
     borderBottomStartRadius: 30,
@@ -165,12 +278,15 @@ const styles = StyleSheet.create({
     borderBottomStartRadius: 10,
     borderColor: "#399edea8",
     borderWidth: 1,
+    zIndex: 60,
   },
   bannerText: {
     color: "#fff",
     textAlign: "center",
     fontSize: 25,
     fontWeight: "900",
+    position: "relative",
+    zIndex: 20,
   },
   form: {
     marginHorizontal: 20,
@@ -178,10 +294,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderRadius: 20,
+    marginBottom: 7,
   },
   label: {
     color: "white",
-    margin: 20,
+    margin: 10,
     marginLeft: 0,
   },
   button: {

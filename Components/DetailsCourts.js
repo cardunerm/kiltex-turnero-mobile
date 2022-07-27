@@ -12,8 +12,8 @@ import axios from "axios";
 
 import SolicitarTurno from "./SolicitarTurno";
 const DetailsCourts = ({ route }) => {
-  const id = route.params
-  console.log(route)
+  const id = route.params;
+  console.log(route);
   const [detCourts, setDetCourts] = useState({});
   const [solTurno, setSolTurno] = useState(false);
   const filter = {
@@ -29,7 +29,6 @@ const DetailsCourts = ({ route }) => {
       .get(url)
       .then((response) => {
         setDetCourts(response.data);
-      
       })
       .catch((e) => {
         console.log(e);
@@ -41,12 +40,11 @@ const DetailsCourts = ({ route }) => {
   }, []);
 
   return (
-    <><ScrollView>
-      <View>
-        
+    <>
+      <ScrollView>
+        <View>
           <View style={styles.card}>
             <Text style={styles.titulo}>{detCourts.name}</Text>
-
             <View style={styles.contImg}>
               <Image
                 style={!solTurno ? styles.img : styles.img2}
@@ -60,10 +58,10 @@ const DetailsCourts = ({ route }) => {
           </View>
 
           <Pressable
-          style={styles.btnAddTurno}
-          onPress={() => {
-            setSolTurno(!solTurno);
-          }}
+            style={styles.btnAddTurno}
+            onPress={() => {
+              setSolTurno(!solTurno);
+            }}
           >
             <Text style={styles.btnAddTurnoText}>
               {solTurno ? "Cancelar Turno" : "Solicitar Turno"}
@@ -74,8 +72,8 @@ const DetailsCourts = ({ route }) => {
             solTurno={solTurno}
             setSolTurno={setSolTurno}
           />
-        
-      </View></ScrollView>
+        </View>
+      </ScrollView>
     </>
   );
 };
@@ -85,7 +83,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
-    paddingBottom:10,
+    paddingBottom: 10,
     marginVertical: 20,
     borderRadius: 45,
     shadowColor: "#000",
@@ -113,7 +111,6 @@ const styles = StyleSheet.create({
     elevation: 10,*/
     backgroundColor: "red",
     height: 0,
-    
   },
   titulo: {
     textAlign: "center",
@@ -127,7 +124,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#d6d3d3ed",
     borderBottomWidth: 1,
     paddingVertical: 5,
-    marginHorizontal:15,
+    marginHorizontal: 15,
   },
   img: {
     width: 350,

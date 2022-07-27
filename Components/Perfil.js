@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -10,10 +10,22 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Login from "../Login/Login";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Perfil = () => {
+  //Hooks
+  const [gatillo, setGatillo]=useState(false)
   const navigation = useNavigation();
-  const [logout, setLogout] = useState();
+  const logout = async () => {
+    try{
+     await AsyncStorage.removeItem('token')
+     navigation.navigate("login")
+    } catch(error){
+      console.log(error)
+    }
+  }
+  
+  
   return (
     <>
       <View style={styles.container}>
@@ -46,9 +58,15 @@ const Perfil = () => {
             </Pressable>
             <Pressable
               style={styles.funcionalidad}
-              onPress={() => navigation.navigate("login")}
+              onPress={() =>logout()  }
             >
               <Text style={styles.textCerrarSesion}>Cerrara sesion</Text>
+            </Pressable>
+            <Pressable
+              style={styles.funcionalidad}
+              onPress={() => navigation.navigate("NotTest")}
+            >
+              <Text style={styles.funcionalidadText}>Notificacion Expo</Text>
             </Pressable>
           </View>
         </ScrollView>

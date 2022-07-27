@@ -6,14 +6,17 @@ import {
   Image,
   Pressable,
   FlatList,
+  Modal,
 } from "react-native";
 import Court from "../Components/Court";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { environment } from "../env/env.develop";
-import { Searchbar } from 'react-native-paper';
+import { Searchbar } from "react-native-paper";
 
 const CourtsScreen = () => {
+
+  
   //Hooks
 
   const [courts, setCourts] = useState([]);
@@ -41,6 +44,7 @@ const CourtsScreen = () => {
   const Court = ({ item }) => {
     return (
       <>
+      
         <Pressable onPress={() => navigation.navigate("Details", item.id)}>
           <View style={styles.card}>
             <Text style={styles.titulo}>{item.name}</Text>
@@ -63,44 +67,40 @@ const CourtsScreen = () => {
     get();
   }, []);
 
- //Search
- const [searchQuery, setSearchQuery] = React.useState('');
+  //Search
+  const [searchQuery, setSearchQuery] = React.useState("");
 
- const onChangeSearch = (query) => {
-  setSearchQuery(query)
-  FilterSeach(query)
- }
+  const onChangeSearch = (query) => {
+    setSearchQuery(query);
+    FilterSeach(query);
+  };
   //const nameCourts = courts.map(it => it.name.toUpperCase())
-  
 
- const FilterSeach = (text)=> {
-	const newData = courts.filter(function(item){
-   
-		const itemData = item.name.toUpperCase()
-		const textData = text.toUpperCase()
-		return itemData.indexOf(textData) > -1
-})
-setCourtsFilter(newData)
-}
+  const FilterSeach = (text) => {
+    const newData = courts.filter(function (item) {
+      const itemData = item.name.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    setCourtsFilter(newData);
+  };
 
   return (
     <>
-    <Searchbar
-      iconColor="blue"
-      placeholder="Buscar"
-      onChangeText={onChangeSearch}
-      value={searchQuery}
-    />
-      <FlatList
-        data={courtsFilter == '' ? courts : courtsFilter}
+      <Searchbar
+        iconColor="blue"
+        placeholder="Buscar"
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+      />
+        <FlatList
+        data={courtsFilter == "" ? courts : courtsFilter}
         keyExtractor={(item) => item.id}
         renderItem={Court}
       />
     </>
   );
 };
-
-
 
 export default CourtsScreen;
 const styles = StyleSheet.create({
