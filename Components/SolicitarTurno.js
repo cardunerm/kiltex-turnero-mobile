@@ -14,12 +14,13 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
+import CalendarPicker from "react-native-calendar-picker";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const SolicitarTurno = ({solTurno,setSolTurno,detCourts}) => {
+const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
   //Hooks
   const [fecha, setFecha] = useState();
   const [tiempo, setTiempo] = useState();
-  
 
   const {
     control,
@@ -31,82 +32,110 @@ const SolicitarTurno = ({solTurno,setSolTurno,detCourts}) => {
       telefono: "",
     },
   });
-  const cancha=detCourts.name
+  const cancha = detCourts.name;
   const Turno = {
     cancha,
     fecha,
-    tiempo
+    tiempo,
+  };
+  const SolicitarTurno = () =>{
+    console.log(Turno)
+    //Se subiria la fech
+    if(Turno.fecha != undefined && Turno.tiempo != ""){
+      setSolTurno(!solTurno);
+      return
+    }
     
+    alertNoTurno()
   }
 
+  const alertNoTurno = () => {
+    Alert.alert(
+      "No se pudo solicitar turno",
+      "Debe seleccionar fecha y hora ",
+      [{ text: "OK" }]
+    );
+  };
+
+  const minDate = new Date();
+  const weekdays = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
+  const months = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septimbre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
   return (
-    < >
-    <ScrollView>
-      <View style={!solTurno ? styles.container2 : styles.container} >
-        <View style={styles.form}>
-          <Text style={styles.label}>Fecha</Text>
-          <Picker
-            style={styles.pickerItem}
-            selectedValue={fecha}
-            onValueChange={(fecha) => setFecha(fecha)}
-          >
-            <Picker.Item
+    <>
+      <ScrollView>
+        <View style={!solTurno ? styles.container2 : styles.container}>
+          <View style={styles.form}>
+            <Text style={styles.label}>Fecha</Text>
+            <View style={styles.calendarPicker}>
+              <CalendarPicker
+              onDateChange={setFecha}
+              selectYearTitle="Seleccionar Año"
+              selectedDayColor="blue"
+              selectedDayTextColor="#FFFFFF"
+              minDate={minDate}
+              weekdays={weekdays}
+              months={months}
+              nextTitle=">"
+              previousTitle="<"
+              nextTitleStyle={styles.nextTitle}
+              previousTitleStyle={styles.previousTitle}
+            />
+            </View>
+            
+            <Text style={styles.label}>Tiempo</Text>
+            <Picker
               style={styles.pickerItem}
+              selectedValue={tiempo}
+              value=''
               label="- Seleccionar -"
-              value=""
-            />
-            <Picker.Item  label="Fecha1" value="Fecha1" />
-            <Picker.Item  label="Fecha2" value="Fecha2" />
-            <Picker.Item  label="Fecha3" value="Fecha3" />
-            <Picker.Item  label="Fecha4" value="Fecha4" />
-            <Picker.Item  label="Fecha5" value="Fecha5" />
-          </Picker>
-          <Text style={styles.label}>Tiempo</Text>
-          <Picker
-            style={styles.pickerItem}
-            selectedValue={tiempo}
-            onValueChange={(tiempo) => setTiempo(tiempo)}
+              onValueChange={(tiempo) => setTiempo(tiempo)}
+            >
+              <Picker.Item
+                style={styles.pickerItem}
+                label="- Seleccionar -"
+                value=""
+              />
+              <Picker.Item label="30 mn" value="0.30" />
+              <Picker.Item label="1 h" value="1" />
+              <Picker.Item label="1:30 hs" value="1.30" />
+              <Picker.Item label="2 hs" value="2" />
+              <Picker.Item label="2:30 hs" value="2.30" />
+            </Picker>
+          </View>
+          <Pressable
+            style={styles.btnTurno}
+            onPress={() => {
+                SolicitarTurno ()
+              ;
+              //En esta parte se enviaria el turno a la Api
+            }}
           >
-            <Picker.Item
-              style={styles.pickerItem}
-              label="- Seleccionar -"
-              value=""
-            />
-            <Picker.Item  label="30 mn" value="0.30" />
-            <Picker.Item  label="1 h" value="1" />
-            <Picker.Item
-              label="1:30 hs"
-              value="1.30"
-            />
-            <Picker.Item  label="2 hs" value="2" />
-            <Picker.Item
-              label="2:30 hs"
-              value="2.30"
-            />
-          </Picker>
+            <Text style={styles.textBtnTurno}>Solicitar Turno</Text>
+          </Pressable>
         </View>
-        <Pressable 
-        style={styles.btnTurno}
-        onPress={()=>{
-          setSolTurno(!solTurno)
-          console.log('Se solicito el turno: Cancha: '+ Turno.cancha+', Fecha: '+Turno.fecha+', Tiempo: '+Turno.tiempo)
-          //En esta parte se enviaria el turno a la Api
-          
-        }}
-        >
-          <Text style={styles.textBtnTurno}>Solicitar Turno</Text>
-        </Pressable>
-      </View>
-    </ScrollView>
-      
+      </ScrollView>
     </>
   );
 };
 
 export default SolicitarTurno;
 const styles = StyleSheet.create({
-  container2:{
-  display:"none",
+  container2: {
+    display: "none",
   },
   container: {
     marginVertical: 20,
@@ -123,12 +152,29 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     paddingVertical: 20,
   },
+  calendarPicker:{
+    borderTopColor:'blue',
+    borderBottomColor:'blue',
+    borderTopWidth:1,
+    borderBottomWidth:1,
+    marginHorizontal: -10,
+  },
+  nextTitle: {
+    fontSize: 25,
+    fontWeight: "600",
+    marginRight: 20,
+  },
+  previousTitle: {
+    fontSize: 25,
+    fontWeight: "600",
+    marginLeft: 20,
+  },
   btnTurno: {
     backgroundColor: "blue",
     marginTop: 30,
     paddingVertical: 10,
-    borderBottomLeftRadius:18,
-    borderBottomRightRadius:18,
+    borderBottomLeftRadius: 18,
+    borderBottomRightRadius: 18,
   },
   textBtnTurno: {
     textAlign: "center",

@@ -17,6 +17,8 @@ import Registrarse from "./Registrarse";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import RecoverPasswod from "./RecoverPasswod";
+import axios from "axios";
+import { environment } from "../env/env.develop";
 const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
   const navigation = useNavigation();
 
@@ -26,164 +28,179 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
   const [usuario, setUsuario] = useState();
   const [token, setToken] = useState();
 
-  /*
-const obtenerDatos = async () => {
-  try{
-   const usuario =	await AsyncStorage.getItem('usuario')
-   const us=JSON.parse(usuario)
-   console.log('el usuar: ')
-   setUsuario(usuario)
-  } catch(error){
-    console.log(error)
-  }
-}
-useEffect(() => {
-  obtenerDatos();
-}, []);
-*/
-  useEffect(() => {
-    obtenerDato();
-  }, [visbRegister]);
-
-  const obtenerDato = async () => {
+  const obtenerDatos = async () => {
     try {
-      const us = await AsyncStorage.getItem("usuario");
-      const usar = JSON.parse(us);
-      setUsuario(usar);
-      
-    } catch (er) {
-      console.log(er);
+      const usuario = await AsyncStorage.getItem("token");
+      const us = JSON.parse(usuario);
+      setToken(usuario);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const {reset,control,handleSubmit,formState: { errors },
+  const guardarToken = async (data) => {
+    try {
+      await AsyncStorage.setItem("token", JSON.stringify(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const logApi = (user) => {
+    const url = environment.api.url + "/api/v1/Auth/ClientLogin";
+    axios
+      .post(url, user)
+      .then((response) => {
+        if (response != null) {
+          let Token = response.data.token;
+          guardarToken(Token);
+          obtenerDatos();
+        } else {
+          alertNoSesion();
+        }
+        console.log(response.data);
+      })
+      .catch((e) => {
+        alertNoSesion();
+        console.log(e);
+      });
+  };
+  useEffect(() => {
+    if (token != null) {
+      navigation.navigate("body");
+      console.log("token: " + token);
+      setToken(null);
+      return;
+    }
+  }, [token]);
+
+  const {
+    reset,
+    control,
+    handleSubmit,
+    formState: { errors },
   } = useForm({
     defaultValues: {
-      user: "",
+      emailAddress: "",
       password: "",
     },
   });
-  const alertNoSesion = ()=> {
+  const alertNoSesion = () => {
     Alert.alert(
-      'No se pudo iniciar sesion',
-      'El usuario o la contraseña son incorrectos',
-      [
-        {text:'OK'},
-      ]
-    )
-  }
+      "No se pudo iniciar sesion",
+      "El usuario o la contraseña son incorrectos",
+      [{ text: "OK" }]
+    );
+  };
 
   const onSubmit = (data) => {
-    //setVisbLogin(!visbLogin);
-    if (usuario.user === data.user && usuario.password === data.password) {
-      navigation.navigate("body")
-      
-      reset();
-    } else {
-      alertNoSesion()
-      
-    }
+    logApi(data);
   };
 
   return (
     <>
-      <View style={styles.container}>
-        <ScrollView>
-          <View style={styles.banner}>
-            <Image
-              style={styles.imgBanner}
-              source={require("../assets/LogoPadelPrueba.jpg")}
-            />
-          </View>
-          <View style={styles.form}>
-            <Text style={styles.label}>Email</Text>
-            <Controller
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-                minLength: {
-                  value: 7,
-                  message: "La cantidad minima son 7 caracteres",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="E-mail"
-                  keyboardType='email-address'
-                />
-              )}
-              name="user"
-            />
-            <Text style={styles.errorText}>{errors.user?.message}</Text>
-            <Text style={styles.label}>Password</Text>
-            <Controller
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-                minLength: {
-                  value: 4,
-                  message: "La cantidad minima son 4 caracteres",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  onBlur={onBlur}
-                  placeholder="contraseña"
-                  onChangeText={onChange}
-                  value={value}
-                  secureTextEntry={true}
-                  keyboardType="numeric"
-                />
-              )}
-              name="password"
-            />
-            <Text style={styles.errorText}>{errors.password?.message}</Text>
-
-            <View>
-              <Pressable
-                style={styles.button}
-                color
-                onPress={handleSubmit(onSubmit)}
-              >
-                <Text style={styles.btnText}>Iniciar Sesion</Text>
-              </Pressable>
+    <View style={styles.container}>
+          
+          <ScrollView>
+            <View style={styles.banner}>
+              <Image
+                style={styles.imgBanner}
+                source={require("../assets/LogoPadelPrueba.jpg")}
+              />
             </View>
-            <Text style={styles.textRegister}>
-              ¿No posee una cuenta?{" "}
+            <View style={styles.form}>
+              <Text style={styles.label}>Email</Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: "Este campo es requerido",
+                  minLength: {
+                    value: 7,
+                    message: "La cantidad minima son 7 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="E-mail"
+                    keyboardType="email-address"
+                  />
+                )}
+                name="emailAddress"
+              />
+              <Text style={styles.errorText}>
+                {errors.emailAddress?.message}
+              </Text>
+              <Text style={styles.label}>Password</Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: "Este campo es requerido",
+                  minLength: {
+                    value: 1,
+                    message: "La cantidad minima son 4 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    onBlur={onBlur}
+                    placeholder="contraseña"
+                    onChangeText={onChange}
+                    value={value}
+                    secureTextEntry={true}
+                    keyboardType="default"
+                  />
+                )}
+                name="password"
+              />
+              <Text style={styles.errorText}>{errors.password?.message}</Text>
+
+              <View>
+                <Pressable
+                  style={styles.button}
+                  color
+                  onPress={handleSubmit(onSubmit)}
+                >
+                  <Text style={styles.btnText}>Iniciar Sesion</Text>
+                </Pressable>
+              </View>
+              <Text style={styles.textRegister}>
+                ¿No posee una cuenta?{" "}
+                <Text
+                  style={styles.textRegister2}
+                  onPress={() => {
+                    setVisbRegister(!visbRegister);
+                  }}
+                >
+                  Registrarse
+                </Text>
+              </Text>
               <Text
-                style={styles.textRegister2}
+                style={styles.textOlvContraseña}
                 onPress={() => {
-                  setVisbRegister(!visbRegister);
+                  setVisbRecuperarPass(!visbRecuperarPass);
                 }}
               >
-                Registrarse
+                ¿Olvidaste tu contraseña?
               </Text>
-            </Text>
-            <Text 
-            style={styles.textOlvContraseña}
-            onPress={() => {
-              setVisbRecuperarPass(!visbRecuperarPass);
-            }}
-            >
-              ¿Olvidaste tu contraseña?
-            </Text>
-          </View>
-        </ScrollView>
-      </View>
-      <Registrarse
-        visbRegister={visbRegister}
-        setVisbRegister={setVisbRegister}
-      />
-      <RecoverPasswod
-      visbRecuperarPass={visbRecuperarPass}
-      setVisbRecuperarPass={setVisbRecuperarPass}
-      />
+            </View>
+          </ScrollView>
+        </View>
+        <Registrarse
+          visbRegister={visbRegister}
+          setVisbRegister={setVisbRegister}
+        />
+        <RecoverPasswod
+          visbRecuperarPass={visbRecuperarPass}
+          setVisbRecuperarPass={setVisbRecuperarPass}
+        />
     </>
+      
+   
+    
   );
 };
 
@@ -250,8 +267,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     //Recordar subrayar texto
   },
-  textOlvContraseña:{
-    textAlign:'center',
-    color:'#eee'
-  }
+  textOlvContraseña: {
+    textAlign: "center",
+    color: "#eee",
+  },
 });

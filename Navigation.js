@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 //Screen
 
 import HomeScreen from "./Screen/HomeScreen";
@@ -20,17 +21,21 @@ import NotificacionesStack from "./StackPerfil/NotificacionesStack";
 //Stack Usuario
 import PasswordStack from "./StackUsuario/PasswordStack";
 import EmailStack from "./StackUsuario/EmailStack";
+import NotExpo from "./Components/NotExpo";
 
 const Stack = createNativeStackNavigator();
 function MyStack() {
+  
   return (
     <Stack.Navigator initialRouteName="Courts">
       <Stack.Screen
         name="Courts"
         component={CourtsScreen}
+        
         options={{
           title: "Canchas",
           headerTitleAlign: "center",
+          
         }}
       />
       <Stack.Screen
@@ -43,7 +48,6 @@ function MyStack() {
     </Stack.Navigator>
   );
 }
-
 
 function MyStackPerfil() {
   return (
@@ -81,10 +85,18 @@ function MyStackPerfil() {
           headerTitleAlign: "center",
         }}
       />
+      <Stack.Screen
+        name="NotTest"
+        component={NotExpo}
+        options={{
+          title: "NotTest",
+          headerTitleAlign: "center",
+        }}
+      />
     </Stack.Navigator>
   );
 }
-function MyStackUsuario(){
+function MyStackUsuario() {
   return (
     <Stack.Navigator initialRouteName="usuario">
       <Stack.Screen
@@ -113,59 +125,79 @@ function MyStackUsuario(){
   );
 }
 
-
 const Tab = createBottomTabNavigator();
-function MyTabs() {
+function MyTabs({ navigation }) {
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        e.preventDefault();
+      }),
+    [navigation]
+  );
+
   return (
-    <Tab.Navigator
-      initialRouteName="Court"
-      screenOptions={{
-        tabBarActiveTintColor: "blue",
-        headerTitleAlign: "center",
-      }}
-    >
-      <Tab.Screen
-        name="Court"
-        component={MyStack}
-        options={{
-          tabBarLabel: "Canchas",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="tennis-ball"
-              size={size}
-              color={color}
-            />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Turno"
-        component={MyTurno}
-        options={{
-          title: "Turnos",
-          tabBarLabel: "Turnos",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="calendar-check"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Perfil"
-        component={MyStackPerfil}
-        options={{
-          tabBarLabel: "Perfil",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" size={size} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-    </Tab.Navigator>
+    <>
+     
+      <Tab.Navigator
+          initialRouteName="Court"
+          screenOptions={{
+            tabBarActiveTintColor: "blue",
+            headerTitleAlign: "center",
+          }}
+        >
+          
+          <Tab.Screen
+            name="Court"
+            component={MyStack}
+            
+            options={{
+              tabBarLabel: "Canchas",
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="tennis-ball"
+                  size={size}
+                  color={color}
+                />
+              ),
+              headerShown: false,
+            }}
+          />
+          <Tab.Screen
+            name="Turno"
+            component={MyTurno}
+            options={{
+              title: "Turnos",
+              tabBarLabel: "Turnos",
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="calendar-check"
+                  size={size}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Perfil"
+            component={MyStackPerfil}
+            options={{
+              tabBarLabel: "Perfil",
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="account"
+                  size={size}
+                  color={color}
+                />
+              ),
+              headerShown: false,
+            }}
+          />
+          
+        </Tab.Navigator>
+     
+        
+      
+    </>
   );
 }
 
@@ -173,8 +205,9 @@ const Navigation = () => {
   const [visbLogin, setVisbLogin] = useState(true);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
+    
+      <NavigationContainer>
+      <Stack.Navigator initialRouteName="login" >
         <Stack.Screen
           name="login"
           component={Login}
@@ -190,7 +223,9 @@ const Navigation = () => {
           }}
         />
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer> 
+   
+   
   );
 };
 

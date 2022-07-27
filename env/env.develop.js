@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
     api: {
-      url: 'https://registry-jake-lies-pcs.trycloudflare.com'
+      url: 'https://sure-dish-metropolitan-waterproof.trycloudflare.com'
     }
   };

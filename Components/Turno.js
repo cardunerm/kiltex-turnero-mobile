@@ -19,7 +19,7 @@ const alertEliminarTurno = () => {
 
   return (
     <>
-      <ScrollView>
+      
         <View style={styles.card}>
           <View style={styles.contTurno}>
             <Text style={[styles.titulo,styles.fecha]}>Fecha del Turno</Text>
@@ -35,7 +35,7 @@ const alertEliminarTurno = () => {
             <Text style={styles.btnCancelarText}>Cancelar Turno</Text>
           </Pressable>
         </View>
-      </ScrollView>
+      
     </>
   );
 };
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
-    marginTop: 40,
+    marginVertical:20,
     borderRadius: 5,
     borderBottomEndRadius:20,
     borderBottomStartRadius:20,
