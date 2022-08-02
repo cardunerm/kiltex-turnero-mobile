@@ -58,6 +58,12 @@ const Perfil = () => {
             </Pressable>
             <Pressable
               style={styles.funcionalidad}
+              onPress={() => navigation.navigate("FAQs")}
+            >
+              <Text style={styles.funcionalidadText}>Preguntas Frecuentes</Text>
+            </Pressable>
+            <Pressable
+              style={styles.funcionalidad}
               onPress={() =>logout()  }
             >
               <Text style={styles.textCerrarSesion}>Cerrara sesion</Text>

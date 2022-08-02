@@ -23,7 +23,7 @@ export default function NotExpo() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-
+// Accion encargada de enviar la notificacion
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
@@ -60,7 +60,7 @@ export default function NotExpo() {
     </View>
   );
 }
-
+//Cuerpo de la notificacion
 async function schedulePushNotification() {
     
   await Notifications.scheduleNotificationAsync({
@@ -73,7 +73,7 @@ async function schedulePushNotification() {
     trigger: { seconds: 2 },
   });
 }
-
+//  Genera el Token
 async function registerForPushNotificationsAsync() {
   let token;
   if (Device.isDevice) {
