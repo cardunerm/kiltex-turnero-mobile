@@ -6,7 +6,6 @@ import {
   Image,
   Pressable,
   FlatList,
-  Modal,
 } from "react-native";
 import Court from "../Components/Court";
 import axios from "axios";

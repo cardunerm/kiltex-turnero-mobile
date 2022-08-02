@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Text,
-  Modal,
   Image,
   View,
   TextInput,
@@ -100,8 +99,6 @@ const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
             <Picker
               style={styles.pickerItem}
               selectedValue={tiempo}
-              value=''
-              label="- Seleccionar -"
               onValueChange={(tiempo) => setTiempo(tiempo)}
             >
               <Picker.Item

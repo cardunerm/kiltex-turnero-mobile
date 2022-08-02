@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Modal } from "react-native";
+import { Text, Alert } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -18,6 +18,7 @@ import DetailsCourts from "./Components/DetailsCourts";
 import UserAndPassStack from "./StackPerfil/UserAndPassStack";
 import ContactStack from "./StackPerfil/ContactStack";
 import NotificacionesStack from "./StackPerfil/NotificacionesStack";
+import FAQsStack from "./StackPerfil/FAQsStack";
 //Stack Usuario
 import PasswordStack from "./StackUsuario/PasswordStack";
 import EmailStack from "./StackUsuario/EmailStack";
@@ -50,6 +51,7 @@ function MyStack() {
 }
 
 function MyStackPerfil() {
+  
   return (
     <Stack.Navigator initialRouteName="Perfil1">
       <Stack.Screen
@@ -72,6 +74,14 @@ function MyStackPerfil() {
       <Stack.Screen
         name="Contactanos"
         component={ContactStack}
+        options={{
+          title: "Contacto",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="FAQs"
+        component={FAQsStack}
         options={{
           title: "Contacto",
           headerTitleAlign: "center",
@@ -127,14 +137,29 @@ function MyStackUsuario() {
 
 const Tab = createBottomTabNavigator();
 function MyTabs({ navigation }) {
-  React.useEffect(
+  /*React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
         e.preventDefault();
+        Alert.alert(
+          'Cerrar Sesion?',
+          '¿',
+          [
+            { text: "No", style: 'cancel', onPress: () => {} },
+            {
+              text: 'Si',
+              style: 'destructive',
+              // Al hacer back lateral se vuelve a la pantalla de login
+              // Si se desabilita el back no se puede regresar hacia atras 
+              //Momentaneamente se coloco un mensaje de cierre de sesion y la accion del mismo
+              onPress: () => {navigation.dispatch(e.data.action)},
+            },
+          ]
+        );
       }),
     [navigation]
   );
-
+*/
   return (
     <>
      
@@ -149,7 +174,7 @@ function MyTabs({ navigation }) {
           <Tab.Screen
             name="Court"
             component={MyStack}
-            
+           
             options={{
               tabBarLabel: "Canchas",
               tabBarIcon: ({ color, size }) => (
