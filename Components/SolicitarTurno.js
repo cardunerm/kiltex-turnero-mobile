@@ -15,6 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import CalendarPicker from "react-native-calendar-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
   //Hooks
@@ -37,11 +38,13 @@ const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
     fecha,
     tiempo,
   };
+  const navigation = useNavigation();
   const SolicitarTurno = () =>{
     console.log(Turno)
     //Se subiria la fech
     if(Turno.fecha != undefined && Turno.tiempo != ""){
-      setSolTurno(!solTurno);
+      //setSolTurno(!solTurno);
+      navigation.navigate("payment")
       return
     }
     

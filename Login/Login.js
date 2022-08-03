@@ -10,6 +10,7 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Registrarse from "./Registrarse";
@@ -26,6 +27,7 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
   const [visbRecuperarPass, setVisbRecuperarPass] = useState(false);
   const [usuario, setUsuario] = useState();
   const [token, setToken] = useState();
+  const [cargando,setCargando] = useState(false);
 
   const obtenerDatos = async () => {
     try {
@@ -45,6 +47,7 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
     }
   };
   const logApi = (user) => {
+    
     const url = environment.api.url + "/api/v1/Auth/ClientLogin";
     axios
       .post(url, user)
@@ -64,10 +67,13 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
       });
   };
   useEffect(() => {
+
     if (token != null) {
+      
       navigation.navigate("body");
       console.log("token: " + token);
       setToken(null);
+      setCargando(false);
       return;
     }
   }, [token]);
@@ -92,9 +98,11 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
   };
 
   const onSubmit = (data) => {
-    logApi(data);
+    setCargando(true);
+   logApi(data);
   };
 
+  const carga = cargando ? <ActivityIndicator size="large" color='#fff'/> : <Text>Iniciar Sesion</Text>
   return (
     <>
     <View style={styles.container}>
@@ -163,7 +171,7 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
                   color
                   onPress={handleSubmit(onSubmit)}
                 >
-                  <Text style={styles.btnText}>Iniciar Sesion</Text>
+                  <Text style={styles.btnText}>{carga}</Text>
                 </Pressable>
               </View>
               <Text style={styles.textRegister}>

@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
 //Screen
 
@@ -23,8 +24,11 @@ import FAQsStack from "./StackPerfil/FAQsStack";
 import PasswordStack from "./StackUsuario/PasswordStack";
 import EmailStack from "./StackUsuario/EmailStack";
 import NotExpo from "./Components/NotExpo";
+//Metodo de Pago
+import Payment from "./Components/Payment";
 
 const Stack = createNativeStackNavigator();
+
 function MyStack() {
   
   return (
@@ -44,6 +48,20 @@ function MyStack() {
         component={DetailsCourts}
         options={{
           title: "Detalles",
+          
+        }}
+      />
+      <Stack.Screen
+        name="payment"
+        component={Payment}
+        options={{
+          title: "Metodo de Pago",
+          headerStyle: {
+            backgroundColor: '#1E66B6',
+          },
+          headerTintColor:'#fff',
+          headerTitleAlign: "center",
+          
         }}
       />
     </Stack.Navigator>
@@ -60,6 +78,7 @@ function MyStackPerfil() {
         options={{
           title: "Perfil",
           headerTitleAlign: "center",
+          
         }}
       />
       <Stack.Screen
@@ -137,13 +156,14 @@ function MyStackUsuario() {
 
 const Tab = createBottomTabNavigator();
 function MyTabs({ navigation }) {
-  /*React.useEffect(
+  const navigat = useNavigation();
+  React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
         e.preventDefault();
         Alert.alert(
-          'Cerrar Sesion?',
-          '¿',
+          'Cerrar Sesion',
+          '¿Esta seguro que quiere Cerrar sesion?',
           [
             { text: "No", style: 'cancel', onPress: () => {} },
             {
@@ -159,7 +179,7 @@ function MyTabs({ navigation }) {
       }),
     [navigation]
   );
-*/
+
   return (
     <>
      
@@ -185,6 +205,7 @@ function MyTabs({ navigation }) {
                 />
               ),
               headerShown: false,
+              tabBarActiveBackgroundColor:'#ddd',
             }}
           />
           <Tab.Screen
@@ -200,6 +221,8 @@ function MyTabs({ navigation }) {
                   color={color}
                 />
               ),
+              tabBarActiveBackgroundColor:'#ddd',
+              
             }}
           />
           <Tab.Screen
@@ -215,6 +238,10 @@ function MyTabs({ navigation }) {
                 />
               ),
               headerShown: false,
+              headerStyle: {
+                backgroundColor: '#f4511e',
+              },
+              tabBarActiveBackgroundColor:'#ddd',
             }}
           />
           
@@ -238,6 +265,7 @@ const Navigation = () => {
           component={Login}
           options={{
             headerShown: false,
+            statusBarColor:'#2b2b2d',
           }}
         />
         <Stack.Screen
@@ -245,12 +273,12 @@ const Navigation = () => {
           component={MyTabs}
           options={{
             headerShown: false,
+            statusBarColor:'#2b2b2d',
+            
           }}
         />
       </Stack.Navigator>
     </NavigationContainer> 
-   
-   
   );
 };
 
