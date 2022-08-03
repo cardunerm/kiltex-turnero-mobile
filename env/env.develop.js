@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
     api: {
-      url: 'https://b-encoding-wx-cnn.trycloudflare.com'
+      url: 'https://reggae-framing-processor-fence.trycloudflare.com'
     }
   };
