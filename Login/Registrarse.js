@@ -76,7 +76,6 @@ const Registrarse = ({ visbRegister, setVisbRegister }) => {
   const onSubmit = (data) => {
  
     
-    console.log(user)
     console.log(data)
     registerApi(data)
     
