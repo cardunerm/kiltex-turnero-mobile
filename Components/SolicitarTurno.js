@@ -75,6 +75,7 @@ const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
     "Noviembre",
     "Diciembre",
   ];
+  const disabledDates =["2022-08-06T15"] // Dentro de este array van las fechas que no pueden ser seleccioadas 
 
   return (
     <>
@@ -84,6 +85,7 @@ const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
             <Text style={styles.label}>Fecha</Text>
             <View style={styles.calendarPicker}>
               <CalendarPicker
+              disabledDates={disabledDates}
               onDateChange={setFecha}
               selectYearTitle="Seleccionar Año"
               selectedDayColor="blue"

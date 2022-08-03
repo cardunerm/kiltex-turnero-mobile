@@ -188,6 +188,9 @@ function MyTabs({ navigation }) {
           screenOptions={{
             tabBarActiveTintColor: "blue",
             headerTitleAlign: "center",
+            //tabBarStyle: {
+             // backgroundColor: '#000',
+            //}, Modifica el color del tabBar
           }}
         >
           
