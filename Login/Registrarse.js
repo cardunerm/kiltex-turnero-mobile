@@ -76,10 +76,10 @@ const Registrarse = ({ visbRegister, setVisbRegister }) => {
   const onSubmit = (data) => {
  
     
-    console.log(data)
+    
     registerApi(data)
     
-    //setVisbRegister(!visbRegister);
+    setVisbRegister(!visbRegister);
     reset();
   };
 
