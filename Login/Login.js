@@ -63,6 +63,7 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
       })
       .catch((e) => {
         alertNoSesion();
+        setCargando(false);
         console.log(e);
       });
   };
@@ -100,6 +101,7 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
   const onSubmit = (data) => {
     setCargando(true);
    logApi(data);
+   console.log(data)
   };
 
   const carga = cargando ? <ActivityIndicator size="large" color='#fff'/> : <Text>Iniciar Sesion</Text>
