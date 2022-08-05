@@ -10,23 +10,34 @@ import {
   } from "react-native";
 import { environment } from './env/env.develop';
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const get = async (data) => {
-    const url = environment.api.url + "/api/v1/client/FAQ/list";
+  export default async function  callApiGet(body,url,setRes,setCarga){
+  try {
+    const usuario = await AsyncStorage.getItem("token");
+    const tokenn = JSON.parse(usuario);
+    get(body,url,setRes,setCarga,tokenn)
+  } catch (error) {
+    console.log(error);
+  }
+};
+const get = async (body,url,setRes,setCarga,token) => {
     await axios({
       method: "post",
       url: url,
-      data: filter,
-      headers: { Authorization: "Bearer " + data },
+      data: body,
+      headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
-        setQuestion(response.data.data);
-        setCargando(false);
+        setRes(response.data.data);
+        setCarga(false);
       })
       .catch((e) => {
         console.log("ERR" + e);
       });
   };
 
-  export default get
+ 
+
+
  
