@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import Court from "../Components/Court";
 import axios from "axios";
@@ -15,18 +16,17 @@ import { environment } from "../env/env.develop";
 import { Searchbar } from "react-native-paper";
 
 const CourtsScreen = () => {
-
-  
   //Hooks
 
   const [courts, setCourts] = useState([]);
   const [courtsFilter, setCourtsFilter] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
   //Peticion Api
   useEffect(() => {
-    obtenerDatos();
+    //obtenerDatos();
   }, []);
-
+  /* Esta zona se remplazara por el servicio
   const obtenerDatos = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
@@ -36,12 +36,7 @@ const CourtsScreen = () => {
       console.log(error);
     }
   };
-  const filter = {
-    filter: "",
-    page: 0,
-    pageSize: 10,
-  };
-
+  
   const getCourts = async (data) => {
     const url = environment.api.url + "/api/v1/client/Court/list_all_courts"
     await axios({
@@ -58,26 +53,19 @@ const CourtsScreen = () => {
         console.log("ERR" + e);
       });
   };
+  */
 
+  const filter = {
+    filter: "",
+    page: 0,
+    pageSize: 10,
+  }; //Body
 
-
-
-  const get = () => {
-    const url = environment.api.url + "/api/v1/client/Court/list_all_courts";
-    axios
-      .post(url, filter)
-      .then((response) => {
-        setCourts(response.data.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
   const navigation = useNavigation();
+  // Cuerpo de las tarjetas de la cancha
   const Court = ({ item }) => {
     return (
       <>
-      
         <Pressable onPress={() => navigation.navigate("Details", item.id)}>
           <View style={styles.card}>
             <Text style={styles.titulo}>{item.name}</Text>
@@ -96,7 +84,6 @@ const CourtsScreen = () => {
       </>
     );
   };
-  
 
   //Search
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -105,7 +92,6 @@ const CourtsScreen = () => {
     setSearchQuery(query);
     FilterSeach(query);
   };
-  //const nameCourts = courts.map(it => it.name.toUpperCase())
 
   const FilterSeach = (text) => {
     const newData = courts.filter(function (item) {
@@ -116,25 +102,39 @@ const CourtsScreen = () => {
     setCourtsFilter(newData);
   };
 
-  return (
-    <>
+  //Manejador del spin de carga
+  const carga = cargando ? (
+    <View style={styles.carga}>
+      <ActivityIndicator size="large" color="#1258B1" />
+    </View>
+  ) : (
+    <View>
       <Searchbar
         iconColor="blue"
         placeholder="Buscar"
         onChangeText={onChangeSearch}
         value={searchQuery}
       />
-        <FlatList
+      <FlatList
         data={courtsFilter == "" ? courts : courtsFilter}
         keyExtractor={(item) => item.id}
         renderItem={Court}
       />
+    </View>
+  );
+  //Cuerpo del componente
+  return (
+    <>
+      {carga}
     </>
   );
 };
 
 export default CourtsScreen;
 const styles = StyleSheet.create({
+  carga: {
+    marginVertical: 50,
+  },
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,

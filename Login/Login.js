@@ -39,13 +39,15 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
     }
   };
 
-  const guardarToken = async (data) => {
+  const guardarToken = async (data,fullName) => {
     try {
       await AsyncStorage.setItem("token", JSON.stringify(data));
+      await AsyncStorage.setItem("usuario", JSON.stringify(fullName));
     } catch (e) {
       console.log(e);
     }
   };
+ 
   const logApi = (user) => {
     
     const url = environment.api.url + "/api/v1/Auth/ClientLogin";
@@ -54,7 +56,8 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
       .then((response) => {
         if (response != null) {
           let Token = response.data.token;
-          guardarToken(Token);
+          let fullname = response.data.fullName
+          guardarToken(Token,fullname);
           obtenerDatos();
         } else {
           alertNoSesion();

@@ -15,16 +15,31 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Perfil = () => {
   //Hooks
   const [gatillo, setGatillo]=useState(false)
+  const [usuario, setUsuario]=useState()
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getData()
+  }, []);
+  //Func
   const logout = async () => {
     try{
      await AsyncStorage.removeItem('token')
+     await AsyncStorage.removeItem('usuario')
      navigation.navigate("login")
     } catch(error){
       console.log(error)
     }
   }
-  
+  const getData = async () => {
+    try {
+      const usuario = JSON.parse(await AsyncStorage.getItem("usuario"));
+      setUsuario(usuario)
+      console.log(usuario)
+    } catch (error) {
+      console.log(error);
+    }
+  };
   
   return (
     <>
@@ -35,7 +50,7 @@ const Perfil = () => {
               style={styles.imgPerfil}
               source={require("../assets/LogoPadelPrueba.jpg")}
             />
-            <Text style={styles.name}>Usuario 1</Text>
+            <Text style={styles.name}>{usuario}</Text>
           </View>
           <View style={styles.funcionalidadContainer}>
             <Pressable

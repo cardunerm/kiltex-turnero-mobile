@@ -4,7 +4,7 @@ import { Text, View ,StyleSheet} from 'react-native'
 const ContactStack = () => {
   const telefono = '2634967139'
   const correo = 'soportePadel22@gmail.com'
-  const pagWeb='https://developer.mozilla.org'
+  const ubicacion='Direccion del lugar'
   return (
     <>
     <View style={styles.container}>
@@ -16,7 +16,7 @@ const ContactStack = () => {
     <Text style={styles.text}>Correo{' '}:</Text><Text style={styles.text2}>{'  '}{correo}</Text>
     </View>
     <View style={styles.containerText}>
-    <Text style={styles.text}>Pagina Web{' '}:</Text><Text style={styles.text2}>{'  '}{pagWeb}</Text>
+    <Text style={styles.text}>Direccion{' '}:</Text><Text style={styles.text2}>{'  '}{ubicacion}</Text>
     </View>
     </View>
     

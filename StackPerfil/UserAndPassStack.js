@@ -4,22 +4,24 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserAndPassStack = () => {
+  
   const navigation = useNavigation();
   //Hooks
-const [usuario,setUsuario]=useState();
-
-  const obtenerDato = async () => {
+  const [usuario, setUsuario]=useState()
+  useEffect(() => {
+    getData()
+  }, []);
+  // fun
+  const getData = async () => {
     try {
-      const us = await AsyncStorage.getItem("usuario");
-      const usar = JSON.parse(us);
-      setUsuario(usar)
-    } catch (er) {
-      console.log(er);
+      const usuario = JSON.parse(await AsyncStorage.getItem("usuario"));
+      setUsuario(usuario)
+      console.log(usuario)
+    } catch (error) {
+      console.log(error);
     }
   };
-  useEffect(() => {
-    obtenerDato();
-  }, []);
+
   return (
     <>
       <View style={styles.imgPerfilContainer}>
@@ -27,18 +29,18 @@ const [usuario,setUsuario]=useState();
           style={styles.imgPerfil}
           source={require("../assets/LogoPadelPrueba.jpg")}
         />
-        <Text style={styles.name}>Usuario 1(Falta decidir si se va a usar name)</Text>
+        <Text style={styles.name}>{usuario}</Text>
       </View>
       <View style={styles.containerTotal}>
         <Pressable
           style={[styles.container, styles.containerPass]}
-          onPress={() => navigation.navigate("Contraseña",usuario)}
+          onPress={() => navigation.navigate("Contraseña")}
         >
           <Text style={styles.text}>Contraseña</Text>
         </Pressable>
         <Pressable
           style={styles.container}
-          onPress={() => navigation.navigate("E-mail",usuario)}
+          onPress={() => navigation.navigate("E-mail")}
         >
           <Text style={styles.text}>E-mail</Text>
         </Pressable>
