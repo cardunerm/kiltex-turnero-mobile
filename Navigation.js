@@ -20,6 +20,9 @@ import UserAndPassStack from "./StackPerfil/UserAndPassStack";
 import ContactStack from "./StackPerfil/ContactStack";
 import NotificacionesStack from "./StackPerfil/NotificacionesStack";
 import FAQsStack from "./StackPerfil/FAQsStack";
+
+  //Respuestas a preguntas frecuentes
+  import Answer from "./Components/Answer";
 //Stack Usuario
 import PasswordStack from "./StackUsuario/PasswordStack";
 import EmailStack from "./StackUsuario/EmailStack";
@@ -102,7 +105,15 @@ function MyStackPerfil() {
         name="FAQs"
         component={FAQsStack}
         options={{
-          title: "Contacto",
+          title: "Preguntas Frecuentes",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="answer"
+        component={Answer}
+        options={{
+          title: "Respoesta",
           headerTitleAlign: "center",
         }}
       />
