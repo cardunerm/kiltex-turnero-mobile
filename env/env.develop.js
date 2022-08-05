@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
     api: {
-      url: 'https://addressed-fort-js-ricky.trycloudflare.com'
+      url: 'https://cope-nat-shoot-theta.trycloudflare.com'
     }
   };

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Court from "../Components/Court";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { environment } from "../env/env.develop";
 import { Searchbar } from "react-native-paper";
@@ -22,11 +23,44 @@ const CourtsScreen = () => {
   const [courtsFilter, setCourtsFilter] = useState([]);
 
   //Peticion Api
+  useEffect(() => {
+    obtenerDatos();
+  }, []);
+
+  const obtenerDatos = async () => {
+    try {
+      const usuario = await AsyncStorage.getItem("token");
+      const tokenn = JSON.parse(usuario);
+      getCourts(tokenn);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const filter = {
     filter: "",
     page: 0,
     pageSize: 10,
   };
+
+  const getCourts = async (data) => {
+    const url = environment.api.url + "/api/v1/client/Court/list_all_courts"
+    await axios({
+      method: "post",
+      url: url,
+      data: filter,
+      headers: { Authorization: "Bearer " + data },
+    })
+      .then((response) => {
+        setCourts(response.data.data);
+        setCargando(false);
+      })
+      .catch((e) => {
+        console.log("ERR" + e);
+      });
+  };
+
+
+
 
   const get = () => {
     const url = environment.api.url + "/api/v1/client/Court/list_all_courts";
@@ -62,9 +96,7 @@ const CourtsScreen = () => {
       </>
     );
   };
-  useEffect(() => {
-    get();
-  }, []);
+  
 
   //Search
   const [searchQuery, setSearchQuery] = React.useState("");
