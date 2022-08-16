@@ -6,38 +6,61 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { environment } from "../env/env.develop";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import SolicitarTurno from "./SolicitarTurno";
 const DetailsCourts = ({ route }) => {
   const id = route.params;
-  console.log(route);
+//Hooks
   const [detCourts, setDetCourts] = useState({});
   const [solTurno, setSolTurno] = useState(false);
-  const filter = {
-    filter: "",
-    page: 0,
-    pageSize: 10,
-  };
-
-  const get = () => {
-    const url =
-      environment.api.url + "/api/v1/client/Court/get_court_detail?id=" + id;
-    axios
-      .get(url)
-      .then((response) => {
-        setDetCourts(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
-    get();
+    getDataStorage();
   }, []);
+  // Peticion a la api
+  const url =environment.api.url + "/api/v1/client/Court/get_court_detail?id=" + id;
+
+  const getDataStorage = async () => {
+    try {
+      const usuario = await AsyncStorage.getItem("token");
+      const tokenn = JSON.parse(usuario);
+      get(tokenn)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+ 
+  const get = async (token) => {
+      await axios.get(url,{
+        headers: { Authorization: "Bearer " + token }
+      })
+        .then((response) => {
+          setDetCourts(response.data);
+          setCargando(false)
+        })
+        .catch((e) => {
+          console.log("ERR" + e);
+        });
+    };
+
+    //Manejador del spin de carga
+  const carga = cargando ? (
+    <View style={styles.carga}>
+      <ActivityIndicator size="large" color="#1258B1" />
+    </View>
+  ) : (
+    <View >
+      
+      <Text style={styles.contDescr}>{detCourts.description}</Text>
+      
+    </View>
+  );
 
   return (
     <>
@@ -52,8 +75,7 @@ const DetailsCourts = ({ route }) => {
               />
             </View>
             <View style={!solTurno ? styles.card2 : styles.card1}>
-              <Text style={styles.titulo}>{detCourts.sport}</Text>
-              <Text style={styles.titulo}>{detCourts.description}</Text>
+              {carga}
             </View>
           </View>
 
@@ -80,6 +102,9 @@ const DetailsCourts = ({ route }) => {
 
 export default DetailsCourts;
 const styles = StyleSheet.create({
+  carga:{
+    marginTop:20,
+  },
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
@@ -125,6 +150,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: 5,
     marginHorizontal: 15,
+  },
+  contDescr:{
+    textAlign: "center",
+    marginVertical: 20,
+    paddingHorizontal:10,
   },
   img: {
     width: 350,

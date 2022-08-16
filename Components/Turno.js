@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   View,
   Text,
@@ -7,11 +7,27 @@ import {
   Pressable,
   Alert,
 } from "react-native";
+import { environment } from "../env/env.develop";
+//Service
+import callApiGet from "../Service";
 
 const Turno = () => {
   //Hooks
+  const [courts, setCourts] = useState([]);
+  //Peticion a la api
+  useEffect(() => {
+    callApiGet(filter, url, setQuestion, setCargando);//Peticion
+  }, []);
 
-  const alertEliminarTurno = () => {
+  const filter = {
+    filter: " ",
+    page: 0,
+    pageSize: 10,
+  };//Body
+
+  const url = environment.api.url + "/api/v1/client/Reservation/list_my_reservations";//Url
+
+/*  const alertEliminarTurno = () => {
     Alert.alert(
       "¿Esta seguro de eliminar este turno?",
       "Una vez eliminado no se podra recuperar. Debera solicitar otro turno",
@@ -28,7 +44,7 @@ const Turno = () => {
     );
   };
 
-  /*<Pressable 
+  <Pressable 
           onPress={()=>{
             alertEliminarTurno()
           }}

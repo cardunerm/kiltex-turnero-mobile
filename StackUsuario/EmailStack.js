@@ -10,9 +10,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const EmailStack = ({route}) => {
+const EmailStack = () => {
   const navigation = useNavigation();
-  const { user, password } = route.params;
   // Hooks
   const [email, setEmail] = useState("");
   const [emailNew1, setEmailNew1] = useState("");

@@ -7,6 +7,8 @@ import {
   Pressable,
   FlatList,
   ActivityIndicator,
+  ScrollView,
+  RefreshControl,
 } from "react-native";
 import Court from "../Components/Court";
 import axios from "axios";
@@ -15,46 +17,53 @@ import { useNavigation } from "@react-navigation/native";
 import { environment } from "../env/env.develop";
 import { Searchbar } from "react-native-paper";
 
+//Service
+import callApiGet from "../Service";
+
 const CourtsScreen = () => {
+
+  
+
+ 
   //Hooks
 
   const [courts, setCourts] = useState([]);
   const [courtsFilter, setCourtsFilter] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [refreshing, setRefreshing] = useState(true);
 
   //Peticion Api
   useEffect(() => {
-    //obtenerDatos();
-  }, []);
-  /* Esta zona se remplazara por el servicio
-  const obtenerDatos = async () => {
+    callApiGet()
+  }, [])
+  const  callApiGet = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
       const tokenn = JSON.parse(usuario);
-      getCourts(tokenn);
+      get(tokenn)
     } catch (error) {
       console.log(error);
     }
   };
   
-  const getCourts = async (data) => {
+  const get = async (token) => {
     const url = environment.api.url + "/api/v1/client/Court/list_all_courts"
-    await axios({
-      method: "post",
-      url: url,
-      data: filter,
-      headers: { Authorization: "Bearer " + data },
-    })
-      .then((response) => {
-        setCourts(response.data.data);
-        setCargando(false);
+      await axios({
+        method: "post",
+        url: url,
+        data: filter,
+        headers: { Authorization: "Bearer " + token },
       })
-      .catch((e) => {
-        console.log("ERR" + e);
-      });
-  };
-  */
-
+        .then((response) => {
+          
+          setCourts(response.data.data);
+          setCargando(false);
+          console.log(response.data.data)
+        })
+        .catch((e) => {
+          console.log("ERR" + e);
+        });
+    };
   const filter = {
     filter: "",
     page: 0,
@@ -68,6 +77,7 @@ const CourtsScreen = () => {
       <>
         <Pressable onPress={() => navigation.navigate("Details", item.id)}>
           <View style={styles.card}>
+          
             <Text style={styles.titulo}>{item.name}</Text>
 
             <View style={styles.contImg}>
@@ -77,7 +87,9 @@ const CourtsScreen = () => {
               />
             </View>
             <View>
-              <Text style={styles.titulo}>{item.sport}</Text>
+              <Text style={styles.titulo}>
+                <Text></Text>
+              </Text>
             </View>
           </View>
         </Pressable>
@@ -108,32 +120,44 @@ const CourtsScreen = () => {
       <ActivityIndicator size="large" color="#1258B1" />
     </View>
   ) : (
-    <View>
+    <View >
       <Searchbar
         iconColor="blue"
         placeholder="Buscar"
         onChangeText={onChangeSearch}
         value={searchQuery}
       />
+      <View style={styles.containerCard} >
       <FlatList
         data={courtsFilter == "" ? courts : courtsFilter}
         keyExtractor={(item) => item.id}
+        enableEmptySections={true}
         renderItem={Court}
+        refreshControl={
+          <RefreshControl refreshing={cargando} onRefresh={callApiGet} />
+        }
       />
+      </View>
+      
     </View>
   );
   //Cuerpo del componente
-  return (
+    return (
     <>
       {carga}
     </>
   );
+   
+  
 };
 
 export default CourtsScreen;
 const styles = StyleSheet.create({
   carga: {
     marginVertical: 50,
+  },
+  containerCard:{
+    marginBottom:100,
   },
   card: {
     backgroundColor: "#fff",

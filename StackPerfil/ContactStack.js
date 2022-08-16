@@ -10,13 +10,13 @@ const ContactStack = () => {
     <View style={styles.container}>
       <Text style={styles.textPrincipal}>En caso de problemas comunicarse a : </Text>
     <View style={styles.containerText}>
-      <Text style={styles.text}>Telefono{' '}:</Text><Text style={styles.text2}>{'  '}{telefono}</Text>
+      <Text style={styles.text}>Teléfono{' '}:</Text><Text style={styles.text2}>{'  '}{telefono}</Text>
     </View>
     <View style={styles.containerText}>
     <Text style={styles.text}>Correo{' '}:</Text><Text style={styles.text2}>{'  '}{correo}</Text>
     </View>
     <View style={styles.containerText}>
-    <Text style={styles.text}>Direccion{' '}:</Text><Text style={styles.text2}>{'  '}{ubicacion}</Text>
+    <Text style={styles.text}>Dirección{' '}:</Text><Text style={styles.text2}>{'  '}{ubicacion}</Text>
     </View>
     </View>
     

@@ -14,38 +14,120 @@ import {
   Animated,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { environment } from "../env/env.develop";
+import axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RecoverPasswod = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
   //HOOKS
-  const [valor, setValor] = useState();
+  const [valor, setValor] = useState("");
+  const [token, setToken] = useState("");
+  const [newPass, setNewPas] = useState("");
+  const [reset, setReset] = useState(false);
 
   //Funciones
-
-  const registrarUsuario = async (data) => {
-    try {
-      await AsyncStorage.setItem("usuario", JSON.stringify(data));
-    } catch (e) {
-      console.log(e);
-    }
+  const url = environment.api.url +"/api/v1/Auth/RequestPasswordReset?clientEmailAddress="+valor;
+  const urlReset = environment.api.url +"/api/v1/Auth/ResetPassword"
+  
+  const sendMail = async () => {
+    await axios
+      .post(url, valor)
+      .then((response) => {
+        if (
+          response.data.str ==
+          "Solicitud de Reestablecimiento de Contraseña realizada con éxito"
+        ) {
+          setReset(true);
+          return;
+        }
+      })
+      .catch((e) => {
+        console.log("ERR" + e);
+      });
   };
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      user: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = (data) => {
-    setValor(data);
-    registrarUsuario(data);
+  const body ={
+    token: token,
+    password: newPass
+  }
+  const resetPassword = async () => {
+    await axios
+      .post(urlReset, body)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((e) => {
+        console.log("ERR" + e);
+      });
   };
+
+  const onSubmit = () => {
+    sendMail();
+  };
+
+  const onSubmitReset = () => {
+    resetPassword()
+    setToken('');
+    setNewPas('');
+    setReset(false);
+  };
+  const resetPas = !reset ? (
+    <>
+      <View style={styles.form}>
+        <Text style={styles.label}>Ingresa tu E-mail</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholderTextColor={"#B0B0B0"}
+          value={valor}
+          onChangeText={setValor}
+          placeholder="E-mail"
+        />
+        <View>
+          <Pressable style={styles.button} color onPress={onSubmit}>
+            <Text style={styles.btnText}>Recuperar Contraseña</Text>
+          </Pressable>
+        </View>
+      </View>
+      <View style={styles.mensajeContainer}>
+        <Text style={styles.mensaje}>
+          Se te enviara un correo con las indicaciones a seguir para recuperar
+          tu contraseña
+        </Text>
+      </View>
+    </>
+  ) : (
+    <>
+      <View style={styles.form}>
+        <Text style={styles.label}>Ingresa el codigo</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholderTextColor={"#B0B0B0"}
+          value={token}
+          onChangeText={setToken}
+          placeholder="Codigo"
+        />
+        <Text style={styles.label}>nueva contraseña</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholderTextColor={"#B0B0B0"}
+          value={newPass}
+          onChangeText={setNewPas}
+          placeholder="Nueva contraseña"
+          secureTextEntry={true}
+          keyboardType="default"
+        />
+        <View>
+          <Pressable style={styles.button} color onPress={onSubmitReset}>
+            <Text style={styles.btnText}>Recuperar Contraseña</Text>
+          </Pressable>
+        </View>
+      </View>
+    </>
+  );
 
   return (
     <Modal visible={visbRecuperarPass}>
@@ -66,47 +148,8 @@ const RecoverPasswod = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
             </Pressable>
             <Text style={styles.bannerText}>¿Olvidaste tu contraseña?</Text>
           </View>
-          <View style={styles.form}>
-            <Text style={styles.label}>Ingresa tu E-mail</Text>
-            <Controller
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-                minLength: {
-                  value: 4,
-                  message: "La cantidad minima son 7 caracteres",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="E-mail"
-                />
-              )}
-              name="user"
-            />
-            <Text style={styles.errorText}>{errors.user?.message}</Text>
-            <View>
-              <Pressable
-                style={styles.button}
-                color
-                onPress={handleSubmit(onSubmit)}
-              >
-                <Text style={styles.btnText}>Recuperar Contraseña</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.mensajeContainer}>
-            <Text style={styles.mensaje}>
-              Se te enviara un correo con las indicaciones a seguir para
-              recuperar tu contraseña
-            </Text>
-          </View>
+          <View>{resetPas}</View>
         </ScrollView>
-        
       </View>
     </Modal>
   );
@@ -195,13 +238,12 @@ const styles = StyleSheet.create({
     //Recordar subrayar texto
   },
   mensajeContainer: {
-    
-    marginVertical:80,
-    marginHorizontal:35,
+    marginVertical: 80,
+    marginHorizontal: 35,
   },
   mensaje: {
     color: "#ccc",
-    fontSize:15,
-    fontWeight:'600',
+    fontSize: 15,
+    fontWeight: "600",
   },
 });
