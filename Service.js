@@ -29,7 +29,7 @@ const get = async (body,url,setRes,setCarga,token) => {
       headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
-        setRes(response.data.data);
+        setRes(response.data);
         setCarga(false);
       })
       .catch((e) => {

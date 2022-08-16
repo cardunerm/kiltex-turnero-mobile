@@ -19,30 +19,55 @@ import callApiGet from "../Service";
 const FAQsStack = () => {
   const navigation = useNavigation();
   //Hooks
-  const [token, setToken] = useState();
-  const [question, setQuestion] = useState();//setRes - Lugar donde se guardara la respuesta
+  const [question, setQuestion] = useState([]);//setRes - Lugar donde se guardara la respuesta
   const [cargando, setCargando] = useState(true);//setCarga - Lugar donde se guardara el manejador del spin
 
   //Peticion Api
   useEffect(() => {
-    callApiGet(filter, url, setQuestion, setCargando);//Peticion
+    callApiGet();//Peticion
   }, []);
   const filter = {
     filter: " ",
     page: 0,
     pageSize: 10,
   };//Body
-  const url = environment.api.url + "/api/v1/client/FAQ/list";//Url
+
+
+  const callApiGet = async () => {
+    try {
+      const usuario = await AsyncStorage.getItem("token");
+      const tokenn = JSON.parse(usuario);
+      get(tokenn)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const get = async (token) => {
+    const url = environment.api.url + "/api/v1/client/FAQ/list";//Url
+      await axios({
+        method: "post",
+        url: url,
+        data: filter,
+        headers: { Authorization: "Bearer " + token },
+      })
+        .then((response) => {
+          setQuestion(response.data.data);
+          setCargando(false);
+          console.log(response.data.data)
+        })
+        .catch((e) => {
+          console.log("ERR" + e);
+        });
+    };
+
+  
 //Cuerpo de la pregunta
   const ques = ({ item }) => {
     return (
       <>
         <Pressable
           onPress={() =>
-            navigation.navigate("answer", {
-              answer: item.answer,
-              question: item.question,
-            })
+            navigation.navigate("answer", {answer: item.answer,question: item.question,})
           }
           style={styles.questionContainer}
         >
@@ -81,7 +106,7 @@ const styles = StyleSheet.create({
   },
   questionContainer: {
     borderBottomColor: "#999",
-    borderBottomWidth: 1,
+    borderBottomWidth: 1.5,
   },
   question: {
     fontSize: 20,

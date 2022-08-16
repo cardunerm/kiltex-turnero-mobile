@@ -22,6 +22,8 @@ const UserAndPassStack = () => {
     }
   };
 
+  //<Text style={styles.name}>{usuario}</Text>
+
   return (
     <>
       <View style={styles.imgPerfilContainer}>
@@ -29,7 +31,7 @@ const UserAndPassStack = () => {
           style={styles.imgPerfil}
           source={require("../assets/LogoPadelPrueba.jpg")}
         />
-        <Text style={styles.name}>{usuario}</Text>
+        
       </View>
       <View style={styles.containerTotal}>
         <Pressable

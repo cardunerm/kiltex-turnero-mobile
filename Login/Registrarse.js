@@ -163,8 +163,8 @@ const Registrarse = ({ visbRegister, setVisbRegister }) => {
               rules={{
                 required: "Este campo es requerido",
                 minLength: {
-                  value: 4,
-                  message: "La cantidad minima son 4 caracteres",
+                  value: 11,
+                  message: "La cantidad minima son 11 caracteres",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -187,8 +187,8 @@ const Registrarse = ({ visbRegister, setVisbRegister }) => {
               rules={{
                 required: "Este campo es requerido",
                 minLength: {
-                  value: 4,
-                  message: "La cantidad minima son 4 caracteres",
+                  value: 8,
+                  message: "La contraseña debe ser alfanumerica y tener 8 caracteres",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -212,8 +212,8 @@ const Registrarse = ({ visbRegister, setVisbRegister }) => {
               rules={{
                 required: "Este campo es requerido",
                 minLength: {
-                  value: 4,
-                  message: "La cantidad minima son 4 caracteres",
+                  value: 8,
+                  message: "La contraseña debe ser alfanumerica y tener 8 caracteres",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (

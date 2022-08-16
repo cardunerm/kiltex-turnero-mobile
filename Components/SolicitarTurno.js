@@ -100,7 +100,7 @@ const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
             />
             </View>
             
-            <Text style={styles.label}>Tiempo</Text>
+            <Text style={styles.label}>Turnos Disponibles</Text>
             <Picker
               style={styles.pickerItem}
               selectedValue={tiempo}
@@ -111,11 +111,12 @@ const SolicitarTurno = ({ solTurno, setSolTurno, detCourts }) => {
                 label="- Seleccionar -"
                 value=""
               />
-              <Picker.Item label="30 mn" value="0.30" />
-              <Picker.Item label="1 h" value="1" />
-              <Picker.Item label="1:30 hs" value="1.30" />
-              <Picker.Item label="2 hs" value="2" />
-              <Picker.Item label="2:30 hs" value="2.30" />
+              <Picker.Item label="08:00hs - 09:30hs" value="08:00-9:30" />
+              <Picker.Item label="09:30hs - 11:00hs" value="09:30-11:00" />
+              <Picker.Item label="11:00hs - 12:30hs" value="11:00-12:30" />
+              <Picker.Item label="12:30hs - 14:00hs" value="12:30-14:00" />
+              <Picker.Item label="14:00hs - 15:30hs" value="14:00-15:30" />
+              <Picker.Item label="15:30hs - 17:00hs" value="15:30-17:00" />
             </Picker>
           </View>
           <Pressable

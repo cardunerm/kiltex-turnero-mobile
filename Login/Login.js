@@ -126,8 +126,8 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
                 rules={{
                   required: "Este campo es requerido",
                   minLength: {
-                    value: 7,
-                    message: "La cantidad minima son 7 caracteres",
+                    value: 11,
+                    message: "La cantidad minima son 11 caracteres",
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -152,7 +152,7 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
                   required: "Este campo es requerido",
                   minLength: {
                     value: 1,
-                    message: "La cantidad minima son 4 caracteres",
+                    message: "La contraseña debe ser alfanumerica y tener 8 caracteres",
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (

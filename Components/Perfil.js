@@ -40,7 +40,18 @@ const Perfil = () => {
       console.log(error);
     }
   };
-  
+
+  /*<Pressable
+              style={styles.funcionalidad}
+              onPress={() => navigation.navigate("NotTest")}
+            >
+              <Text style={styles.funcionalidadText}>Notificacion Expo</Text>
+            </Pressable>
+
+
+<Text style={styles.name}>{usuario}</Text>
+
+  */
   return (
     <>
       <View style={styles.container}>
@@ -50,14 +61,14 @@ const Perfil = () => {
               style={styles.imgPerfil}
               source={require("../assets/LogoPadelPrueba.jpg")}
             />
-            <Text style={styles.name}>{usuario}</Text>
+            
           </View>
           <View style={styles.funcionalidadContainer}>
             <Pressable
               style={[styles.funcionalidad, styles.funcionalidad1]}
               onPress={() => navigation.navigate("Contactanos")}
             >
-              <Text style={styles.funcionalidadText}>Contactanos</Text>
+              <Text style={styles.funcionalidadText}>Contáctanos</Text>
             </Pressable>
             <Pressable
               style={styles.funcionalidad}
@@ -83,12 +94,7 @@ const Perfil = () => {
             >
               <Text style={styles.textCerrarSesion}>Cerrara sesion</Text>
             </Pressable>
-            <Pressable
-              style={styles.funcionalidad}
-              onPress={() => navigation.navigate("NotTest")}
-            >
-              <Text style={styles.funcionalidadText}>Notificacion Expo</Text>
-            </Pressable>
+            
           </View>
         </ScrollView>
       </View>

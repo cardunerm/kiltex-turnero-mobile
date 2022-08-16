@@ -9,9 +9,9 @@ import {
   Alert
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-const PasswordStack = ({ route }) => {
+const PasswordStack = () => {
   const navigation = useNavigation();
-  const { user, password } = route.params;
+  
   // Hooks
   const [pass, setPass] = useState("");
   const [passNew1, setPassNew1] = useState("");
