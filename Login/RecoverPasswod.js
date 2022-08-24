@@ -55,7 +55,7 @@ const RecoverPasswod = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
     await axios
       .post(urlReset, body)
       .then((response) => {
-        console.log(response)
+       
       })
       .catch((e) => {
         console.log("ERR" + e);
