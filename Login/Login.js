@@ -47,10 +47,12 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
       console.log(e);
     }
   };
- 
+  
   const logApi = (user) => {
     
     const url = environment.api.url + "/api/v1/Auth/ClientLogin";
+    
+    
     axios
       .post(url, user)
       .then((response) => {
@@ -62,12 +64,10 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
         } else {
           alertNoSesion();
         }
-        console.log(response.data);
       })
       .catch((e) => {
         alertNoSesion();
         setCargando(false);
-        console.log(e);
       });
   };
   useEffect(() => {
@@ -75,7 +75,6 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
     if (token != null) {
       
       navigation.navigate("body");
-      console.log("token: " + token);
       setToken(null);
       setCargando(false);
       return;
@@ -104,7 +103,6 @@ const Login = ({ visbLogin, setVisbLogin, logout, setLogout }) => {
   const onSubmit = (data) => {
     setCargando(true);
    logApi(data);
-   console.log(data)
   };
 
   const carga = cargando ? <ActivityIndicator size="large" color='#fff'/> : <Text>Iniciar Sesion</Text>

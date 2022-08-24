@@ -15,7 +15,6 @@ const NotificacionesStack = () => {
   useEffect(() => {
     guardarSwitch(isEnabled);
   }, [isEnabled]);
-console.log(isEnabled);
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
     

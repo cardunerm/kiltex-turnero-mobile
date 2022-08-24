@@ -33,12 +33,12 @@ const Registrarse = ({ visbRegister, setVisbRegister }) => {
     axios
       .post(url, user)
       .then((response) => {
-        console.log(response.data)
+       
       })
       .catch((e) => {
         
         console.log(e.response.data);
-        //alertNoRegister(e.response.data)
+        alertNoRegister(e.response.data)
       });
   };
  

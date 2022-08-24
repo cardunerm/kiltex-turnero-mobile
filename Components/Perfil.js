@@ -35,7 +35,6 @@ const Perfil = () => {
     try {
       const usuario = JSON.parse(await AsyncStorage.getItem("usuario"));
       setUsuario(usuario)
-      console.log(usuario)
     } catch (error) {
       console.log(error);
     }
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   textCerrarSesion:{
-    color:'blue',
+    color:'#e70000',
     paddingVertical: 25,
     fontSize: 20,
     paddingLeft: 20,

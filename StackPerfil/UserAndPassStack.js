@@ -16,7 +16,6 @@ const UserAndPassStack = () => {
     try {
       const usuario = JSON.parse(await AsyncStorage.getItem("usuario"));
       setUsuario(usuario)
-      console.log(usuario)
     } catch (error) {
       console.log(error);
     }

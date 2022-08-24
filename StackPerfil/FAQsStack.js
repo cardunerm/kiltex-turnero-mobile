@@ -53,7 +53,6 @@ const FAQsStack = () => {
         .then((response) => {
           setQuestion(response.data.data);
           setCargando(false);
-          console.log(response.data.data)
         })
         .catch((e) => {
           console.log("ERR" + e);
@@ -71,7 +70,7 @@ const FAQsStack = () => {
           }
           style={styles.questionContainer}
         >
-          <Text style={styles.question}>{item.question}</Text>
+          <Text style={styles.question}>{item.title}</Text>
         </Pressable>
       </>
     );

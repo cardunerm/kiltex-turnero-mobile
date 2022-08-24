@@ -58,7 +58,6 @@ const CourtsScreen = () => {
           
           setCourts(response.data.data);
           setCargando(false);
-          console.log(response.data.data)
         })
         .catch((e) => {
           console.log("ERR" + e);

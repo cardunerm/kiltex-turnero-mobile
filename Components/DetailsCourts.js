@@ -10,72 +10,68 @@ import {
 } from "react-native";
 import { environment } from "../env/env.develop";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-import SolicitarTurno from "./SolicitarTurno";
+import Court from "./Court";
+
 const DetailsCourts = ({ route }) => {
+  const navigation = useNavigation();
+
   const id = route.params;
-//Hooks
+  //Hooks
   const [detCourts, setDetCourts] = useState({});
   const [solTurno, setSolTurno] = useState(false);
-  const [cargando, setCargando] = useState(true)
+  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     getDataStorage();
   }, []);
   // Peticion a la api
-  const url =environment.api.url + "/api/v1/client/Court/get_court_detail?id=" + id;
+  const url =
+    environment.api.url + "/api/v1/client/Court/get_court_detail?id=" + id;
 
   const getDataStorage = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
       const tokenn = JSON.parse(usuario);
-      get(tokenn)
+      get(tokenn);
     } catch (error) {
       console.log(error);
     }
   };
- 
-  const get = async (token) => {
-      await axios.get(url,{
-        headers: { Authorization: "Bearer " + token }
-      })
-        .then((response) => {
-          setDetCourts(response.data);
-          setCargando(false)
-        })
-        .catch((e) => {
-          console.log("ERR" + e);
-        });
-    };
 
-    //Manejador del spin de carga
-  const carga = cargando ? (
-    <View style={styles.carga}>
-      <ActivityIndicator size="large" color="#1258B1" />
-    </View>
-  ) : (
-    <View >
-      
-      <Text style={styles.contDescr}>{detCourts.description}</Text>
-      
-    </View>
-  );
+  const get = async (token) => {
+    await axios
+      .get(url, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        setDetCourts(response.data);
+        setCargando(false);
+      })
+      .catch((e) => {
+        console.log("ERR" + e);
+      });
+  };
+
+  //Manejador del spin de carga
 
   return (
     <>
-      <ScrollView>
+      <ScrollView style={styles.cuerpo}>
         <View>
           <View style={styles.card}>
             <Text style={styles.titulo}>{detCourts.name}</Text>
             <View style={styles.contImg}>
               <Image
-                style={!solTurno ? styles.img : styles.img2}
+                style={styles.img}
                 source={require("../assets/court1.jpg")}
               />
             </View>
-            <View style={!solTurno ? styles.card2 : styles.card1}>
-              {carga}
+            <View>
+              <Text style={styles.contDescr}>{detCourts.description}</Text>
             </View>
           </View>
 
@@ -85,31 +81,47 @@ const DetailsCourts = ({ route }) => {
               setSolTurno(!solTurno);
             }}
           >
-            <Text style={styles.btnAddTurnoText}>
-              {solTurno ? "Cancelar Turno" : "Solicitar Turno"}
-            </Text>
+            <Text style={styles.btnAddTurnoText}>Solicitar Turno</Text>
           </Pressable>
-          <SolicitarTurno
+        </View>
+        
+      </ScrollView>
+      {solTurno ? (
+        <View style={styles.contModalFic}>
+        <Pressable style={styles.conX}  onPress={() => setSolTurno(false)}>
+          <MaterialCommunityIcons name="alpha-x" size={140} color="#ffffff91" style={styles.x}/>
+        </Pressable>
+        <View style={styles.botnTurnos}>
+          <Pressable
+            style={styles.BTPress}
+            onPress={() => navigation.navigate("TurnoLibre")}
+          >
+            <Text style={styles.BTtext}>Turno Libre</Text>
+          </Pressable>
+          <Pressable style={styles.BTPress}>
+            <Text style={styles.BTtext}>Turno Fijo</Text>
+          </Pressable>
+        </View>
+      </View>
+      ):<View></View>}
+      
+    </>
+  );
+};
+/*
+ <SolicitarTurno
             detCourts={detCourts}
             solTurno={solTurno}
             setSolTurno={setSolTurno}
           />
-        </View>
-      </ScrollView>
-    </>
-  );
-};
-
+          */
 export default DetailsCourts;
 const styles = StyleSheet.create({
-  carga:{
-    marginTop:20,
-  },
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
     paddingBottom: 10,
-    marginVertical: 20,
+    marginTop: 20,
     borderRadius: 45,
     shadowColor: "#000",
     shadowOffset: {
@@ -120,23 +132,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6.27,
     elevation: 10,
   },
-  card2: {},
-  card1: {
-    /*backgroundColor: "#fff",
-    marginHorizontal: 20,
-    marginVertical: 20,
-    borderRadius: 45,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 10,*/
-    backgroundColor: "red",
-    height: 0,
-  },
+
   titulo: {
     textAlign: "center",
     marginVertical: 20,
@@ -151,21 +147,17 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginHorizontal: 15,
   },
-  contDescr:{
-    textAlign: "center",
-    marginVertical: 20,
-    paddingHorizontal:10,
-  },
   img: {
     width: 350,
     height: 300,
   },
-  img2: {
-    width: 350,
-    height: 300,
+  contDescr: {
+    textAlign: "center",
+    marginVertical: 20,
+    paddingHorizontal: 10,
   },
   btnAddTurno: {
-    backgroundColor: "blue",
+    backgroundColor: "#12407c",
     marginHorizontal: 20,
     marginTop: 40,
   },
@@ -175,5 +167,49 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
+  },
+
+  contModalFic: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    marginVertical: 0,
+  },
+  conX: {
+    backgroundColor: "#2b2b2d7d",
+    height: "100%",
+  },
+  x:{
+    textAlign:'center',
+   
+    marginTop:150,
+  },
+  botnTurnos: {
+    position: "absolute",
+    backgroundColor: "#fff",
+    height: 311,
+    borderTopColor: "#0853b5",
+    borderTopWidth: 4,
+    borderLeftColor: "#0853b5",
+    borderLeftWidth: 3,
+    borderRightColor: "#0853b5",
+    borderRightWidth: 3,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    bottom: 0,
+    paddingTop: 30,
+    width: "100%",
+  },
+  BTPress: {
+    borderColor: "#0853b5",
+    borderWidth: 2,
+    marginTop: 25,
+  },
+  BTtext: {
+    color: "#000",
+    textAlign: "center",
+    paddingVertical: 20,
+    fontSize: 20,
+    fontWeight: "600",
   },
 });
