@@ -5,6 +5,7 @@ import Login from './Login/Login';
 import { useState, useEffect, useRef} from 'react';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 
@@ -13,7 +14,10 @@ export default function App() {
 
 
   return (
+    <SafeAreaProvider>
       <Navigation/> 
+    </SafeAreaProvider>
+      
      
   );
 }

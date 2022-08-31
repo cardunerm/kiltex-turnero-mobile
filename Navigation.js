@@ -18,6 +18,7 @@ import Home from "./Components/Home";
 //Stack Canchas
 import DetailsCourts from "./Components/DetailsCourts";
 import TurnoLibre from "./Components/TurnoLibre";
+import Rules from "./Components/Rules";
 //Stack Perfil
 import UserAndPassStack from "./StackPerfil/UserAndPassStack";
 import ContactStack from "./StackPerfil/ContactStack";
@@ -51,13 +52,21 @@ function MyStack() {
         }}
       />
       <Stack.Screen
+        name="Informacion"
+        component={Rules}
+        options={{
+          title: "Informacion",
+          headerTitleAlign: "center",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="Details"
         component={DetailsCourts}
         options={{
           title: "Detalles",
         }}
       />
-      
       <Stack.Screen
         name="TurnoLibre"
         component={TurnoLibre}

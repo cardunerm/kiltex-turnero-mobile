@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Image,
@@ -14,13 +14,50 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import CalendarPicker from "react-native-calendar-picker";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { environment } from "../env/env.develop";
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-const TurnoLibre = () => {
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const TurnoLibre = ({ route }) => {
+  const id = route.params;
+
+
   //Hooks
   const [fecha, setFecha] = useState();
-  const [tiempo, setTiempo] = useState();
+  const [cancha, setCancha] = useState();
+  const [tiempo, setTiempo] = useState('1');
 
+  useEffect(()=>{
+    setCancha(id)
+  },[id])
+  //Peticion a la API
+  const url =
+    environment.api.url + "/api/v1/client/Reservation/new_reservation";
+
+  const getDataStorage = async () => {
+    try {
+      const usuario = await AsyncStorage.getItem("token");
+      const tokenn = JSON.parse(usuario);
+      get(tokenn);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const get = async (token) => {
+    await axios
+      .get(url, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((e) => {
+        console.log("ERR" + e);
+      });
+  };
+
+  //Turno
   const {
     control,
     handleSubmit,
@@ -28,24 +65,28 @@ const TurnoLibre = () => {
   } = useForm({
     defaultValues: {
       fecha: "",
-      telefono: "",
+      tiempo: "",
     },
   });
   const Turno = {
-    fecha,
-    tiempo,
+  //courtId: cancha,
+  //scheduleId: JSON.parse(tiempo),
+  //paymentMethodId: 1,
+  courtId: 1,
+  scheduleId: 1,
+  paymentMethodId: 1
   };
   const navigation = useNavigation();
   const SolicitarTurno = () =>{
     console.log(Turno)
     //Se subiria la fech
-    if(Turno.fecha != undefined && Turno.tiempo != ""){
-      //setSolTurno(!solTurno);
-      navigation.navigate("payment")
-      return
-    }
     
-    alertNoTurno()
+      //setSolTurno(!solTurno);
+      //navigation.navigate("payment")
+      getDataStorage()
+      return
+    
+    
   }
 
   const alertNoTurno = () => {
@@ -55,7 +96,7 @@ const TurnoLibre = () => {
       [{ text: "OK" }]
     );
   };
-
+//Calendario
   const minDate = new Date();
   const weekdays = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
   const months = [
@@ -108,12 +149,12 @@ const TurnoLibre = () => {
                 label="- Seleccionar -"
                 value=""
               />
-              <Picker.Item label="08:00hs - 09:30hs" value="08:00-9:30" />
-              <Picker.Item label="09:30hs - 11:00hs" value="09:30-11:00" />
-              <Picker.Item label="11:00hs - 12:30hs" value="11:00-12:30" />
-              <Picker.Item label="12:30hs - 14:00hs" value="12:30-14:00" />
-              <Picker.Item label="14:00hs - 15:30hs" value="14:00-15:30" />
-              <Picker.Item label="15:30hs - 17:00hs" value="15:30-17:00" />
+              <Picker.Item label="08:00hs - 09:30hs" value="1" />
+              <Picker.Item label="09:30hs - 11:00hs" value="2" />
+              <Picker.Item label="11:00hs - 12:30hs" value="3" />
+              <Picker.Item label="12:30hs - 14:00hs" value="4" />
+              <Picker.Item label="14:00hs - 15:30hs" value="5" />
+              <Picker.Item label="15:30hs - 17:00hs" value="6" />
             </Picker>
           </View>
           <Pressable

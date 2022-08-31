@@ -12,7 +12,9 @@ import { environment } from "../env/env.develop";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { BottomSheet, Button, ListItem } from "@rneui/themed";
 
 import Court from "./Court";
 
@@ -50,6 +52,7 @@ const DetailsCourts = ({ route }) => {
       .then((response) => {
         setDetCourts(response.data);
         setCargando(false);
+        console.log(response.data)
       })
       .catch((e) => {
         console.log("ERR" + e);
@@ -57,7 +60,44 @@ const DetailsCourts = ({ route }) => {
   };
 
   //Manejador del spin de carga
+  const [isVisible, setIsVisible] = useState(false);
+  const list = [
+    {
+      title: "Turno Libre",
+      containerStyle: { borderColor: "#0853b5", borderWidth: 2, marginTop: 50 },
+      titleStyle: { color: "#000", fontSize: 25 },
+      onPress: () => {
+        navigation.navigate("TurnoLibre",id), setIsVisible(false);
+      },
+    },
+    {
+      title: "Turno Fijo",
+      containerStyle: {
+        borderColor: "#0853b5",
+        borderWidth: 2,
+        marginTop: 20,
+        marginBottom: 20,
+      },
+      titleStyle: { color: "#000", fontSize: 25, fontWeight: "600" },
+    },
+    {
+      title: "Cancel",
+      containerStyle: { backgroundColor: "#0853b5" },
+      titleStyle: {
+        color: "white",
+        fontSize: 25,
+        fontWeight: "600",
+        textAlign: "center",
+        paddingHorizontal:'36.76%',
+      },
+      onPress: () => setIsVisible(false),
+    },
+  ];
 
+
+  
+
+  
   return (
     <>
       <ScrollView style={styles.cuerpo}>
@@ -74,37 +114,33 @@ const DetailsCourts = ({ route }) => {
               <Text style={styles.contDescr}>{detCourts.description}</Text>
             </View>
           </View>
+        </View>
 
-          <Pressable
-            style={styles.btnAddTurno}
-            onPress={() => {
-              setSolTurno(!solTurno);
-            }}
-          >
-            <Text style={styles.btnAddTurnoText}>Solicitar Turno</Text>
-          </Pressable>
-        </View>
-        
+        <SafeAreaProvider>
+          <Button
+            title="Solicitar Turno"
+            onPress={() => setIsVisible(true)}
+            buttonStyle={styles.btnAddTurno}
+          />
+          <BottomSheet modalProps={{}} isVisible={isVisible}>
+            <View style={styles.cu}>
+              {list.map((l, i) => (
+                <ListItem
+                  key={i}
+                  containerStyle={l.containerStyle}
+                  onPress={l.onPress}
+                >
+                  <ListItem.Content>
+                    <ListItem.Title style={l.titleStyle}>
+                      {l.title}
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              ))}
+            </View>
+          </BottomSheet>
+        </SafeAreaProvider>
       </ScrollView>
-      {solTurno ? (
-        <View style={styles.contModalFic}>
-        <Pressable style={styles.conX}  onPress={() => setSolTurno(false)}>
-          <MaterialCommunityIcons name="alpha-x" size={140} color="#ffffff91" style={styles.x}/>
-        </Pressable>
-        <View style={styles.botnTurnos}>
-          <Pressable
-            style={styles.BTPress}
-            onPress={() => navigation.navigate("TurnoLibre")}
-          >
-            <Text style={styles.BTtext}>Turno Libre</Text>
-          </Pressable>
-          <Pressable style={styles.BTPress}>
-            <Text style={styles.BTtext}>Turno Fijo</Text>
-          </Pressable>
-        </View>
-      </View>
-      ):<View></View>}
-      
     </>
   );
 };
@@ -117,6 +153,18 @@ const DetailsCourts = ({ route }) => {
           */
 export default DetailsCourts;
 const styles = StyleSheet.create({
+  textListTT: {
+    textAlign: "center",
+  },
+  cu: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderTopColor: "#0853b5",
+    borderRightColor: "#0853b5",
+    borderLeftColor: "#0853b5",
+    borderWidth: 3,
+  },
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
@@ -179,10 +227,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#2b2b2d7d",
     height: "100%",
   },
-  x:{
-    textAlign:'center',
-   
-    marginTop:150,
+  x: {
+    textAlign: "center",
+
+    marginTop: 150,
   },
   botnTurnos: {
     position: "absolute",

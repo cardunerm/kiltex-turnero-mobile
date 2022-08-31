@@ -1,10 +1,23 @@
 import React from "react";
-import { Text, View, StyleSheet, Pressable , ScrollView} from "react-native";
+import { Text, View, StyleSheet, Pressable , ScrollView,Alert} from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ViewTurn = ({ route }) => {
   const { court, schedule } = route.params;
   console.log(route.params);
+
+
+  const alertCancelarTurno = () => {
+    Alert.alert("Cancelar Turno", "¿Esta seguro que desea cancelar este turno?", [
+    { text: "No", style: "cancel", onPress: () => {} },
+    {
+      text: "Si",
+      onPress: () => {
+        console.log('Se elimino el turno')
+      },
+    },
+  ])
+  };
   return (
     <>
     <ScrollView>
@@ -23,7 +36,7 @@ const ViewTurn = ({ route }) => {
         </View>
       </View>
       <View style={styles.containBtn}>
-        <Pressable style={styles.btnCancel}>
+        <Pressable style={styles.btnCancel}  onPress={() => alertCancelarTurno()}>
           <Text style={styles.btnCMText}>Cancelar Turno</Text>
         </Pressable>
         <Pressable style={styles.btnMover}>
