@@ -31,31 +31,32 @@ const TurnoLibre = ({ route }) => {
     setCancha(id)
   },[id])
   //Peticion a la API
-  const url =
-    environment.api.url + "/api/v1/client/Reservation/new_reservation";
+  
 
-  const getDataStorage = async () => {
-    try {
-      const usuario = await AsyncStorage.getItem("token");
-      const tokenn = JSON.parse(usuario);
-      get(tokenn);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const get = async (token) => {
-    await axios
-      .get(url, {
+    const getDataStorage = async () => {
+      try {
+        const usuario = await AsyncStorage.getItem("token");
+        const tokenn = JSON.parse(usuario);
+        get(tokenn);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const get = async (token) => {
+      const url =environment.api.url + "/api/v1/client/Reservation/new_reservation";
+      await axios({
+        method: "post",
+        url: url,
+        data: Turno,
         headers: { Authorization: "Bearer " + token },
       })
-      .then((response) => {
-        console.log(response.data)
-      })
-      .catch((e) => {
-        console.log("ERR" + e);
-      });
-  };
+        .then((response) => {
+          console.log(response.data)
+        })
+        .catch((e) => {
+          console.log("ERR" + e);
+        });
+    };
 
   //Turno
   const {
@@ -69,12 +70,9 @@ const TurnoLibre = ({ route }) => {
     },
   });
   const Turno = {
-  //courtId: cancha,
-  //scheduleId: JSON.parse(tiempo),
-  //paymentMethodId: 1,
-  courtId: 1,
-  scheduleId: 1,
-  paymentMethodId: 1
+  courtId: cancha,
+  scheduleId: JSON.parse(tiempo),
+  paymentMethodId: 1,
   };
   const navigation = useNavigation();
   const SolicitarTurno = () =>{
