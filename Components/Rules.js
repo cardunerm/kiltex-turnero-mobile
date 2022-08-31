@@ -1,12 +1,20 @@
 import React from 'react'
-import {Text} from 'react-native'
-const rules = () => {
+import {Text,StyleSheet,View} from 'react-native'
+const Rules = () => {
   return (
     <>
-    <Text>info</Text>
+    <View>
+        <Text style={styles.rulesText}>Reglas a seguir</Text>
+    </View>
     </>
   )
 }
 
-export default rules
-
+export default Rules
+const styles = StyleSheet.create({
+  rulesText:{
+    textAlign:'center',
+    marginTop:30,
+    fontSize:20,
+  },
+})

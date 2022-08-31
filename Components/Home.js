@@ -34,6 +34,7 @@ const Home = () => {
   //Ll amado a la API
   useEffect(() => {
     callApiGet();
+    getNovedades();
   }, []);
   const callApiGet = async () => {
     try {
@@ -85,29 +86,47 @@ const Home = () => {
 
   //NOVEDADES
 
+  const getNovedades = async () => {
+    const urlNovedades =
+      environment.api.url + "/api/v1/client/HomeCard/list_home_cards";
+    await axios
+      .get(urlNovedades)
+      .then((response) => {
+        setNovedades(response.data);
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log("ERR" + e);
+      });
+  };
+
   //Hooks
-  const [novedades, setNovedades] = useState([{ id: "1" }, { id: "2" }]);
+  const [novedades, setNovedades] = useState([]);
 
   //BODY DEL ELEMENTO
   const Novedad = ({ item }) => {
     return (
       <>
-        <Pressable
-          style={styles.novedad}
-          onPress={() => navigation.navigate("Details", item.id)}
-        ></Pressable>
+        <Pressable style={styles.newsletterContainer}>
+          <View style={styles.newsletter}>
+            <Text style={styles.TextNewsletterTitle}>{item.title}</Text>
+          <Text style={styles.TextNewsletterDesc}>{item.description}</Text>
+          </View>
+        </Pressable>
       </>
     );
   };
 
   const flatList = (
-    <FlatList
-      style={styles.novedadCont}
-      keyExtractor={(item) => item.id}
+    <View style={styles.newsletterCont}>
+      <FlatList
+      
       enableEmptySections={true}
       data={novedades}
       renderItem={Novedad}
     />
+    </View>
+    
   );
   const flatGrid = (
     <FlatGrid
@@ -145,12 +164,13 @@ const Home = () => {
   //BODY GENERAL
   return (
     <>
-      <Pressable style={styles.top}
-      onPress={() => navigation.navigate("Informacion")}
+      <Pressable
+        style={styles.top}
+        onPress={() => navigation.navigate("Informacion")}
       >
         <MaterialCommunityIcons
-        style={styles.topIcon}
-          name="cellphone-information"
+          style={styles.topIcon}
+          name="comment-question"
           size={35}
           color="#fff"
         />
@@ -183,17 +203,17 @@ const styles = StyleSheet.create({
   top: {
     backgroundColor: "#2b2b2d",
     height: 60,
-    width:60,
-    position:'absolute',
-    right:5,
-    borderRadius:50,
+    width: 60,
+    position: "absolute",
+    right: 5,
+    borderRadius: 50,
     flexDirection: "column",
     justifyContent: "center",
-    marginTop:5,
-    zIndex:20,
+    marginTop: 5,
+    zIndex: 20,
   },
-  topIcon:{
-    textAlign:"center",
+  topIcon: {
+    textAlign: "center",
   },
   containSaludo: {
     marginVertical: 20,
@@ -203,13 +223,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "900",
     paddingLeft: 10,
-    zIndex:10,
+    zIndex: 10,
   },
   saludo2: {
     fontSize: 20,
     fontWeight: "600",
     color: "#555",
-    zIndex:10,
+    zIndex: 10,
   },
   court: {
     borderColor: "#0853b5",
@@ -222,14 +242,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
-  novedad: {
+  newsletterContainer: {
     marginTop: 10,
-    borderColor: "#0853b5",
-    borderWidth: 2,
-    height: 100,
+    borderTopColor:'#0853b5',
+    borderBottomColor:'#0853b5',
+    //borderColor: "#0853b5",
+   borderTopWidth:2,
+   borderBottomWidth:2,
   },
-  novedadCont: {
-    marginTop: 20,
+  newsletterCont: {
+    marginTop: 5,
+    marginBottom:30,
   },
   taskTitle1: {
     backgroundColor: "#ffffff",
@@ -240,5 +263,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
     borderRadius: 10,
+  },
+  newsletter:{
+    marginTop:10,
+    marginBottom:15,
+    paddingHorizontal:15,
+  },
+  TextNewsletterTitle:{
+    fontSize:20,
+  },
+  TextNewsletterDesc:{
+    fontSize:15,
   },
 });
