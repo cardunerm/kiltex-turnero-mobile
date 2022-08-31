@@ -12,7 +12,8 @@ import { useNavigation } from "@react-navigation/native";
 import HomeScreen from "./Screen/HomeScreen";
 import CourtsScreen from "./Screen/CourtsScreen";
 import MyTurno from "./Screen/MyTurno";
-import Login from "./Login/Login";
+//import Login from "./Login/Login";
+import Login from "./Components/Court/Login";
 import Home from "./Components/Home";
 
 //Stack Canchas

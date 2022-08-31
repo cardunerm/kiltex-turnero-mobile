@@ -8,7 +8,6 @@ import {
   Image,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Login from "../Login/Login";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
