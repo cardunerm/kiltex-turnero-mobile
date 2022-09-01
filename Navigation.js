@@ -18,8 +18,10 @@ import Login from "./Components/Auth/Login";
 import Home from "./Components/Home";
 
 //Stack Canchas
-import DetailsCourts from "./Components/DetailsCourts";
-import TurnoLibre from "./Components/TurnoLibre";
+//import DetailsCourts from "./Components/DetailsCourts";
+import DetailsCourts from "./Components/Court/DetailsCourts";
+//import TurnoLibre from "./Components/TurnoLibre";
+import TurnoLibre from "./Components/Court/Turn/TurnoLibre";
 import Rules from "./Components/Rules";
 //Stack Perfil
 import UserAndPassStack from "./StackPerfil/UserAndPassStack";
@@ -36,8 +38,10 @@ import NotExpo from "./Components/NotExpo";
 //Metodo de Pago
 import Payment from "./Components/Payment";
 //Stack Turnos
-import Historial from "./Components/Historial";
-import ViewTurn from "./Components/ViewTurn";
+//import Historial from "./Components/Historial";
+import Historial from "./Components/Court/Turn/Historial";
+//import ViewTurn from "./Components/ViewTurn";
+import ViewTurn from "./Components/Court/Turn/ViewTurn";
 
 const Stack = createNativeStackNavigator();
 

@@ -11,7 +11,6 @@ import {
   RefreshControl,
   SectionList,
 } from "react-native";
-import Court from "../Components/Court";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -34,8 +33,10 @@ const Home = () => {
   //Ll amado a la API
   useEffect(() => {
     callApiGet();
+  }, [courts]);
+  useEffect(() => {
     getNovedades();
-  }, []);
+  }, [novedades]);
   const callApiGet = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");

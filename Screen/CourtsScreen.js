@@ -10,7 +10,6 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import Court from "../Components/Court";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
