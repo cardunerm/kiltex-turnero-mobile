@@ -25,7 +25,7 @@ const FAQsStack = () => {
   //Peticion Api
   useEffect(() => {
     callApiGet();//Peticion
-  }, [question]);
+  }, []);
   const filter = {
     filter: " ",
     page: 0,
@@ -42,9 +42,9 @@ const FAQsStack = () => {
       console.log(error);
     }
   };
-  const get = async (token) => {
+  const get =  (token) => {
     const url = environment.api.url + "/api/v1/client/FAQ/list";//Url
-      await axios({
+       axios({
         method: "post",
         url: url,
         data: filter,

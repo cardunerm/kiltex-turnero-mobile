@@ -47,10 +47,10 @@ const MyTurno = () => {
     }
   };
 
-  const get = async (token) => {
+  const get = (token) => {
     const url =
       environment.api.url + "/api/v1/client/Reservation/list_my_reservations";
-    await axios({
+     axios({
       method: "post",
       url: url,
       data: filter,
@@ -61,7 +61,6 @@ const MyTurno = () => {
           response.data.data.sort((b, a) => a.schedule > b.schedule)
         );
         setCargando(false);
-
         if (response.data.data[0] == undefined) {
           setlistEmpty(false);
         } else {
