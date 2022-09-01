@@ -9,13 +9,15 @@ import { useNavigation } from "@react-navigation/native";
 
 //Screen
 
-import HomeScreen from "./Screen/HomeScreen";
+//import HomeScreen from "./Screen/HomeScreen";
+import ProfileScreen from "./Screen/ProfileScreen";
 import CourtsScreen from "./Screen/CourtsScreen";
 import MyTurno from "./Screen/MyTurno";
 //import Login from "./Login/Login";
 //import Login from "./Components/Court/Login";
 import Login from "./Components/Auth/Login";
 import Home from "./Components/Home";
+//import Home from "./Components/Home/Home";
 
 //Stack Canchas
 //import DetailsCourts from "./Components/DetailsCourts";
@@ -36,7 +38,8 @@ import PasswordStack from "./StackUsuario/PasswordStack";
 import EmailStack from "./StackUsuario/EmailStack";
 import NotExpo from "./Components/NotExpo";
 //Metodo de Pago
-import Payment from "./Components/Payment";
+//import Payment from "./Components/Payment";
+import Payment from "./Components/Court/Turn/Payment"
 //Stack Turnos
 //import Historial from "./Components/Historial";
 import Historial from "./Components/Court/Turn/Historial";
@@ -101,7 +104,7 @@ function MyStackPerfil() {
     <Stack.Navigator initialRouteName="Perfil1">
       <Stack.Screen
         name="Perfil1"
-        component={HomeScreen}
+        component={ProfileScreen}
         options={{
           title: "Perfil",
           headerTitleAlign: "center",
