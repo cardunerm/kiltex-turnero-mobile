@@ -14,12 +14,12 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import CalendarPicker from "react-native-calendar-picker";
-import { environment } from "../env/env.develop";
+import { environment } from "../../../env/env.develop";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const TurnoLibre = ({ route }) => {
-  const id = route.params;
+    const id = route.params;
 
 
   //Hooks
@@ -168,57 +168,57 @@ const TurnoLibre = ({ route }) => {
         </View>
       </ScrollView>
     </>
-  );
-};
+  )
+}
 
 export default TurnoLibre
 const styles = StyleSheet.create({
-  container2: {
-    display: "none",
-  },
-  container: {
-    marginVertical: 20,
-    marginHorizontal: 10,
-    borderRadius: 20,
-    borderColor: "blue",
-    borderWidth: 1,
-  },
-  form: {
-    paddingHorizontal: 10,
-  },
-  label: {
-    fontSize: 20,
-    fontWeight: "600",
-    paddingVertical: 20,
-  },
-  calendarPicker:{
-    borderTopColor:'blue',
-    borderBottomColor:'blue',
-    borderTopWidth:1,
-    borderBottomWidth:1,
-    marginHorizontal: -10,
-  },
-  nextTitle: {
-    fontSize: 25,
-    fontWeight: "600",
-    marginRight: 20,
-  },
-  previousTitle: {
-    fontSize: 25,
-    fontWeight: "600",
-    marginLeft: 20,
-  },
-  btnTurno: {
-    backgroundColor: "blue",
-    marginTop: 30,
-    paddingVertical: 10,
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-  },
-  textBtnTurno: {
-    textAlign: "center",
-    color: "#fff",
-    fontSize: 20,
-    textTransform: "uppercase",
-  },
-});
+    container2: {
+      display: "none",
+    },
+    container: {
+      marginVertical: 20,
+      marginHorizontal: 10,
+      borderRadius: 20,
+      borderColor: "blue",
+      borderWidth: 1,
+    },
+    form: {
+      paddingHorizontal: 10,
+    },
+    label: {
+      fontSize: 20,
+      fontWeight: "600",
+      paddingVertical: 20,
+    },
+    calendarPicker:{
+      borderTopColor:'blue',
+      borderBottomColor:'blue',
+      borderTopWidth:1,
+      borderBottomWidth:1,
+      marginHorizontal: -10,
+    },
+    nextTitle: {
+      fontSize: 25,
+      fontWeight: "600",
+      marginRight: 20,
+    },
+    previousTitle: {
+      fontSize: 25,
+      fontWeight: "600",
+      marginLeft: 20,
+    },
+    btnTurno: {
+      backgroundColor: "blue",
+      marginTop: 30,
+      paddingVertical: 10,
+      borderBottomLeftRadius: 18,
+      borderBottomRightRadius: 18,
+    },
+    textBtnTurno: {
+      textAlign: "center",
+      color: "#fff",
+      fontSize: 20,
+      textTransform: "uppercase",
+    },
+  });

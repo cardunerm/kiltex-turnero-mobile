@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactDOM } from "react";
 import {
   Text,
   FlatList,
@@ -9,12 +9,12 @@ import {
   RefreshControl,
   Pressable,
 } from "react-native";
-import Turno from "../Components/Historial";
 import { environment } from "../env/env.develop";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+
 //Service
 import callApiGet from "../Service";
 
@@ -33,7 +33,10 @@ const MyTurno = () => {
   //Peticion a la api
   useEffect(() => {
     callApiGet();
-  }, [cargando]);
+  }, [carga]);
+  useEffect(() => {
+    callApiGet();
+  }, [reservationLibre]);
   const callApiGet = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
@@ -57,9 +60,8 @@ const MyTurno = () => {
         setReservationLibre(
           response.data.data.sort((b, a) => a.schedule > b.schedule)
         );
-
         setCargando(false);
-        console.log(response.data.data);
+
         if (response.data.data[0] == undefined) {
           setlistEmpty(false);
         } else {
@@ -90,7 +92,7 @@ const MyTurno = () => {
               Inicio del turno: {item.schedule.slice(11, 13)} :{" "}
               {item.schedule.slice(14, 16)} hs
             </Text>
-            <Pressable  onPress={() => navigation.navigate("ViewTurn", item)}>
+            <Pressable onPress={() => navigation.navigate("ViewTurn", item)}>
               <Text style={styles.viewTurno}>Ver Turno</Text>
             </Pressable>
           </View>

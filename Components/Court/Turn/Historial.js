@@ -9,13 +9,10 @@ import {
     RefreshControl,
     Pressable,
   } from "react-native";
-
 const Historial = () => {
-    
   return (
     <Text>Historial</Text>
   )
 }
 
 export default Historial
-

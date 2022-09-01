@@ -25,7 +25,7 @@ const FAQsStack = () => {
   //Peticion Api
   useEffect(() => {
     callApiGet();//Peticion
-  }, []);
+  }, [question]);
   const filter = {
     filter: " ",
     page: 0,
