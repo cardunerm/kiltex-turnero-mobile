@@ -172,7 +172,7 @@ const Home = () => {
         <MaterialCommunityIcons
           style={styles.topIcon}
           name="comment-question"
-          size={35}
+          size={30}
           color="#fff"
         />
       </Pressable>
@@ -203,14 +203,14 @@ export default Home;
 const styles = StyleSheet.create({
   top: {
     backgroundColor: "#2b2b2d",
-    height: 60,
-    width: 60,
+    height: 45,
+    width: 45,
     position: "absolute",
-    right: 5,
+    right: 10,
     borderRadius: 50,
     flexDirection: "column",
     justifyContent: "center",
-    marginTop: 5,
+    marginTop: 6,
     zIndex: 20,
   },
   topIcon: {
