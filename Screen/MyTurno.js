@@ -50,7 +50,7 @@ const MyTurno = () => {
   const get = (token) => {
     const url =
       environment.api.url + "/api/v1/client/Reservation/list_my_reservations";
-     axios({
+    axios({
       method: "post",
       url: url,
       data: filter,

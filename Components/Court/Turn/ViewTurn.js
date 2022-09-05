@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Pressable , ScrollView,Alert} from "react-nativ
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const ViewTurn = ({ route }) => {
     const { court, schedule } = route.params;
-  console.log(route.params);
+
 
 
   const alertCancelarTurno = () => {
@@ -25,7 +25,7 @@ const ViewTurn = ({ route }) => {
           <Text style={styles.text}>{court}</Text>
           <Text style={styles.text}>Fecha: {schedule.slice(0, 10)}</Text>
           <Text style={styles.text}>
-            Inicio del turno: {schedule.slice(11, 13)} :{" "}
+            Inicio del turno: {schedule.slice(11, 13)}:{" "}
             {schedule.slice(14, 16)} hs
           </Text>
           <Text style={styles.text}>

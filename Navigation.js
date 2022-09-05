@@ -8,21 +8,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 
 //Screen
-
-//import HomeScreen from "./Screen/HomeScreen";
 import ProfileScreen from "./Screen/ProfileScreen";
 import CourtsScreen from "./Screen/CourtsScreen";
 import MyTurno from "./Screen/MyTurno";
-//import Login from "./Login/Login";
-//import Login from "./Components/Court/Login";
 import Login from "./Components/Auth/Login";
 import Home from "./Components/Home";
-//import Home from "./Components/Home/Home";
 
 //Stack Canchas
-//import DetailsCourts from "./Components/DetailsCourts";
 import DetailsCourts from "./Components/Court/DetailsCourts";
-//import TurnoLibre from "./Components/TurnoLibre";
 import TurnoLibre from "./Components/Court/Turn/TurnoLibre";
 import Rules from "./Components/Rules";
 //Stack Perfil
@@ -38,12 +31,9 @@ import PasswordStack from "./StackUsuario/PasswordStack";
 import EmailStack from "./StackUsuario/EmailStack";
 import NotExpo from "./Components/NotExpo";
 //Metodo de Pago
-//import Payment from "./Components/Payment";
 import Payment from "./Components/Court/Turn/Payment"
 //Stack Turnos
-//import Historial from "./Components/Historial";
 import Historial from "./Components/Court/Turn/Historial";
-//import ViewTurn from "./Components/ViewTurn";
 import ViewTurn from "./Components/Court/Turn/ViewTurn";
 
 const Stack = createNativeStackNavigator();
