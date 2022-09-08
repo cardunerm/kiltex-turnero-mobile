@@ -1,15 +1,19 @@
 import React from 'react'
-import { Text,View,StyleSheet } from 'react-native'
+import { Text,View,StyleSheet, Pressable } from 'react-native';
+
+
 const Payment = () => {
+    
   return (
     <>
     <View style={styles.montoContainer}>
         <Text  style={styles.montoText}>Monto a pagar</Text>
         <Text style={styles.montoNumber}>$ 2000</Text>
     </View>
-    <View style={styles.containerPayment}>
+    <Pressable style={styles.containerPayment}  >
         <Text style={styles.textPayment}>informacion sobre el metodo de Pago</Text>
-    </View>
+    </Pressable>
+    
     </>
   )
 }

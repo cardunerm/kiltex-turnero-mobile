@@ -4,44 +4,73 @@ import {
   FlatList,
   View,
   StyleSheet,
-  ActivityIndicator,
-  ScrollView,
-  RefreshControl,
-  Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const Historial = () => {
   const navigation = useNavigation();
+
+  //Data temporal
   const TurnPast = [
-    {Cancha:'Cancha 1',Fecha:'04-08-2022', InicioTurno:'08:00 hs', FinTurno:'09:30 hs',Estado:'Cancelado'},
-    {Cancha:'Cancha 2',Fecha:'04-08-2022', InicioTurno:'08:00 hs', FinTurno:'09:30 hs',Estado:'Usado'},
-    {Cancha:'Cancha 1',Fecha:'04-08-2022', InicioTurno:'08:00 hs', FinTurno:'09:30 hs',Estado:'Cancelado'}
-
-];
-
+    {
+      Cancha: "Cancha 1",
+      Fecha: "04-08-2022",
+      InicioTurno: "08:00 hs",
+      FinTurno: "09:30 hs",
+      Estado: "Cancelado",
+    },
+    {
+      Cancha: "Cancha 2",
+      Fecha: "04-08-2022",
+      InicioTurno: "08:00 hs",
+      FinTurno: "09:30 hs",
+      Estado: "Usado",
+    },
+    {
+      Cancha: "Cancha 1",
+      Fecha: "04-08-2022",
+      InicioTurno: "08:00 hs",
+      FinTurno: "09:30 hs",
+      Estado: "Cancelado",
+    },
+  ];
+//BODY  TURNO PASADO
   const TurnoPasado = ({ item }) => {
     return (
       <>
         <View style={styles.listTurno}>
           <View style={styles.contTurno}>
-          <Text style={[styles.titulo, styles.horario]}>Cancha:{" "}{item.Cancha}</Text>
-            <Text style={[styles.titulo, styles.horario]}>Fecha:{" "}{item.Fecha}</Text>
             <Text style={[styles.titulo, styles.horario]}>
-              Inicio del turno:{" "}{item.InicioTurno}
+              Cancha: {item.Cancha}
+            </Text>
+            <Text style={[styles.titulo, styles.horario]}>
+              Fecha: {item.Fecha}
+            </Text>
+            <Text style={[styles.titulo, styles.horario]}>
+              Inicio del turno: {item.InicioTurno}
             </Text>
             <View>
-              <Text style={item.Estado == 'Cancelado'? styles.viewTurnoCancelado : styles.viewTurnoUsado }>{item.Estado}</Text>
+              <Text
+                style={
+                  item.Estado == "Cancelado"
+                    ? styles.viewTurnoCancelado
+                    : styles.viewTurnoUsado
+                }
+              >
+                {item.Estado}
+              </Text>
             </View>
           </View>
         </View>
       </>
     );
   };
+
+  //BODY PRINCIPAL
   return (
     <>
       <FlatList
-        data={TurnPast} // Cambiar por array donde se guarden los turnos fijos
+        data={TurnPast} // Cambiar por array con turnos pasados (turnos del historial)
         enableEmptySections={true}
         renderItem={TurnoPasado}
       />
@@ -64,11 +93,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
-    marginBottom:20,
-    borderTopColor:'#999999',
-    borderTopWidth:1,
-    borderBottomColor:'#999999',
-    borderBottomWidth:1,
+    marginBottom: 20,
+    borderTopColor: "#999999",
+    borderTopWidth: 1,
+    borderBottomColor: "#999999",
+    borderBottomWidth: 1,
   },
   contTurno: {
     paddingVertical: 20,

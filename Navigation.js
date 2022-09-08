@@ -9,10 +9,11 @@ import { useNavigation } from "@react-navigation/native";
 
 //Screen
 import ProfileScreen from "./Screen/ProfileScreen";
-import CourtsScreen from "./Screen/CourtsScreen";
+import CourtsScreen from "./Screen/Home";
 import MyTurno from "./Screen/MyTurno";
 import Login from "./Components/Auth/Login";
-import Home from "./Components/Home";
+//import Home from "./Components/Home";
+import Home from "./Screen/Home";
 
 //Stack Canchas
 import DetailsCourts from "./Components/Court/DetailsCourts";
@@ -235,6 +236,7 @@ function MyTabs({ navigation }) {
       }),
     [navigation]
   );
+  const [gatillo, setGatillo]=useState(true)
 
   return (
     <>

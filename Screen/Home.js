@@ -18,25 +18,24 @@ import { environment } from "../env/env.develop";
 import { Searchbar } from "react-native-paper";
 import { FlatGrid } from "react-native-super-grid";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+const Home = ({ navigation }) => {
+  //HOOKS
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      callApiGet();
+      getNovedades();
+    });
 
-//Service
-import callApiGet from "../Service";
+    return unsubscribe;
+  }, [navigation]);
 
-const Home = () => {
-  //CANCHAS
-
-  //Hooks
   const [courts, setCourts] = useState([]);
   const [courtsFilter, setCourtsFilter] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [refreshing, setRefreshing] = useState(true);
-  //Ll amado a la API
-  useEffect(() => {
-    callApiGet();
-  }, [courts]);
-  useEffect(() => {
-    getNovedades();
-  }, [novedades]);
+  const [novedades, setNovedades] = useState([]);
+
+  //LLAMADO A LA API - LISTA DE CANCHAS
   const callApiGet = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
@@ -46,7 +45,6 @@ const Home = () => {
       console.log(error);
     }
   };
-
   const get = async (token) => {
     const url = environment.api.url + "/api/v1/client/Court/list_all_courts";
     await axios({
@@ -69,14 +67,14 @@ const Home = () => {
     pageSize: 10,
   }; //Body
 
-  const navigation = useNavigation();
-  //BODY DEL ELEMENTO
+  const navigationn = useNavigation();
+  //BODY DEL ELEMENTO - LA CANCHA
   const Court = ({ item }) => {
     return (
       <>
         <Pressable
           style={styles.court}
-          onPress={() => navigation.navigate("Details", item.id)}
+          onPress={() => navigationn.navigate("Details", item.id)}
         >
           <MaterialCommunityIcons name="tennis" size={50} color="black" />
           <Text style={styles.textName}>{item.name}</Text>
@@ -86,7 +84,7 @@ const Home = () => {
   };
 
   //NOVEDADES
-
+  //LLAMADO A LA API - LISTA DE NOVEDADES
   const getNovedades = async () => {
     const urlNovedades =
       environment.api.url + "/api/v1/client/HomeCard/list_home_cards";
@@ -94,41 +92,37 @@ const Home = () => {
       .get(urlNovedades)
       .then((response) => {
         setNovedades(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log("ERR" + e);
       });
   };
-
-  //Hooks
-  const [novedades, setNovedades] = useState([]);
-
-  //BODY DEL ELEMENTO
+  //BODY DEL ELEMENTO - NOVEDADES
   const Novedad = ({ item }) => {
     return (
       <>
         <Pressable style={styles.newsletterContainer}>
           <View style={styles.newsletter}>
             <Text style={styles.TextNewsletterTitle}>{item.title}</Text>
-          <Text style={styles.TextNewsletterDesc}>{item.description}</Text>
+            <Text style={styles.TextNewsletterDesc}>{item.description}</Text>
           </View>
         </Pressable>
       </>
     );
   };
-
   const flatList = (
     <View style={styles.newsletterCont}>
       <FlatList
-      
-      enableEmptySections={true}
-      data={novedades}
-      renderItem={Novedad}
-    />
+        enableEmptySections={true}
+        data={novedades}
+        renderItem={Novedad}
+        refreshControl={
+          <RefreshControl refreshing={cargando} onRefresh={callApiGet} />
+        }
+      />
     </View>
-    
   );
+  //Lista de canchas
   const flatGrid = (
     <FlatGrid
       itemDimension={100}
@@ -138,7 +132,7 @@ const Home = () => {
       renderItem={Court}
     />
   );
-
+  //VISTA DEL LISTADO CANCHAS - NOVEDADES
   const newTaskData = [
     {
       title: "Canchas",
@@ -167,7 +161,7 @@ const Home = () => {
     <>
       <Pressable
         style={styles.top}
-        onPress={() => navigation.navigate("Informacion")}
+        onPress={() => navigationn.navigate("Informacion")}
       >
         <MaterialCommunityIcons
           style={styles.topIcon}
@@ -245,15 +239,15 @@ const styles = StyleSheet.create({
   },
   newsletterContainer: {
     marginTop: 10,
-    borderTopColor:'#0853b5',
-    borderBottomColor:'#0853b5',
+    borderTopColor: "#0853b5",
+    borderBottomColor: "#0853b5",
     //borderColor: "#0853b5",
-   borderTopWidth:2,
-   borderBottomWidth:2,
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
   },
   newsletterCont: {
     marginTop: 5,
-    marginBottom:30,
+    marginBottom: 30,
   },
   taskTitle1: {
     backgroundColor: "#ffffff",
@@ -265,15 +259,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
   },
-  newsletter:{
-    marginTop:10,
-    marginBottom:15,
-    paddingHorizontal:15,
+  newsletter: {
+    marginTop: 10,
+    marginBottom: 15,
+    paddingHorizontal: 15,
   },
-  TextNewsletterTitle:{
-    fontSize:20,
+  TextNewsletterTitle: {
+    fontSize: 20,
   },
-  TextNewsletterDesc:{
-    fontSize:15,
+  TextNewsletterDesc: {
+    fontSize: 15,
   },
 });

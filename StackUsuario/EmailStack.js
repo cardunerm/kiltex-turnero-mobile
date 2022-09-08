@@ -11,6 +11,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 
 const EmailStack = () => {
+  //IMPORTANTE
+  //VER SI ESTE COMPONENTE SE VA A UTILIZAR
   const navigation = useNavigation();
   // Hooks
   const [email, setEmail] = useState("");

@@ -13,60 +13,67 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
-//Service
-import callApiGet from "../Service";
+const FAQsStack = ({ navigation }) => {
+  const navigationn = useNavigation();
+  //HOOKS
+  const [question, setQuestion] = useState([]); //setRes - Lugar donde se guardara la respuesta
+  const [cargando, setCargando] = useState(true); //setCarga - Lugar donde se guardara el manejador del spin
 
-const FAQsStack = () => {
-  const navigation = useNavigation();
-  //Hooks
-  const [question, setQuestion] = useState([]);//setRes - Lugar donde se guardara la respuesta
-  const [cargando, setCargando] = useState(true);//setCarga - Lugar donde se guardara el manejador del spin
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      callApiGet();
+    });
 
-  //Peticion Api
+    return unsubscribe;
+  }, [navigation]);
+
   useEffect(() => {
-    callApiGet();//Peticion
+    callApiGet(); //Peticion
   }, []);
+  //LLAMADO A LA API - PREGUNTAS FRECUENTES
   const filter = {
     filter: " ",
     page: 0,
     pageSize: 10,
-  };//Body
-
+  }; //Body
 
   const callApiGet = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
       const tokenn = JSON.parse(usuario);
-      get(tokenn)
+      get(tokenn);
     } catch (error) {
       console.log(error);
     }
   };
-  const get =  (token) => {
-    const url = environment.api.url + "/api/v1/client/FAQ/list";//Url
-       axios({
-        method: "post",
-        url: url,
-        data: filter,
-        headers: { Authorization: "Bearer " + token },
+  const get = (token) => {
+    const url = environment.api.url + "/api/v1/client/FAQ/list"; //Url
+    axios({
+      method: "post",
+      url: url,
+      data: filter,
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((response) => {
+        setQuestion(response.data.data);
+        setCargando(false);
+        console.log("funciona");
       })
-        .then((response) => {
-          setQuestion(response.data.data);
-          setCargando(false);
-        })
-        .catch((e) => {
-          console.log("ERR" + e);
-        });
-    };
+      .catch((e) => {
+        console.log("ERR" + e);
+      });
+  };
 
-  
-//Cuerpo de la pregunta
+  //BODY DE LA PREGUNTA
   const ques = ({ item }) => {
     return (
       <>
         <Pressable
           onPress={() =>
-            navigation.navigate("answer", {answer: item.answer,question: item.question,})
+            navigationn.navigate("answer", {
+              answer: item.answer,
+              question: item.question,
+            })
           }
           style={styles.questionContainer}
         >
@@ -75,7 +82,7 @@ const FAQsStack = () => {
       </>
     );
   };
-//Manejador del spin de carga
+  //Manejador del spin de carga
   const carga = cargando ? (
     <View style={styles.carga}>
       <ActivityIndicator size="large" color="#1258B1" />
@@ -88,7 +95,7 @@ const FAQsStack = () => {
     />
   );
 
-  //Cuerpo del componente
+  //BODY GENERAL
   return (
     <>
       <View style={styles.container}>
