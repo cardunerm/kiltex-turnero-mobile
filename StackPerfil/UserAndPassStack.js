@@ -4,6 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserAndPassStack = () => {
+
+
+  //iMPORTANTE
+  //SE DEBE CAMBIAR LOGICA Y POR  EL COMPONENTE
   
   const navigation = useNavigation();
   //Hooks

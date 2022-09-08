@@ -17,39 +17,18 @@ const Perfil = () => {
   const [usuario, setUsuario]=useState()
   const navigation = useNavigation();
 
-  useEffect(() => {
-    getData()
-  }, []);
-  //Func
+  
+  //Logout - (Se borra el token)
   const logout = async () => {
     try{
-     await AsyncStorage.removeItem('token')
-     await AsyncStorage.removeItem('usuario')
+     await AsyncStorage.removeItem("token")
      navigation.navigate("login")
+     console.log('token')
     } catch(error){
       console.log(error)
     }
   }
-  const getData = async () => {
-    try {
-      const usuario = JSON.parse(await AsyncStorage.getItem("usuario"));
-      setUsuario(usuario)
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  /*<Pressable
-              style={styles.funcionalidad}
-              onPress={() => navigation.navigate("NotTest")}
-            >
-              <Text style={styles.funcionalidadText}>Notificacion Expo</Text>
-            </Pressable>
-
-
-<Text style={styles.name}>{usuario}</Text>
-
-  */
+//BODY PRINCIPAL
   return (
     <>
       <View style={styles.container}>

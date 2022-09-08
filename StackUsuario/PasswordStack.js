@@ -10,6 +10,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 const PasswordStack = () => {
+
+  //IMPORTANTE
+  //VER SI ESTE COMPONENTE SE VA A UTILIZAR
   const navigation = useNavigation();
   
   // Hooks

@@ -15,12 +15,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
-//Service
-import callApiGet from "../Service";
-
-const MyTurno = () => {
-  const navigation = useNavigation();
-  //Hooks
+const MyTurno = ({ navigation }) => {
+  const navigationn = useNavigation();
+  //HOOKS
   const [reservationLibre, setReservationLibre] = useState([]);
   const [reservationFijo, setReservationFijo] = useState([]);
 
@@ -30,13 +27,18 @@ const MyTurno = () => {
 
   const [gatillo, setGatillo] = useState(1);
 
-  //Peticion a la api
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      callApiGet();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  ////LLAMADO A LA API - LISTA DE TURNOS
   useEffect(() => {
     callApiGet();
-  }, [carga]);
-  useEffect(() => {
-    callApiGet();
-  }, [reservationLibre]);
+  }, [cargando]);
   const callApiGet = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
@@ -46,7 +48,6 @@ const MyTurno = () => {
       console.log(error);
     }
   };
-
   const get = (token) => {
     const url =
       environment.api.url + "/api/v1/client/Reservation/list_my_reservations";
@@ -78,7 +79,7 @@ const MyTurno = () => {
     pageSize: 10,
   }; //Body
 
-  // Cuerpo de las tarjetas de los turnos
+  // BODY DE LA TARJETA DE LOS TURNOS
   const Turno = ({ item }) => {
     return (
       <>
@@ -91,7 +92,7 @@ const MyTurno = () => {
               Inicio del turno: {item.schedule.slice(11, 13)} :{" "}
               {item.schedule.slice(14, 16)} hs
             </Text>
-            <Pressable onPress={() => navigation.navigate("ViewTurn", item)}>
+            <Pressable onPress={() => navigationn.navigate("ViewTurn", item)}>
               <Text style={styles.viewTurno}>Ver Turno</Text>
             </Pressable>
           </View>
@@ -100,7 +101,6 @@ const MyTurno = () => {
     );
   };
   //Manejador del spin de carga
-
   const carga =
     gatillo == 1 ? (
       cargando ? (
@@ -157,8 +157,8 @@ const MyTurno = () => {
         </ScrollView>
       </View>
     );
-  //Cuerpo del componente
 
+  //BODY GENERAL
   return (
     <>
       <View style={styles.containerBot}>
@@ -183,11 +183,9 @@ const MyTurno = () => {
           </Text>
         </Pressable>
       </View>
-
       {carga}
-
       <Button
-        onPress={() => navigation.navigate("Historial")}
+        onPress={() => navigationn.navigate("Historial")}
         icon="history"
         mode="outlined"
         color="blue"

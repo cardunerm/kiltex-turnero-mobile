@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 
 const Answer = ({ route }) => {
   const { answer, question } = route.params;
-
+//BODY PRINCIPAL
   return (
     <>
       <View style={styles.container}>

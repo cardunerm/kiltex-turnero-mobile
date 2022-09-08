@@ -4,8 +4,6 @@ import {
   Image,
   View,
   TextInput,
-  Button,
-  Buttom,
   Alert,
   StyleSheet,
   ScrollView,
@@ -21,14 +19,22 @@ import axios from "axios";
 import { environment } from "../../env/env.develop";
 const Login = () => {
   const navigation = useNavigation();
-
-  //Hooks
+  //HOOKS
   const [visbRegister, setVisbRegister] = useState(false);
   const [visbRecuperarPass, setVisbRecuperarPass] = useState(false);
   const [usuario, setUsuario] = useState();
   const [token, setToken] = useState();
   const [cargando, setCargando] = useState(false);
+  useEffect(() => {
+    if (token != null) {
+      navigation.navigate("body");
+      setToken(null);
+      setCargando(false);
+      return;
+    }
+  }, [token]);
 
+  //MANEJO DE INFORMACION - AsyncStorage
   const obtenerDatos = async () => {
     try {
       const usuario = await AsyncStorage.getItem("token");
@@ -47,10 +53,9 @@ const Login = () => {
       console.log(e);
     }
   };
-
+  //PETICION A LA API - VALIDACION DEL USUARIO
   const logApi = (user) => {
     const url = environment.api.url + "/api/v1/Auth/ClientLogin";
-
     axios
       .post(url, user)
       .then((response) => {
@@ -68,15 +73,7 @@ const Login = () => {
         setCargando(false);
       });
   };
-  useEffect(() => {
-    if (token != null) {
-      navigation.navigate("body");
-      setToken(null);
-      setCargando(false);
-      return;
-    }
-  }, [token]);
-
+  //MANEJO DEL FORMULARIO
   const {
     reset,
     control,
@@ -88,6 +85,8 @@ const Login = () => {
       password: "",
     },
   });
+
+  //ACCIONES
   const alertNoSesion = () => {
     Alert.alert(
       "No se pudo iniciar sesion",
@@ -99,6 +98,7 @@ const Login = () => {
   const onSubmit = (data) => {
     setCargando(true);
     logApi(data);
+    reset();
   };
 
   const carga = cargando ? (
@@ -106,16 +106,7 @@ const Login = () => {
   ) : (
     <Text>Iniciar Sesion</Text>
   );
-  /*
-<Registrarse
-        visbRegister={visbRegister}
-        setVisbRegister={setVisbRegister}
-      />
-      <RecoverPasswod
-        visbRecuperarPass={visbRecuperarPass}
-        setVisbRecuperarPass={setVisbRecuperarPass}
-      />
-  */
+  //BODY PRINCIPAL
   return (
     <>
       <View style={styles.container}>
@@ -207,10 +198,7 @@ const Login = () => {
           </View>
         </ScrollView>
       </View>
-      <SignIn
-        visbRegister={visbRegister}
-        setVisbRegister={setVisbRegister}
-      />
+      <SignIn visbRegister={visbRegister} setVisbRegister={setVisbRegister} />
       <RecoverPassword
         visbRecuperarPass={visbRecuperarPass}
         setVisbRecuperarPass={setVisbRecuperarPass}
@@ -221,69 +209,68 @@ const Login = () => {
 
 export default Login;
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 8,
-      backgroundColor: "#2b2b2d",
-    },
-    banner: {
-      flexDirection: "row",
-      justifyContent: "center",
-    },
-    imgBanner: {
-      marginTop: 50,
-      width: 450,
-      height: 300,
-    },
-    form: {
-      marginHorizontal: 20,
-      backgroundColor: "#399edea8",
-      paddingHorizontal: 10,
-      paddingVertical: 20,
-      borderRadius: 20,
-    },
-    label: {
-      color: "white",
-      margin: 20,
-      marginLeft: 0,
-    },
-    button: {
-      marginTop: 20,
-      color: "#fff",
-      height: 40,
-      backgroundColor: "#389ddd",
-      borderRadius: 4,
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    btnText: {
-      color: "#fff",
-    },
-    input: {
-      backgroundColor: "#fff",
-      borderWidth: 2,
-      height: 40,
-      padding: 10,
-      borderRadius: 4,
-    },
-    errorText: {
-      color: "#960303",
-    },
-    textRegister: {
-      paddingVertical: 10,
-      fontSize: 15,
-      textAlign: "center",
-    },
-    textRegister2: {
-      color: "#fff",
-      paddingVertical: 10,
-      fontWeight: "700",
-      //Recordar subrayar texto
-    },
-    textOlvContraseña: {
-      textAlign: "center",
-      color: "#eee",
-    },
-  });
-  
+  container: {
+    flex: 1,
+    padding: 8,
+    backgroundColor: "#2b2b2d",
+  },
+  banner: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  imgBanner: {
+    marginTop: 50,
+    width: 450,
+    height: 300,
+  },
+  form: {
+    marginHorizontal: 20,
+    backgroundColor: "#399edea8",
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderRadius: 20,
+  },
+  label: {
+    color: "white",
+    margin: 20,
+    marginLeft: 0,
+  },
+  button: {
+    marginTop: 20,
+    color: "#fff",
+    height: 40,
+    backgroundColor: "#389ddd",
+    borderRadius: 4,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnText: {
+    color: "#fff",
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    height: 40,
+    padding: 10,
+    borderRadius: 4,
+  },
+  errorText: {
+    color: "#960303",
+  },
+  textRegister: {
+    paddingVertical: 10,
+    fontSize: 15,
+    textAlign: "center",
+  },
+  textRegister2: {
+    color: "#fff",
+    paddingVertical: 10,
+    fontWeight: "700",
+    //Recordar subrayar texto
+  },
+  textOlvContraseña: {
+    textAlign: "center",
+    color: "#eee",
+  },
+});
