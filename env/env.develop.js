@@ -1,7 +1,7 @@
 export const environment = {
     production: false,
     api: {
-      url: 'https://linda-transparent-alpine-incentives.trycloudflare.com'
+      url: 'https://flexibility-aug-antivirus-cartoons.trycloudflare.com'
       //url: 'https://localhost:5001'
     }
   };
