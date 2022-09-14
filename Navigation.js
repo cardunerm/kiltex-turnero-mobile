@@ -80,7 +80,7 @@ function MyStack() {
         options={{
           title: "Metodo de Pago",
           headerStyle: {
-            backgroundColor: "#1E66B6",
+            backgroundColor: "#103a70",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
