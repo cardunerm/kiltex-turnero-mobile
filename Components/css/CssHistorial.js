@@ -1,0 +1,56 @@
+import {StyleSheet} from "react-native";
+export const styles = StyleSheet.create({
+    listTurno: {
+      backgroundColor: "#fff",
+      borderRadius: 5,
+      borderBottomEndRadius: 30,
+      borderBottomStartRadius: 20,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 5,
+      },
+      shadowOpacity: 0.34,
+      shadowRadius: 6.27,
+      elevation: 10,
+      marginBottom: 20,
+      borderTopColor: "#999999",
+      borderTopWidth: 1,
+      borderBottomColor: "#999999",
+      borderBottomWidth: 1,
+    },
+    contTurno: {
+      paddingVertical: 20,
+      paddingHorizontal: 20,
+    },
+    titulo: {
+      fontSize: 17,
+    },
+    horario: {
+      fontWeight: "500",
+      borderBottomColor: "#03408c6e",
+      borderBottomWidth: 0.5,
+    },
+    viewTurnoUsado: {
+      textAlign: "center",
+      backgroundColor: "#12407c",
+      marginBottom: -20,
+      marginHorizontal: -20,
+      paddingVertical: 10,
+      marginTop: 20,
+      fontSize: 18,
+      fontWeight: "600",
+      color: "#fff",
+    },
+    viewTurnoCancelado: {
+      textAlign: "center",
+      backgroundColor: "#930000",
+      marginBottom: -20,
+      marginHorizontal: -20,
+      paddingVertical: 10,
+      marginTop: 20,
+      fontSize: 18,
+      fontWeight: "600",
+      color: "#fff",
+    },
+  });
