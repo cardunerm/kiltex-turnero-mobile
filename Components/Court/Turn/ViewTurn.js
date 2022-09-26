@@ -2,17 +2,17 @@ import React from "react";
 import {
   Text,
   View,
-  StyleSheet,
   Pressable,
   ScrollView,
-  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { styles } from "../../css/CssViewTurn";
+import { alertBD } from "../../Alert";
 const ViewTurn = ({ route }) => {
   //HOOKS
   const { court, schedule } = route.params;
   //ACCIONES
-  const alertCancelarTurno = () => {
+  /*const alertCancelarTurno = () => {
     Alert.alert(
       "Cancelar Turno",
       "¿Esta seguro que desea cancelar este turno?",
@@ -26,8 +26,14 @@ const ViewTurn = ({ route }) => {
         },
       ]
     );
-  };
+  };*/
   //BODY PRINCIPAL
+  const accionCanelar =()=>{
+    console.log("Se elimino el turno")
+  }
+  const accionMover =()=>{
+    console.log("Se movio el turno")
+  }
   return (
     <>
       <ScrollView>
@@ -48,11 +54,11 @@ const ViewTurn = ({ route }) => {
         <View style={styles.containBtn}>
           <Pressable
             style={styles.btnCancel}
-            onPress={() => alertCancelarTurno()}
+            onPress={() => alertBD("Cancelar Turno","¿Esta seguro que desea cancelar este turno?","Si",accionCanelar())}
           >
             <Text style={styles.btnCMText}>Cancelar Turno</Text>
           </Pressable>
-          <Pressable style={styles.btnMover}>
+          <Pressable style={styles.btnMover}onPress={() => alertBD("Mover Turno","¿Esta seguro que desea cancelar este turno?","Si",accionMover())}>
             <Text style={styles.btnCMText}>Mover Turno</Text>
           </Pressable>
         </View>
@@ -80,63 +86,4 @@ const ViewTurn = ({ route }) => {
     </>
   );
 };
-
 export default ViewTurn;
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#fff",
-    marginLeft: 25,
-    marginTop: 20,
-    shadowColor: "#6b9ae5c4",
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-
-    elevation: 24,
-    paddingHorizontal: 25,
-    paddingRight: 34,
-    paddingVertical: 20,
-    borderBottomLeftRadius: 20,
-    borderTopLeftRadius: 20,
-  },
-  text: {
-    paddingVertical: 20,
-    borderBottomColor: "#94abcf",
-    borderBottomWidth: 1,
-    paddingHorizontal: 20,
-    fontSize: 15,
-  },
-  containBtn: {
-    marginLeft: 25,
-    marginTop: 30,
-    paddingVertical: 20,
-  },
-  btnCancel: {
-    backgroundColor: "#12407c",
-    borderBottomLeftRadius: 20,
-    borderTopLeftRadius: 20,
-  },
-  btnCMText: {
-    color: "#fff",
-    fontSize: 22,
-    textAlign: "center",
-    paddingVertical: 15,
-  },
-  btnMover: {
-    backgroundColor: "#12407c",
-    marginTop: 30,
-    borderBottomLeftRadius: 20,
-    borderTopLeftRadius: 20,
-  },
-  containInfo: {
-    borderColor: "#12407ca6",
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
-    borderStyle: "dashed",
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-  },
-});

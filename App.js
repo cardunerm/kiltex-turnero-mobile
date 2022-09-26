@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View ,Modal} from 'react-native';
-import Navigation from './Navigation';
+import Navigation from './SetNavigation/Navigation';
 import { useState, useEffect, useRef} from 'react';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
