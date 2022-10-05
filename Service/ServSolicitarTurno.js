@@ -21,7 +21,6 @@ export const TurnoLibreApi = async (data,setVisible,setCarga) => {
       headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
-        console.log(response.data);
         setVisible(true);
         setCarga(false);
         //schedulePushNotification();

@@ -22,7 +22,6 @@ const Perfil = () => {
     try {
       await AsyncStorage.removeItem("token");
       navigation.navigate("login");
-      console.log("token");
     } catch (error) {
       console.log(error);
     }

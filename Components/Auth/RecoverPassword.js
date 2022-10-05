@@ -6,11 +6,14 @@ import {
   TextInput,
   ScrollView,
   Pressable,
+  ActivityIndicator
 } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import { environment } from "../../env/env.develop";
 import axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../css/CssRecoverPassword";
+import {alert} from "../Alert"
 const RecoverPassword = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
 //IMPORTANTE
     //UNA VES MODIFICADO EL LINK DE RECUPERACION DE CONTRASEÑA Y REALIZADA LA PANTALLA WEB 
@@ -20,8 +23,18 @@ const RecoverPassword = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
   const [valor, setValor] = useState("");
   const [token, setToken] = useState("");
   const [newPass, setNewPas] = useState("");
-  const [reset, setReset] = useState(false);
+  const [cargando, setCargando] = useState(false);
 
+  const {
+    reset,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      emailAddress: "",
+    },
+  });
   //PETICION A LA API
   const url =
     environment.api.url +
@@ -29,20 +42,23 @@ const RecoverPassword = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
     valor;
   const urlReset = environment.api.url + "/api/v1/Auth/ResetPassword";
 
-  const sendMail = async () => {
+  const sendMail = async (data) => {
+    const url =
+    environment.api.url +
+    "/api/v1/Auth/RequestPasswordReset?clientEmailAddress=" +
+    data;
     await axios
       .post(url, valor)
       .then((response) => {
-        if (
-          response.data.str ==
-          "Solicitud de Reestablecimiento de Contraseña realizada con éxito"
-        ) {
-          setReset(true);
-          return;
-        }
+        setCargando(false)
+       alert("","Solicitud realizada con exito")
+        console.log(response)
+        
       })
       .catch((e) => {
         console.log("ERR" + e);
+        alert("A ocurrido un error","Verifique que el E-mail sea el correcto")
+        setCargando(false)
       });
   };
 
@@ -50,81 +66,17 @@ const RecoverPassword = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
     token: token,
     password: newPass,
   };
-  const resetPassword = async () => {
-    await axios
-      .post(urlReset, body)
-      .then((response) => {})
-      .catch((e) => {
-        console.log("ERR" + e);
-      });
+  const onSubmit = (data) => {
+    setCargando(true);
+    sendMail(data.emailAddress)
   };
 
-  const onSubmit = () => {
-    sendMail();
-  };
-
-  const onSubmitReset = () => {
-    resetPassword();
-    setToken("");
-    setNewPas("");
-    setReset(false);
-  };
-  const resetPas = !reset ? (
-    <>
-      <View style={styles.form}>
-        <Text style={styles.label}>Ingresa tu E-mail</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholderTextColor={"#B0B0B0"}
-          value={valor}
-          onChangeText={setValor}
-          placeholder="E-mail"
-        />
-        <View>
-          <Pressable style={styles.button} color onPress={onSubmit}>
-            <Text style={styles.btnText}>Recuperar Contraseña</Text>
-          </Pressable>
-        </View>
-      </View>
-      <View style={styles.mensajeContainer}>
-        <Text style={styles.mensaje}>
-          Se te enviara un correo con las indicaciones a seguir para recuperar
-          tu contraseña
-        </Text>
-      </View>
-    </>
+  const carga = cargando ? (
+    <ActivityIndicator size="large" color="#fff" />
   ) : (
-    <>
-      <View style={styles.form}>
-        <Text style={styles.label}>Ingresa el codigo</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholderTextColor={"#B0B0B0"}
-          value={token}
-          onChangeText={setToken}
-          placeholder="Codigo"
-        />
-        <Text style={styles.label}>nueva contraseña</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholderTextColor={"#B0B0B0"}
-          value={newPass}
-          onChangeText={setNewPas}
-          placeholder="Nueva contraseña"
-          secureTextEntry={true}
-          keyboardType="default"
-        />
-        <View>
-          <Pressable style={styles.button} color onPress={onSubmitReset}>
-            <Text style={styles.btnText}>Recuperar Contraseña</Text>
-          </Pressable>
-        </View>
-      </View>
-    </>
+    <Text>Recuperar Contraseña</Text>
   );
+
   return (
     <Modal visible={visbRecuperarPass}>
       <View style={styles.container}>
@@ -144,7 +96,43 @@ const RecoverPassword = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
             </Pressable>
             <Text style={styles.bannerText}>¿Olvidaste tu contraseña?</Text>
           </View>
-          <View>{resetPas}</View>
+          <View style={styles.form}>
+        <Text style={styles.label}>Ingresa tu E-mail</Text>
+
+        <Controller
+        control={control}
+        rules={{
+          required: "Este campo es requerido",
+          minLength: {
+            value: 11,
+            message: "La cantidad minima son 11 caracteres",
+          },
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="E-mail"
+            keyboardType="email-address"
+          />
+        )}
+        name="emailAddress"
+      />
+      <Text style={styles.errorText}>{errors.emailAddress?.message}</Text>
+        <View>
+          <Pressable style={styles.button} color onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.btnText}>{carga}</Text>
+          </Pressable>
+        </View>
+      </View>
+      <View style={styles.mensajeContainer}>
+        <Text style={styles.mensaje}>
+          Se te enviara un correo con las indicaciones a seguir para recuperar
+          tu contraseña
+        </Text>
+      </View>
         </ScrollView>
       </View>
     </Modal>

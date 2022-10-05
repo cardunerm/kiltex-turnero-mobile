@@ -8,7 +8,6 @@ export const registerApi = (user) => {
       .post(url, user)
       .then((response) => {})
       .catch((e) => {
-        console.log(e.response.data);
         alert("No se pudo registrar",e.response.data);
       });
   };
