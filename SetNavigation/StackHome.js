@@ -9,6 +9,7 @@ import TurnoLibre from "../Components/Court/Turn/TurnoLibre";
 import Rules from "../Components/Rules";
 //Metodo de Pago
 import Payment from "../Components/Court/Turn/Payment"
+import TurnoFijo from "../Components/Court/Turn/TurnoFijo";
 const Stack = createNativeStackNavigator();
 export function MyStack() {
     return (
@@ -43,6 +44,13 @@ export function MyStack() {
           component={TurnoLibre}
           options={{
             title: "Turnos Libres",
+          }}
+        />
+        <Stack.Screen
+          name="TurnoFijo"
+          component={TurnoFijo}
+          options={{
+            title: "Turnos Fijos",
           }}
         />
         <Stack.Screen

@@ -11,22 +11,7 @@ import { alertBD } from "../../Alert";
 const ViewTurn = ({ route }) => {
   //HOOKS
   const { court, schedule } = route.params;
-  //ACCIONES
-  /*const alertCancelarTurno = () => {
-    Alert.alert(
-      "Cancelar Turno",
-      "¿Esta seguro que desea cancelar este turno?",
-      [
-        { text: "No", style: "cancel", onPress: () => {} },
-        {
-          text: "Si",
-          onPress: () => {
-            console.log("Se elimino el turno");
-          },
-        },
-      ]
-    );
-  };*/
+  
   //BODY PRINCIPAL
   const accionCanelar =()=>{
     console.log("Se elimino el turno")

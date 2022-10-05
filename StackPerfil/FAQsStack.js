@@ -56,7 +56,6 @@ const FAQsStack = ({ navigation }) => {
       .then((response) => {
         setQuestion(response.data.data);
         setCargando(false);
-        console.log("funciona");
       })
       .catch((e) => {
         console.log("ERR" + e);

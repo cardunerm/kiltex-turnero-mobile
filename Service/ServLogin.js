@@ -13,7 +13,6 @@ export const logApi = (user,setCargando,setToken) => {
         let fullname = response.data.fullName;
         guardarToken(Token, fullname);
         setToken(Token)
-        console.log(response.data)
       } 
     })
     .catch((e) => {

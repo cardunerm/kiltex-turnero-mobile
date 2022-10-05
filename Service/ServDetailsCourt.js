@@ -22,7 +22,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
       .then((response) => {
         setDetCourts(response.data);
         setCargando(false);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log("ERR" + e);

@@ -13,7 +13,7 @@ const Payment = () => {
   const open = () => {
     let url = "https://mpago.la/1YhXGKV";
     Linking.openURL(url).then((Response) => {
-      console.log(Response);
+      
     });
   };
 
