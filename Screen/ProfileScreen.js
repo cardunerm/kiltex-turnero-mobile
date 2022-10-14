@@ -2,12 +2,10 @@ import React from 'react';
 import { Text } from 'react-native';
 
 import Perfil from '../Components/Perfil';
-
-
-const HomeScreen = ({setVisbLogin}) => {
+const ProfileScreen = () => {
   return (
     <Perfil/>
   )
 }
 
-export default HomeScreen
+export default ProfileScreen
