@@ -5,11 +5,12 @@ import {
   View,
   Pressable,
   Image,
+  Alert
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {styles} from "./css/CssScreenPerfil";
-import { alert, alertBD } from "./Alert";
+//import { alert, alertBD } from "./Alert";
 
 
 const Perfil = () => {
@@ -21,18 +22,23 @@ const Perfil = () => {
   //Logout - (Se borra el token)
 
   const logout = () => {
-    alertBD("Cerrar Sesion","¿Esta seguro que quiere Cerrar sesion?" ,"Si",removeToken() )
-  };
-  const removeToken = async () => {
-    try {
-      await AsyncStorage.removeItem("token");
+    
+      Alert.alert(
+        "Cerrar Sesion", 
+        "¿Esta seguro de cerrar sesion?", 
+        [
+        { text: "No", style: "cancel", onPress: () => {} },
+        {
+          text: "si",
+          onPress: () => {
+            AsyncStorage.removeItem("token");
       navigation.navigate("login")
-      
-
-    } catch (error) {
-      console.log(error);
-    }
+          },
+        },
+      ]);
+    
   };
+ 
   
   //BODY PRINCIPAL
   return (

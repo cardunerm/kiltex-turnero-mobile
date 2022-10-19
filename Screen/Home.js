@@ -22,7 +22,6 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     getData()
     if(token === null){
-      console.log("no")
       navigation.navigate("login");
       return
     }
@@ -57,7 +56,6 @@ const Home = ({ navigation }) => {
   const Court = ({ item }) => {
     return (
       <>
-      {(Platform.OS === "android")?(<View></View>):(<SafeAreaView></SafeAreaView>)}
         <Pressable
           style={styles.court}
           onPress={() => navigationn.navigate("Details", item.id)}
@@ -132,6 +130,7 @@ const Home = ({ navigation }) => {
   //BODY GENERAL
   return (
     <>
+    {(Platform.OS === "android")?(<View></View>):(<SafeAreaView></SafeAreaView>)}
       <Pressable
         style={styles.top}
         onPress={() => navigationn.navigate("Informacion")}

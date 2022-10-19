@@ -13,26 +13,6 @@ import { MyStackPerfil } from "./StackPerfil";
 const Tab = createBottomTabNavigator();
 export function MyTabs({ navigation }) {
   const navigat = useNavigation();
-  React.useEffect(
-    () =>
-      navigation.addListener("beforeRemove", (e) => {
-        e.preventDefault();
-        Alert.alert("Cerrar Sesion", "¿Esta seguro que quiere Cerrar sesion?", [
-          { text: "No", style: "cancel", onPress: () => {} },
-          {
-            text: "Si",
-            style: "destructive",
-            // Al hacer back lateral se vuelve a la pantalla de login
-            // Si se desabilita el back no se puede regresar hacia atras
-            //Momentaneamente se coloco un mensaje de cierre de sesion y la accion del mismo
-            onPress: () => {
-              navigation.dispatch(e.data.action);
-            },
-          },
-        ]);
-      }),
-    [navigation]
-  );
   const [gatillo, setGatillo]=useState(true)
 
   return (
@@ -42,9 +22,6 @@ export function MyTabs({ navigation }) {
         screenOptions={{
           tabBarActiveTintColor: "blue",
           headerTitleAlign: "center",
-          //tabBarStyle: {
-          // backgroundColor: '#000',
-          //}, Modifica el color del tabBar
         }}
       >
         <Tab.Screen
