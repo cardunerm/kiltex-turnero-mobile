@@ -1,10 +1,21 @@
 import React from "react";
-import { Text, View, TextInput, Pressable } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { styles } from "../css/CssSignIn";
 import { registerApi } from "../../Service/ServSignIn";
 
-const FormSignIn = ({ visbRegister, setVisbRegister }) => {
+const FormSignIn = ({
+  visbRegister,
+  setVisbRegister,
+  cargando,
+  setCargando,
+}) => {
   //MANEJO DEL FORMULARIO
   const {
     reset,
@@ -21,10 +32,16 @@ const FormSignIn = ({ visbRegister, setVisbRegister }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    registerApi(data);
+  const carga = cargando ? (
+    <ActivityIndicator size="large" color="#fff" />
+  ) : (
+    <Text>Registrar</Text>
+  );
 
-    setVisbRegister(!visbRegister);
+  const onSubmit = (data) => {
+    registerApi(data, setVisbRegister, visbRegister, setCargando, cargando);
+    setCargando(true);
+
     reset();
   };
   return (
@@ -152,7 +169,7 @@ const FormSignIn = ({ visbRegister, setVisbRegister }) => {
 
       <View>
         <Pressable style={styles.button} color onPress={handleSubmit(onSubmit)}>
-          <Text style={styles.btnText}>Registrar</Text>
+          <Text style={styles.btnText}>{carga}</Text>
         </Pressable>
       </View>
     </View>

@@ -6,7 +6,8 @@ import {
   TextInput,
   ScrollView,
   Pressable,
-  ActivityIndicator
+  ActivityIndicator,
+  SafeAreaView
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { environment } from "../../env/env.develop";
@@ -78,7 +79,8 @@ const RecoverPassword = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
   );
 
   return (
-    <Modal visible={visbRecuperarPass}>
+    <Modal visible={visbRecuperarPass} animationType="slide">
+      {(Platform.OS === "android")?(<View></View>):(<SafeAreaView></SafeAreaView>)}
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.banner}>

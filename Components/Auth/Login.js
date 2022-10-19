@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, Image, View, ScrollView } from "react-native";
+import { Text, Image, View, ScrollView,SafeAreaView } from "react-native";
 import SignIn from "./SignIn";
 import { useNavigation } from "@react-navigation/native";
 import RecoverPassword from "./RecoverPassword";
@@ -14,7 +14,7 @@ const Login = () => {
   const [cargando, setCargando] = useState(false);
   useEffect(() => {
     if (token != null) {
-      navigation.navigate("body");
+      navigation.navigate("Court");
       setToken(null);
       setCargando(false);
       return;
@@ -23,6 +23,7 @@ const Login = () => {
   //BODY PRINCIPAL
   return (
     <>
+    {(Platform.OS === "android")?(<View></View>):(<SafeAreaView></SafeAreaView>)}
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.banner}>
