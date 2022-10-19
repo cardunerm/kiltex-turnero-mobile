@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -6,7 +6,9 @@ import {
   FlatList,
   RefreshControl,
   SectionList,
+  SafeAreaView
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { FlatGrid } from "react-native-super-grid";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -14,8 +16,28 @@ import { styles } from "../Components/css/CssHome";
 import { courtHomeApi } from "../Service/ServHome";
 import { newsletterHomeApi } from "../Service/ServHome";
 const Home = ({ navigation }) => {
+
   //HOOKS
+  const [token, setToken] = useState();
+  useEffect(() => {
+    getData()
+    if(token === null){
+      console.log("no")
+      navigation.navigate("login");
+      return
+    }
+  }, [token]);
+  const getData = async () => {
+    try {
+      const token = JSON.parse(await AsyncStorage.getItem("token"));
+      setToken(token)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   React.useEffect(() => {
+
     const unsubscribe = navigation.addListener("focus", () => {
       newsletterHomeApi(setNovedades);
       courtHomeApi(setCourts, setCargando);
@@ -35,6 +57,7 @@ const Home = ({ navigation }) => {
   const Court = ({ item }) => {
     return (
       <>
+      {(Platform.OS === "android")?(<View></View>):(<SafeAreaView></SafeAreaView>)}
         <Pressable
           style={styles.court}
           onPress={() => navigationn.navigate("Details", item.id)}
