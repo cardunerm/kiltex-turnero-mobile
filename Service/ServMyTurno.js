@@ -37,7 +37,7 @@ export const turnosApi = async (setReservationLibre,setCargando,setlistEmpty) =>
   };
 
   const filter = {
-    filter: " ",
+    filter: "",
     page: 0,
     pageSize: 10,
   }; //Body

@@ -1,4 +1,5 @@
 import {StyleSheet} from "react-native";
+import { colorBackSecundario, headerTintColor } from "./variables_Css";
 export const styles = StyleSheet.create({
     card: {
       backgroundColor: "#fff",
@@ -32,18 +33,18 @@ export const styles = StyleSheet.create({
       paddingVertical: 20,
     },
     btnCancel: {
-      backgroundColor: "#12407c",
+      backgroundColor: colorBackSecundario,
       borderBottomLeftRadius: 20,
       borderTopLeftRadius: 20,
     },
     btnCMText: {
-      color: "#fff",
+      color: headerTintColor,
       fontSize: 22,
       textAlign: "center",
       paddingVertical: 15,
     },
     btnMover: {
-      backgroundColor: "#12407c",
+      backgroundColor: colorBackSecundario,
       marginTop: 30,
       borderBottomLeftRadius: 20,
       borderTopLeftRadius: 20,

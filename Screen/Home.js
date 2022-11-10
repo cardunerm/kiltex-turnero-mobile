@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../Components/css/CssHome";
 import { courtHomeApi } from "../Service/ServHome";
 import { newsletterHomeApi } from "../Service/ServHome";
+import { stylesvar } from "../Components/css/variables_Css";
 const Home = ({ navigation }) => {
 
   //HOOKS
@@ -57,7 +58,7 @@ const Home = ({ navigation }) => {
     return (
       <>
         <Pressable
-          style={styles.court}
+          style={[styles.court,stylesvar.var_border]}
           onPress={() => navigationn.navigate("Details", item.id)}
         >
           <MaterialCommunityIcons name="tennis" size={50} color="black" />
@@ -72,7 +73,7 @@ const Home = ({ navigation }) => {
   const Novedad = ({ item }) => {
     return (
       <>
-        <Pressable style={styles.newsletterContainer}>
+        <Pressable style={[styles.newsletterContainer,stylesvar.var_border]}>
           <View style={styles.newsletter}>
             <Text style={styles.TextNewsletterTitle}>{item.title}</Text>
             <Text style={styles.TextNewsletterDesc}>{item.description}</Text>
@@ -139,7 +140,7 @@ const Home = ({ navigation }) => {
           style={styles.topIcon}
           name="comment-question"
           size={30}
-          color="#fff"
+          color="#2b2b2d"
         />
       </Pressable>
       <View style={styles.containSaludo}>

@@ -8,6 +8,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../../css/CssViewTurn";
 import { alertBD } from "../../Alert";
+import { stylesvar } from "../../css/variables_Css";
 const ViewTurn = ({ route }) => {
   //HOOKS
   const { court, schedule } = route.params;

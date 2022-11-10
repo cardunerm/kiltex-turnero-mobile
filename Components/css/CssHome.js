@@ -1,7 +1,7 @@
 import {StyleSheet} from "react-native";
 export const styles = StyleSheet.create({
     top: {
-      backgroundColor: "#2b2b2d",
+      backgroundColor: "#fff",
       height: 45,
       width: 45,
       position: "absolute",
@@ -16,24 +16,25 @@ export const styles = StyleSheet.create({
       textAlign: "center",
     },
     containSaludo: {
-      marginVertical: 20,
-      marginHorizontal: 20,
+      paddingVertical: 20,
+      paddingHorizontal: 20,
+      backgroundColor:"#2b2b2d"
     },
     saludo1: {
       fontSize: 25,
       fontWeight: "900",
       paddingLeft: 10,
       zIndex: 10,
+      color:"#fff"
     },
     saludo2: {
       fontSize: 20,
       fontWeight: "600",
-      color: "#555",
       zIndex: 10,
+      color:"#bbb"
     },
     court: {
-      borderColor: "#0853b5",
-      borderWidth: 3,
+      
       paddingHorizontal: 5,
       paddingVertical: 5,
       borderRadius: 10,
@@ -44,11 +45,6 @@ export const styles = StyleSheet.create({
     },
     newsletterContainer: {
       marginTop: 10,
-      borderTopColor: "#0853b5",
-      borderBottomColor: "#0853b5",
-      //borderColor: "#0853b5",
-      borderTopWidth: 2,
-      borderBottomWidth: 2,
     },
     newsletterCont: {
       marginTop: 5,

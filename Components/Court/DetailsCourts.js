@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-} from "react-native";
+import { Text, View, Image, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../css/CssDetailsCourts";
 import { detailsCourtsApi } from "../../Service/ServDetailsCourt";
@@ -26,7 +21,6 @@ const DetailsCourts = ({ route }) => {
       <ScrollView style={styles.cuerpo}>
         <View>
           <View style={styles.card}>
-            <Text style={styles.titulo}>{detCourts.name}</Text>
             <View style={styles.contImg}>
               <Image
                 style={styles.img}
@@ -34,11 +28,11 @@ const DetailsCourts = ({ route }) => {
               />
             </View>
             <View>
+              <Text style={styles.titulo}>{detCourts.name}</Text>
               <Text style={styles.contDescr}>{detCourts.description}</Text>
             </View>
           </View>
         </View>
-
         <BtnTurnFijoLibre id={id} />
       </ScrollView>
     </>
