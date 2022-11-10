@@ -1,7 +1,7 @@
 export const environment = {
     production: false,
     api: {
-      url: 'https://exceptions-against-fail-spirits.trycloudflare.com'
+      url: 'https://mounted-premiere-commissioners-thinkpad.trycloudflare.com'
       //url: 'https://localhost:5001'
     }
   };

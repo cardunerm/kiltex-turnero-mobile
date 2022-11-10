@@ -3,7 +3,7 @@ export const styles = StyleSheet.create({
     textListTT: {
       textAlign: "center",
     },
-    cu: {
+    botones: {
       backgroundColor: "#fff",
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
@@ -14,10 +14,10 @@ export const styles = StyleSheet.create({
     },
     card: {
       backgroundColor: "#fff",
-      marginHorizontal: 20,
+      marginHorizontal: 10,
       paddingBottom: 10,
-      marginTop: 20,
-      borderRadius: 45,
+      marginTop: 40,
+      
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
@@ -52,8 +52,7 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 10,
     },
     btnAddTurno: {
-      backgroundColor: "#12407c",
-      marginHorizontal: 20,
+      marginHorizontal: 10,
       marginTop: 40,
     },
     btnAddTurnoText: {

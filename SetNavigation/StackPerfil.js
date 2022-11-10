@@ -14,6 +14,7 @@ import Answer from "../Components/Answer";
 import NotExpo from "../Components/NotExpo";
 //partes
 import { MyStackUsuario } from "./StackUsuario";
+import { headerStyleBack, headerTintColor } from "../Components/css/variables_Css";
 const Stack = createNativeStackNavigator();
 export function MyStackPerfil() {
     return (
@@ -23,7 +24,11 @@ export function MyStackPerfil() {
           component={ProfileScreen}
           options={{
             title: "Perfil",
+            headerTintColor:headerTintColor,
             headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: headerStyleBack,
+            },
           }}
         />
         <Stack.Screen
