@@ -27,12 +27,14 @@ const BtnTurnFijoLibre = ({ id }) => {
         marginBottom: 20,
       },
       titleStyle: { color: "#000", fontSize: 25, fontWeight: "600" },
+
       onPress: () => {
         navigation.navigate("TurnoFijo", id), setIsVisible(false);
       },
     },
     {
-      title: "Cancel",
+
+      title: "Cancelar",
       containerStyle: {
         backgroundColor: "#0853b5",
         flexDirection: "column",
