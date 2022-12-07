@@ -15,35 +15,36 @@ import { set } from "react-hook-form";
 
 
 
-export const Schedule = ({ tiempo, setTiempo}) => {
-    const turnos = [
-        {
-          id: "1",
-          horarioInicio: "08:00 ",
-          horrioFin: "09:30 ",
-        },
-        {
-          id: "2",
-          horarioInicio: "09:30 ",
-          horrioFin: "11:00 ",
-        },
-        {
-          id: "3",
-          horarioInicio: "11:00 ",
-          horrioFin: "12:30 ",
-        },
-        {
-          id: "4",
-          horarioInicio: "12:30 ",
-          horrioFin: "14:00 ",
-        },
-        {
-          id: "5",
-          horarioInicio: "14:00 ",
-          horrioFin: "15:30 ",
-        },
-      ];
-    
+export const Schedule = ({ tiempo, setTiempo,fecha}) => {
+    const turnos = fecha
+   /* const turnos = [
+      {
+        "startTime": "23/11/2022 08:03:49",
+        "endTime": "23/11/2022 09:33:49",
+        "id": 97
+      },
+      {
+        "startTime": "23/11/2022 09:33:49",
+        "endTime": "23/11/2022 11:03:49",
+        "id": 98
+      },
+      {
+        "startTime": "23/11/2022 11:03:49",
+        "endTime": "23/11/2022 12:33:49",
+        "id": 99
+      },
+      {
+        "startTime": "23/11/2022 12:33:49",
+        "endTime": "23/11/2022 14:03:49",
+        "id": 100
+      },
+      {
+        "startTime": "23/11/2022 14:03:49",
+        "endTime": "23/11/2022 15:33:49",
+        "id": 101
+      },
+    ]
+      */
   return (
     <>
       <Text style={styles.label}>Turnos Disponibles</Text>
@@ -64,7 +65,7 @@ export const Schedule = ({ tiempo, setTiempo}) => {
                   tiempo == item.id ? styles.horarioTextSelect : styles.horarioText
                 }
               >
-                {item.horarioInicio}
+                {item.startTime.slice(10,16)}
               </Text>
             </Pressable>
           </>)}}

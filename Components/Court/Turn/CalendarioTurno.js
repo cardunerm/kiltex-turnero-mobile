@@ -1,12 +1,8 @@
-import React from "react";
-import {
-  Text,
-  View,
-  Pressable,
-  ActivityIndicator,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, View, Pressable, ActivityIndicator } from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
 import { styles } from "../../css/CssTurnoLibre";
+import {ServCalendarioTurno} from "../../../Service/ServCalendarioTurno"
 
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -27,14 +23,36 @@ const months = [
   "Diciembre",
 ];
 const disabledDates = ["2022-08-06T15"]; // Dentro de este array van las fechas que no pueden ser seleccioadas
-export const Calendario = ({ setFecha }) => {
+export const Calendario = ({ setFecha ,id}) => {
+  //Hooks
+  useEffect(() => {
+    setFechaAct();
+  }, []);
+  const [fechaCal, setFechaCal] = useState(null);
+
+  const setFechaAct = (data) => {
+    if (data !== undefined) {
+      let mes = data._i.month +1
+      const cuerpo = {
+        page: 0,
+        pageSize: 10,
+        date: data._i.year + "-" +mes  + "-" + data._i.day,
+        idCourt: id,
+      };
+      console.log(data)
+ServCalendarioTurno(cuerpo,setFecha)
+    } else {
+      console.log("es null");
+    }
+  };
+
   return (
     <>
       <Text style={styles.label}>Fecha</Text>
       <View style={styles.calendarPicker}>
         <CalendarPicker
           disabledDates={disabledDates}
-          onDateChange={setFecha}
+          onDateChange={setFechaAct}
           selectYearTitle="Seleccionar Año"
           selectedDayColor="blue"
           selectedDayTextColor="#FFFFFF"
@@ -51,8 +69,9 @@ export const Calendario = ({ setFecha }) => {
   );
 };
 
-export const Boton =({SolicitarTurno,carga}) => {
-    return(
+export const Boton = ({ SolicitarTurno, carga, tiempo}) => {
+  
+  return (
     <>
       <Pressable
         style={styles.btnTurno}
@@ -69,4 +88,5 @@ export const Boton =({SolicitarTurno,carga}) => {
         )}
       </Pressable>
     </>
-  )};
+  );
+};

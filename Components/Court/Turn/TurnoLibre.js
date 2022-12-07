@@ -17,6 +17,7 @@ import { Calendario } from "./CalendarioTurno";
 import { Boton } from "./CalendarioTurno";
 import { Schedule } from "./Schedule";
 import { TiposTurnos } from "./TiposTurno";
+import {ServCalendarioTurno} from "../../../Service/ServCalendarioTurno"
 
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -92,27 +93,32 @@ const TurnoLibre = ({ route }) => {
 
 */
   //HOOKS
-  const [fecha, setFecha] = useState();
+  const [fecha, setFecha] = useState(null);
+  const [turno, setTurno] = useState(null);
   const [cancha, setCancha] = useState("");
   const [tiempo, setTiempo] = useState("");
   const [visible, setVisible] = React.useState(false);
   const [carga, setCarga] = useState(false);
+
+ 
   useEffect(() => {
     setCancha(id);
   }, [id]);
   const SolicitarTurno = () => {
     //body del turno
-    const Turno = {
-      courtId: cancha,
-      scheduleId: tiempo,
-      paymentMethodId: 1,
-    };
+    
+    const Turno ={
+      courtId:cancha ,
+      turnId:tiempo ,
+      paymentMethodId: 1
+    } 
+    console.log(Turno)
     if (fecha == undefined || tiempo == "") {
       alert("No se pudo solicitar turno", "Debe seleccionar fecha y hora");
       return;
     } else {
       setCarga(true);
-      TurnoLibreApi(Turno, setVisible, setCarga);
+      TurnoLibreApi(Turno, setVisible, setCarga,tiempo);
       //navigation.navigate("payment");
     }
   };
@@ -160,11 +166,11 @@ const TurnoLibre = ({ route }) => {
             renderItem={({ item }) =>
               item.task == "Fecha" ? (
                 <View>
-                  <Calendario setFecha={setFecha} />
+                  <Calendario setFecha={setFecha} id={id}/>
                 </View>
               ) : item.task == "Turno" ? (
                 fecha != undefined ? (
-                  <View><Schedule tiempo={tiempo} setTiempo={setTiempo} /></View>
+                  <View><Schedule tiempo={tiempo} setTiempo={setTiempo} fecha={fecha}/></View>
                 ) : (
                   <View style={styles.containInfo}>
                     <Text>
@@ -180,7 +186,7 @@ const TurnoLibre = ({ route }) => {
                 )
               ) : tiempo != "" ? (
                 <View>
-                  <Boton SolicitarTurno={SolicitarTurno} carga={carga} />
+                  <Boton SolicitarTurno={SolicitarTurno} carga={carga}  />
                 </View>
               ) : (
                 <View>

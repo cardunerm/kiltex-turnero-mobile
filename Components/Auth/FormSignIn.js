@@ -166,6 +166,32 @@ const FormSignIn = ({
         name="confirmPassword"
       />
       <Text style={styles.errorText}>{errors.confirmPassword?.message}</Text>
+          
+
+
+      <Text style={styles.label}>Telefono</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: "Este campo es requerido",
+          minLength: {
+            value: 8,
+            message: "La contraseña debe ser alfanumerica y tener 8 caracteres",
+          },
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            secureTextEntry={true}
+            placeholder="Telefono..."
+          />
+        )}
+        name="confirmPassword"
+      />
+      <Text style={styles.errorText}>{errors.confirmPassword?.message}</Text>
 
       <View>
         <Pressable style={styles.button} color onPress={handleSubmit(onSubmit)}>

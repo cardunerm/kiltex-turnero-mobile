@@ -11,18 +11,19 @@ import {
 import { styles } from "../../css/CssMyTurno";
   //Manejador del spin de carga
  export const Carga = ({refresh,reservationLibre,reservationFijo,cargando,listEmpty,listEmptyTwo,gatillo,navigationn})=>{
+  console.log(reservationLibre)
     const Turno = ({ item }) => {
-    
+   
         return (
           <>
             <View style={styles.card}>
               <View style={styles.contTurno}>
                 <Text style={[styles.titulo, styles.horario]}>
-                  Fecha: {item.schedule.slice(0, 10)}
+                  Fecha: {item.turn.slice(0, 10)}
                 </Text>
                 <Text style={[styles.titulo, styles.horario]}>
-                  Inicio del turno: {item.schedule.slice(11, 13)} :{" "}
-                  {item.schedule.slice(14, 16)} hs
+                  Inicio del turno: {item.turn.slice(11, 13)} :{" "}
+                  {item.turn.slice(14, 16)} hs
                 </Text>
                 <Pressable onPress={() => navigationn.navigate("ViewTurn", item)}>
                   <Text style={styles.viewTurno}>Ver Turno</Text>
@@ -32,7 +33,25 @@ import { styles } from "../../css/CssMyTurno";
           </>
         );
       };
-    
+      const TurnoFijo = ({ item }) => {
+            return (
+              <>
+                <View style={styles.card}>
+                  <View style={styles.contTurno}>
+                    <Text style={[styles.titulo, styles.horario]}>
+                      Fecha: Viernes
+                    </Text>
+                    <Text style={[styles.titulo, styles.horario]}>
+                      Inicio del turno:
+                    </Text>
+                    <Pressable onPress={() => navigationn.navigate("ViewTurn", item)}>
+                      <Text style={styles.viewTurno}>Ver Turno</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </>
+            );
+          };
   return(
      gatillo == 1 ? (
       cargando ? (
@@ -69,7 +88,7 @@ import { styles } from "../../css/CssMyTurno";
     ) : listEmptyTwo ? (
       <View>
         <FlatList
-          data={reservationFijo} // Cambiar por array donde se guarden los turnos fijos
+          data={TurnoFijo} // Cambiar por array donde se guarden los turnos fijos
           keyExtractor={(item) => item.id}
           enableEmptySections={true}
           renderItem={Turno}

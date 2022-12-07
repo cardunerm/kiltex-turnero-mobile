@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
       backgroundColor: "#399edea8",
       paddingBottom: 30,
       paddingTop: 50,
-      marginBottom: 50,
+      marginBottom: 20,
       borderBottomEndRadius: 30,
       borderBottomStartRadius: 30,
     },
@@ -46,8 +46,9 @@ export const styles = StyleSheet.create({
     },
     label: {
       color: "white",
-      margin: 10,
+      marginRight:0,
       marginLeft: 0,
+      marginBottom:5,
     },
     button: {
       marginTop: 20,
@@ -65,7 +66,7 @@ export const styles = StyleSheet.create({
     input: {
       backgroundColor: "#fff",
       borderWidth: 2,
-      height: 40,
+      height: 45,
       padding: 10,
       borderRadius: 4,
     },
