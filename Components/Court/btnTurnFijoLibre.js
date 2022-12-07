@@ -33,7 +33,6 @@ const BtnTurnFijoLibre = ({ id }) => {
       },
     },
     {
-
       title: "Cancelar",
       containerStyle: {
         backgroundColor: "#0853b5",

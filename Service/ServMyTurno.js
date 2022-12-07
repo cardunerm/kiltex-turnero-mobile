@@ -20,9 +20,10 @@ export const turnosApi = async (setReservationLibre,setCargando,setlistEmpty) =>
       headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
+   
         setReservationLibre(
-          response.data.data.sort((b, a) => a.schedule > b.schedule)
           
+          response.data.data.sort((b, a) => a.schedule > b.schedule)
         );
         setCargando(false);
         if (response.data.data[0] == undefined) {

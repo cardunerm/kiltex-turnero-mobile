@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect, useState} from "react";
 import {
   Text,
   View,
@@ -7,15 +7,28 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../../css/CssViewTurn";
-import { alertBD } from "../../Alert";
-import { stylesvar } from "../../css/variables_Css";
+import { alertBD,alertCancelar } from "../../Alert";
+import {CancelarTurnoApi} from "../../../Service/ServCancelarTurno"
+import { useNavigation } from "@react-navigation/native";
 const ViewTurn = ({ route }) => {
+  const navigation = useNavigation();
   //HOOKS
-  const { court, schedule } = route.params;
-  
+  const { court, turn, id} = route.params;
+  const [isNavigation,setIsNavigation] = useState(false);
+  useEffect(() => {
+    console.log('nav')
+    console.log(isNavigation)
+    if(isNavigation){
+          navigation.navigate("Turnos");
+    }
+    setIsNavigation(false)
+  }, [isNavigation]);
   //BODY PRINCIPAL
   const accionCanelar =()=>{
-    console.log("Se elimino el turno")
+    CancelarTurnoApi(id,setIsNavigation)
+  }
+  const NAVEG= () => {
+    
   }
   const accionMover =()=>{
     console.log("Se movio el turno")
@@ -26,21 +39,21 @@ const ViewTurn = ({ route }) => {
         <View style={styles.card}>
           <View>
             <Text style={styles.text}>{court}</Text>
-            <Text style={styles.text}>Fecha: {schedule.slice(0, 10)}</Text>
+            <Text style={styles.text}>Fecha: {turn.slice(0, 10)}</Text>
             <Text style={styles.text}>
-              Inicio del turno: {schedule.slice(11, 13)}:{" "}
-              {schedule.slice(14, 16)} hs
+              Inicio del turno: {turn.slice(11, 13)}:{" "}
+              {turn.slice(14, 16)} hs
             </Text>
             <Text style={styles.text}>
-              Finalizacion del turno: {schedule.slice(28, 30)} :{" "}
-              {schedule.slice(31, 33)} hs{" "}
+              Finalizacion del turno: {turn.slice(28, 30)} :{" "}
+              {turn.slice(31, 33)} hs{" "}
             </Text>
           </View>
         </View>
         <View style={styles.containBtn}>
           <Pressable
             style={styles.btnCancel}
-            onPress={() => alertBD("Cancelar Turno","¿Esta seguro que desea cancelar este turno?","Si",accionCanelar())}
+            onPress={() => alertCancelar("Cancelar Turno","¿Esta seguro que desea cancelar este turno?",id,setIsNavigation)}
           >
             <Text style={styles.btnCMText}>Cancelar Turno</Text>
           </Pressable>
