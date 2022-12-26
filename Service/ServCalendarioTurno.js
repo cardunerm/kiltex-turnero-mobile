@@ -11,8 +11,6 @@ export const ServCalendarioTurno = async (cuerpo,setFecha) => {
     }
   };
   const get = (token,cuerpo,setFecha) => {
-    console.log(token)
-    console.log(cuerpo)
    let cuerpoRep=
       {
         page: 0,

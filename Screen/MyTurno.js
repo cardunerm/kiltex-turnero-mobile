@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -14,7 +14,7 @@ const MyTurno = ({ navigation }) => {
   const navigationn = useNavigation();
   //HOOKS
   const [reservationLibre, setReservationLibre] = useState([]);
-  const [reservationFijo, setReservationFijo] = useState([1,2,3]);
+  const [reservationFijo, setReservationFijo] = useState([1, 2, 3]);
 
   const [cargando, setCargando] = useState(true); //setCarga - Lugar donde se guardara el manejador del spin
   const [listEmpty, setlistEmpty] = useState(true);
@@ -22,51 +22,38 @@ const MyTurno = ({ navigation }) => {
 
   const [gatillo, setGatillo] = useState(1);
 
+  const [cargaTurn, setCargaTurn] = useState(false);
+  useEffect(() => {
+    turnosApi(setReservationLibre, setCargando, setlistEmpty);
+    setCargaTurn(false)
+  }, [cargaTurn])
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      turnosApi(setReservationLibre,setCargando,setlistEmpty)
-      
+      setCargaTurn(true)
+      turnosApi(setReservationLibre, setCargando, setlistEmpty)
     });
-
     return unsubscribe;
   }, [navigation]);
-  const refresh =() =>{
-  const [reservationLibre, setReservationLibre] = useState([]);
-    turnosApi(setReservationLibre,setCargando,setlistEmpty)
+  const refresh = () => {
+    const [reservationLibre, setReservationLibre] = useState([]);
+    turnosApi(setReservationLibre, setCargando, setlistEmpty)
   }
   return (
     <>
       <View style={styles.containerBot}>
-        <Pressable
-          onPress={() => setGatillo(1)}
-          style={gatillo == 1 ? styles.botonLib2 : styles.botonLib}
-        >
-          <Text
-            style={gatillo == 1 ? styles.botonLibText2 : styles.botonLibText}
-          >
-            Libres
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setGatillo(2)}
-          style={gatillo == 2 ? styles.botonLib2 : styles.botonLib}
-        >
-          <Text
-            style={gatillo == 2 ? styles.botonLibText2 : styles.botonLibText}
-          >
-            Fijos
-          </Text>
-        </Pressable>
+        
       </View>
       <Carga
-      refresh={refresh}
-      reservationLibre={reservationLibre}
-      reservationFijo={reservationFijo}
-      cargando={cargando}
-      listEmpty={listEmpty}
-      listEmptyTwo={listEmptyTwo}
-      gatillo={gatillo}
-      navigationn={navigationn}
+        refresh={refresh}
+        reservationLibre={reservationLibre}
+        reservationFijo={reservationFijo}
+        cargando={cargando}
+        listEmpty={listEmpty}
+        listEmptyTwo={listEmptyTwo}
+        gatillo={gatillo}
+        navigationn={navigationn}
+
+        setCargaTurn={setCargaTurn}
       />
       <Button
         onPress={() => navigationn.navigate("Historial")}

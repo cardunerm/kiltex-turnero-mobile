@@ -39,10 +39,8 @@ export const Calendario = ({ setFecha ,id}) => {
         date: data._i.year + "-" +mes  + "-" + data._i.day,
         idCourt: id,
       };
-      console.log(data)
 ServCalendarioTurno(cuerpo,setFecha)
     } else {
-      console.log("es null");
     }
   };
 

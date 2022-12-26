@@ -9,51 +9,51 @@ import {
   Pressable,
 } from "react-native";
 import { styles } from "../../css/CssMyTurno";
-  //Manejador del spin de carga
- export const Carga = ({refresh,reservationLibre,reservationFijo,cargando,listEmpty,listEmptyTwo,gatillo,navigationn})=>{
+//Manejador del spin de carga
+export const Carga = ({ refresh, reservationLibre, reservationFijo, cargando, listEmpty, listEmptyTwo, gatillo, navigationn, setCargaTurn }) => {
   console.log(reservationLibre)
-    const Turno = ({ item }) => {
-   
-        return (
-          <>
-            <View style={styles.card}>
-              <View style={styles.contTurno}>
-                <Text style={[styles.titulo, styles.horario]}>
-                  Fecha: {item.turn.slice(0, 10)}
-                </Text>
-                <Text style={[styles.titulo, styles.horario]}>
-                  Inicio del turno: {item.turn.slice(11, 13)} :{" "}
-                  {item.turn.slice(14, 16)} hs
-                </Text>
-                <Pressable onPress={() => navigationn.navigate("ViewTurn", item)}>
-                  <Text style={styles.viewTurno}>Ver Turno</Text>
-                </Pressable>
-              </View>
-            </View>
-          </>
-        );
-      };
-      const TurnoFijo = ({ item }) => {
-            return (
-              <>
-                <View style={styles.card}>
-                  <View style={styles.contTurno}>
-                    <Text style={[styles.titulo, styles.horario]}>
-                      Fecha: Viernes
-                    </Text>
-                    <Text style={[styles.titulo, styles.horario]}>
-                      Inicio del turno:
-                    </Text>
-                    <Pressable onPress={() => navigationn.navigate("ViewTurn", item)}>
-                      <Text style={styles.viewTurno}>Ver Turno</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </>
-            );
-          };
-  return(
-     gatillo == 1 ? (
+  const Turno = ({ item }) => {
+    return (
+      <>
+        <View style={styles.card}>
+          <View style={styles.contTurno}>
+            <Text style={[styles.titulo, styles.horario]}>
+              Fecha: {item.turn.slice(0, 10)}
+            </Text>
+            <Text style={[styles.titulo, styles.horario]}>
+              Inicio del turno: {item.turn.slice(11, 13)} :{" "}
+              {item.turn.slice(14, 16)} hs
+            </Text>
+            <Pressable onPress={() => 
+              navigationn.navigate("ViewTurn", { item: item })}>
+              <Text style={styles.viewTurno}>Ver Turno</Text>
+            </Pressable>
+          </View>
+        </View>
+      </>
+    );
+  };
+  const TurnoFijo = ({ item }) => {
+    return (
+      <>
+        <View style={styles.card}>
+          <View style={styles.contTurno}>
+            <Text style={[styles.titulo, styles.horario]}>
+              Fecha: Viernes
+            </Text>
+            <Text style={[styles.titulo, styles.horario]}>
+              Inicio del turno:
+            </Text>
+            <Pressable onPress={() => navigationn.navigate("ViewTurn", item)}>
+              <Text style={styles.viewTurno}>Ver Turno</Text>
+            </Pressable>
+          </View>
+        </View>
+      </>
+    );
+  };
+  return (
+    gatillo == 1 ? (
       cargando ? (
         <View>
           <ActivityIndicator size="large" color="#1258B1" />
@@ -109,6 +109,6 @@ import { styles } from "../../css/CssMyTurno";
       </View>
     )
   )
-  }
-  
-   
+}
+
+

@@ -78,7 +78,7 @@ export function MyStack() {
         options={{
           title: "Metodo de Pago",
           headerStyle: {
-            backgroundColor: "#103a70",
+            backgroundColor: headerStyleBack,
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",

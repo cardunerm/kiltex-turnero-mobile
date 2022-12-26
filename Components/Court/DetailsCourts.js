@@ -7,7 +7,7 @@ import BtnTurnFijoLibre from "./btnTurnFijoLibre";
 
 const DetailsCourts = ({ route }) => {
   const navigation = useNavigation();
-  const id = route.params;
+  const {id} = route.params;
   //Hooks
   const [detCourts, setDetCourts] = useState({});
   const [solTurno, setSolTurno] = useState(false);
@@ -33,7 +33,7 @@ const DetailsCourts = ({ route }) => {
             </View>
           </View>
         </View>
-        <BtnTurnFijoLibre id={id} />
+        <BtnTurnFijoLibre id={id} params={route.params}/>
       </ScrollView>
     </>
   );
