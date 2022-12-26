@@ -15,41 +15,15 @@ import { set } from "react-hook-form";
 
 
 
-export const Schedule = ({ tiempo, setTiempo,fecha}) => {
+export const Schedule = ({ tiempo, setTiempo,fecha,setHorario,horario}) => {
     const turnos = fecha
-   /* const turnos = [
-      {
-        "startTime": "23/11/2022 08:03:49",
-        "endTime": "23/11/2022 09:33:49",
-        "id": 97
-      },
-      {
-        "startTime": "23/11/2022 09:33:49",
-        "endTime": "23/11/2022 11:03:49",
-        "id": 98
-      },
-      {
-        "startTime": "23/11/2022 11:03:49",
-        "endTime": "23/11/2022 12:33:49",
-        "id": 99
-      },
-      {
-        "startTime": "23/11/2022 12:33:49",
-        "endTime": "23/11/2022 14:03:49",
-        "id": 100
-      },
-      {
-        "startTime": "23/11/2022 14:03:49",
-        "endTime": "23/11/2022 15:33:49",
-        "id": 101
-      },
-    ]
-      */
+    
   return (
     <>
-      <Text style={styles.label}>Turnos Disponibles</Text>
+    {turnos[0] == undefined ? (<View style={styles.containInfo}><Text style={styles.mnsjHorarioNoDisp}>No se encuentran turnos disponibles en esa fecha</Text></View>):(<View>
+            <Text style={styles.label}>Turnos Disponibles</Text>
       <FlatGrid
-        itemDimension={60}
+        itemDimension={70}
         data={turnos}
         spacing={15}
         keyExtractor={(item) => item.id}
@@ -58,6 +32,7 @@ export const Schedule = ({ tiempo, setTiempo,fecha}) => {
               style={tiempo == item.id ? styles.horarioSelect : styles.horario}
               onPress={() => {
                 setTiempo(item.id);
+                setHorario(item.startTime)
               }}
             >
               <Text
@@ -65,11 +40,13 @@ export const Schedule = ({ tiempo, setTiempo,fecha}) => {
                   tiempo == item.id ? styles.horarioTextSelect : styles.horarioText
                 }
               >
-                {item.startTime.slice(10,16)}
+                {item.startTime.slice(10,16)} hs
               </Text>
             </Pressable>
           </>)}}
       />
+    </View>)
+}
     </>
   );
 };

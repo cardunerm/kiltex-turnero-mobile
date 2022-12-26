@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef} from "react";
 import {
   Text,
   View,
@@ -6,7 +6,8 @@ import {
   FlatList,
   RefreshControl,
   SectionList,
-  SafeAreaView
+  SafeAreaView,
+  Animated
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +17,7 @@ import { styles } from "../Components/css/CssHome";
 import { courtHomeApi } from "../Service/ServHome";
 import { newsletterHomeApi } from "../Service/ServHome";
 import { stylesvar } from "../Components/css/variables_Css";
+import Pagination from "../Components/Pagination";
 const Home = ({ navigation }) => {
 
   //HOOKS
@@ -59,7 +61,7 @@ const Home = ({ navigation }) => {
       <>
         <Pressable
           style={[styles.court,stylesvar.var_border]}
-          onPress={() => navigationn.navigate("Details", item.id)}
+          onPress={() => navigationn.navigate("Details", item)}
         >
           <MaterialCommunityIcons name="tennis" size={50} color="black" />
           <Text style={styles.textName}>{item.name}</Text>
@@ -71,6 +73,7 @@ const Home = ({ navigation }) => {
   //NOVEDADES
   //BODY DEL ELEMENTO - NOVEDADES
   const Novedad = ({ item }) => {
+    
     return (
       <>
         <Pressable style={[styles.newsletterContainer,stylesvar.var_border]}>
@@ -82,16 +85,51 @@ const Home = ({ navigation }) => {
       </>
     );
   };
+  const [index, setIndex] = useState(0);
+  const scrollX = useRef(new Animated.Value(0)).current;
+    const handleOnScroll = event => {
+      Animated.event(
+        [
+          {
+            nativeEvent:{
+              contentOffset:{
+                x:scrollX,
+              },
+            },
+          },
+        ],
+        {
+          useNativeDriver:false,
+        },
+      )(event);
+    };
+    const handleonViewableItemsChanged = useRef(({viewableItems})=>{
+      setIndex(viewableItems[0].index);
+    }).current;
+
+    const viewabilityConfig = useRef({
+      itemVisiblePercentThreshold:50,
+    }).current;
+
   const flatList = (
+    
     <View style={styles.newsletterCont}>
       <FlatList
-        enableEmptySections={true}
         data={novedades}
         renderItem={Novedad}
+        horizontal
+        pagingEnabled
+        snapToAlignment="center"
+        showsHorizontalScrollIndicator={false}
+        onScroll={handleOnScroll}
+        enableEmptySections={true}
+        onViewableItemsChanged={handleonViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
         refreshControl={
           <RefreshControl refreshing={cargando} onRefresh={courtHomeApi} />
         }
       />
+      <Pagination data={novedades} scrollX={scrollX} index={index}/>
     </View>
   );
   //Lista de canchas

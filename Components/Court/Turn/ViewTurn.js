@@ -1,4 +1,4 @@
-import React,{ useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -7,30 +7,28 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../../css/CssViewTurn";
-import { alertBD,alertCancelar } from "../../Alert";
-import {CancelarTurnoApi} from "../../../Service/ServCancelarTurno"
+import { alertBD, alertCancelar } from "../../Alert";
+import { CancelarTurnoApi } from "../../../Service/ServCancelarTurno"
 import { useNavigation } from "@react-navigation/native";
+import { turnosApi } from "../../../Service/ServMyTurno";
 const ViewTurn = ({ route }) => {
   const navigation = useNavigation();
   //HOOKS
-  const { court, turn, id} = route.params;
-  const [isNavigation,setIsNavigation] = useState(false);
+  const { item } = route.params;
+  console.log(route)
+  const [isNavigation, setIsNavigation] = useState(false);
   useEffect(() => {
-    console.log('nav')
-    console.log(isNavigation)
-    if(isNavigation){
-          navigation.navigate("Turnos");
+    if (isNavigation) {
+      navigation.navigate("Turnos");
+//setCargaTurn(true)
     }
     setIsNavigation(false)
   }, [isNavigation]);
   //BODY PRINCIPAL
-  const accionCanelar =()=>{
-    CancelarTurnoApi(id,setIsNavigation)
+  const accionCanelar = () => {
+    CancelarTurnoApi(id, setIsNavigation)
   }
-  const NAVEG= () => {
-    
-  }
-  const accionMover =()=>{
+  const accionMover = () => {
     console.log("Se movio el turno")
   }
   return (
@@ -38,28 +36,26 @@ const ViewTurn = ({ route }) => {
       <ScrollView>
         <View style={styles.card}>
           <View>
-            <Text style={styles.text}>{court}</Text>
-            <Text style={styles.text}>Fecha: {turn.slice(0, 10)}</Text>
+            <Text style={styles.text}>{item.court}</Text>
+            <Text style={styles.text}>Fecha: {item.turn.slice(0, 10)}</Text>
             <Text style={styles.text}>
-              Inicio del turno: {turn.slice(11, 13)}:{" "}
-              {turn.slice(14, 16)} hs
+              Inicio del turno: {item.turn.slice(11, 13)}:{" "}
+              {item.turn.slice(14, 16)} hs
             </Text>
             <Text style={styles.text}>
-              Finalizacion del turno: {turn.slice(28, 30)} :{" "}
-              {turn.slice(31, 33)} hs{" "}
+              Finalizacion del turno: {item.turn.slice(28, 30)} :{" "}
+              {item.turn.slice(31, 33)} hs{" "}
             </Text>
           </View>
         </View>
         <View style={styles.containBtn}>
           <Pressable
             style={styles.btnCancel}
-            onPress={() => alertCancelar("Cancelar Turno","¿Esta seguro que desea cancelar este turno?",id,setIsNavigation)}
+            onPress={() => alertCancelar("Cancelar Turno", "¿Esta seguro que desea cancelar este turno?", item.id, setIsNavigation)}
           >
             <Text style={styles.btnCMText}>Cancelar Turno</Text>
           </Pressable>
-          <Pressable style={styles.btnMover}onPress={() => alertBD("Mover Turno","¿Esta seguro que desea cancelar este turno?","Si",accionMover())}>
-            <Text style={styles.btnCMText}>Mover Turno</Text>
-          </Pressable>
+          
         </View>
         <View style={styles.containInfo}>
           <Text>

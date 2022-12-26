@@ -23,7 +23,8 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
 const TurnoLibre = ({ route }) => {
-  const id = route.params;
+  const{ id , name}= route.params;
+  const navigation = useNavigation();
   //Se Probaron las notificaciones, La notificacion se envia una ves llega la respuesta de que el turno se ha solicitado correctamente
   /*const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
@@ -99,27 +100,32 @@ const TurnoLibre = ({ route }) => {
   const [tiempo, setTiempo] = useState("");
   const [visible, setVisible] = React.useState(false);
   const [carga, setCarga] = useState(false);
-
+  const [horario, setHorario] = useState();
  
   useEffect(() => {
     setCancha(id);
   }, [id]);
+ 
   const SolicitarTurno = () => {
     //body del turno
-    
+    const Cuerpo ={
+      nameCancha:name,
+      fecha:horario,
+    } 
     const Turno ={
       courtId:cancha ,
       turnId:tiempo ,
       paymentMethodId: 1
     } 
-    console.log(Turno)
     if (fecha == undefined || tiempo == "") {
       alert("No se pudo solicitar turno", "Debe seleccionar fecha y hora");
       return;
     } else {
       setCarga(true);
-      TurnoLibreApi(Turno, setVisible, setCarga,tiempo);
-      //navigation.navigate("payment");
+     // TurnoLibreApi(Turno, setVisible, setCarga,tiempo);
+    
+      navigation.navigate("payment",Cuerpo);
+      setCarga(false)
     }
   };
 
@@ -170,7 +176,8 @@ const TurnoLibre = ({ route }) => {
                 </View>
               ) : item.task == "Turno" ? (
                 fecha != undefined ? (
-                  <View><Schedule tiempo={tiempo} setTiempo={setTiempo} fecha={fecha}/></View>
+                  <View>
+                    <Schedule tiempo={tiempo} setTiempo={setTiempo} fecha={fecha} setHorario={setHorario} horario={horario}/></View>
                 ) : (
                   <View style={styles.containInfo}>
                     <Text>

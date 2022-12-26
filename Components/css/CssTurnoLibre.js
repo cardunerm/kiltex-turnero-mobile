@@ -1,5 +1,9 @@
 import {StyleSheet} from "react-native";
 export const styles = StyleSheet.create({
+  mnsjHorarioNoDisp: {
+    fontSize:15,
+    fontWeight:'600'
+  },
     container2: {
       display: "none",
     },
