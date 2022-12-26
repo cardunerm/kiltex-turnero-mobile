@@ -49,9 +49,7 @@ const Home = ({ navigation }) => {
   }, [navigation]);
 
   const [courts, setCourts] = useState([]);
-  const [courtsFilter, setCourtsFilter] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [refreshing, setRefreshing] = useState(true);
   const [novedades, setNovedades] = useState([]);
 
   const navigationn = useNavigation();

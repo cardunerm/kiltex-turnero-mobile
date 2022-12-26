@@ -18,20 +18,6 @@ const BtnTurnFijoLibre = ({ id , params}) => {
         navigation.navigate("TurnoLibre", params), setIsVisible(false);
       },
     },
-    /*{
-      title: "Turno Fijo",
-      containerStyle: {
-        borderColor: "#0853b5",
-        borderWidth: 2,
-        marginTop: 20,
-        marginBottom: 20,
-      },
-      titleStyle: { color: "#000", fontSize: 25, fontWeight: "600" },
-
-      onPress: () => {
-        navigation.navigate("TurnoFijo", id), setIsVisible(false);
-      },
-    },*/
     {
       title: "Cancelar",
       containerStyle: {

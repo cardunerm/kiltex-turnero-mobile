@@ -20,9 +20,7 @@ export const turnosApi = async (setReservationLibre,setCargando,setlistEmpty) =>
       headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
-   
         setReservationLibre(
-          
           response.data.data.sort((b, a) => a.schedule > b.schedule)
         );
         setCargando(false);
@@ -36,7 +34,6 @@ export const turnosApi = async (setReservationLibre,setCargando,setlistEmpty) =>
         console.log("ERR" + e);
       });
   };
-
   const filter = {
     filter: "",
     page: 0,

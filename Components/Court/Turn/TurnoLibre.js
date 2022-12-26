@@ -7,8 +7,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { Dialog, Portal, Provider } from "react-native-paper";
-import { FlatGrid } from "react-native-super-grid";
+import { Provider } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../../css/CssTurnoLibre";
 import { alert } from "../../Alert";
@@ -17,85 +16,12 @@ import { Calendario } from "./CalendarioTurno";
 import { Boton } from "./CalendarioTurno";
 import { Schedule } from "./Schedule";
 import { TiposTurnos } from "./TiposTurno";
-import {ServCalendarioTurno} from "../../../Service/ServCalendarioTurno"
-
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
 
 const TurnoLibre = ({ route }) => {
   const{ id , name}= route.params;
   const navigation = useNavigation();
-  //Se Probaron las notificaciones, La notificacion se envia una ves llega la respuesta de que el turno se ha solicitado correctamente
-  /*const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-// Accion encargada de enviar la notificacion
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      
-    });
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-
-  async function registerForPushNotificationsAsync() {
-    let token;
-    if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      
-    } else {
-      alert('Must use physical device for Push Notifications');
-    }
-  
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-  
-    return token;
-  }
-
-  async function schedulePushNotification() {
-    
-    await Notifications.scheduleNotificationAsync({
-      content: {
-          
-        title: "Turno Padel",
-        body: 'Queda 1h para su turno !!!',
-        
-      },
-      trigger: { seconds: 2 },
-    });
-  }
-
-*/
   //HOOKS
   const [fecha, setFecha] = useState(null);
-  const [turno, setTurno] = useState(null);
   const [cancha, setCancha] = useState("");
   const [tiempo, setTiempo] = useState("");
   const [visible, setVisible] = React.useState(false);
@@ -122,7 +48,7 @@ const TurnoLibre = ({ route }) => {
       return;
     } else {
       setCarga(true);
-     // TurnoLibreApi(Turno, setVisible, setCarga,tiempo);
+     TurnoLibreApi(Turno, setVisible, setCarga,tiempo);
     
       navigation.navigate("payment",Cuerpo);
       setCarga(false)

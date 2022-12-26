@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Platform, StyleSheet, Animated, Dimensions} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Animated, Dimensions} from 'react-native';
 
 const {width} = Dimensions.get('screen')
 const Pagination = ({ data, scrollX, index }) => {

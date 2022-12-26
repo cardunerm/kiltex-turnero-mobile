@@ -4,8 +4,6 @@ import CalendarPicker from "react-native-calendar-picker";
 import { styles } from "../../css/CssTurnoLibre";
 import {ServCalendarioTurno} from "../../../Service/ServCalendarioTurno"
 
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
 const minDate = new Date();
 const weekdays = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
 const months = [
@@ -28,7 +26,6 @@ export const Calendario = ({ setFecha ,id}) => {
   useEffect(() => {
     setFechaAct();
   }, []);
-  const [fechaCal, setFechaCal] = useState(null);
 
   const setFechaAct = (data) => {
     if (data !== undefined) {

@@ -76,6 +76,9 @@ export const styles = StyleSheet.create({
     containerTF: {
       paddingBottom: 128,
     },
+    contGeneral:{
+      flex:1
+    },
     mssgContainer: {
       flex: 1,
     },
@@ -88,10 +91,14 @@ export const styles = StyleSheet.create({
     btnHistorial: {
       borderColor: "blue",
       borderWidth: 1,
-      bottom: 5,
+      bottom: 0,
       position: "absolute",
       width: "100%",
       backgroundColor: "#fff",
     },
+    contGeneralHistorial:{
+      marginBottom:5,
+      flex:1
+    }
   });
   

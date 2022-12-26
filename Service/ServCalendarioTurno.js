@@ -10,15 +10,7 @@ export const ServCalendarioTurno = async (cuerpo,setFecha) => {
       console.log(error);
     }
   };
-  const get = (token,cuerpo,setFecha) => {
-   let cuerpoRep=
-      {
-        page: 0,
-        pageSize: 10,
-        date: "2022-11-23",
-        idCourt: 1
-      }
-    
+  const get = (token,cuerpo,setFecha) => {    
     const url =
       environment.api.url + "/api/v1/client/PublicTurn/availableTurns";
     axios({

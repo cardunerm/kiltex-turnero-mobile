@@ -3,7 +3,6 @@ import {
   TextInput,
   View,
   Text,
-  StyleSheet,
   Pressable,
   ScrollView,
   Alert

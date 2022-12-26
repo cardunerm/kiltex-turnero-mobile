@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   ScrollView,
   Text,
@@ -15,8 +15,6 @@ import {styles} from "./css/CssScreenPerfil";
 
 const Perfil = () => {
   //Hooks
-  const [gatillo, setGatillo] = useState(false);
-  const [usuario, setUsuario] = useState();
   const navigation = useNavigation();
 
   //Logout - (Se borra el token)
@@ -38,6 +36,20 @@ const Perfil = () => {
       ]);
     
   };
+  /*
+  <Pressable
+              style={styles.funcionalidad}
+              onPress={() => navigation.navigate("Notificaciones")}
+            >
+              <Text style={styles.funcionalidadText}>Notificaciones</Text>
+            </Pressable>
+            <Pressable
+              style={styles.funcionalidad}
+              onPress={() => navigation.navigate("userAndPass")}
+            >
+              <Text style={styles.funcionalidadText}>Usuario</Text>
+            </Pressable>
+  */
  
   
   //BODY PRINCIPAL
@@ -58,18 +70,7 @@ const Perfil = () => {
             >
               <Text style={styles.funcionalidadText}>Contáctanos</Text>
             </Pressable>
-            <Pressable
-              style={styles.funcionalidad}
-              onPress={() => navigation.navigate("Notificaciones")}
-            >
-              <Text style={styles.funcionalidadText}>Notificaciones</Text>
-            </Pressable>
-            <Pressable
-              style={styles.funcionalidad}
-              onPress={() => navigation.navigate("userAndPass")}
-            >
-              <Text style={styles.funcionalidadText}>Usuario</Text>
-            </Pressable>
+            
             <Pressable
               style={styles.funcionalidad}
               onPress={() => navigation.navigate("FAQs")}

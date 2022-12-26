@@ -1,15 +1,13 @@
-import React, { useEffect, useState} from "react";
+import React, {useState} from "react";
 import {
   Text,
   FlatList,
   View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../css/CssHistorial";
 import { historialApi } from "../../../Service/ServHistorial";
 
 const Historial = ({ navigation }) => {
-  const navigationn = useNavigation();
   const [historial,setHistorial] = useState();
   //Data temporal
 const cuerpo = {
@@ -50,7 +48,6 @@ historialApi(cuerpo,setHistorial)
   ];
 //BODY  TURNO PASADO
   const TurnoPasado = ({ item }) => {
-    console.log(item)
     return (
       <>
         <View style={styles.listTurno}>
@@ -84,7 +81,7 @@ historialApi(cuerpo,setHistorial)
   return (
     <>
       <FlatList
-        data={historial} // Cambiar por array con turnos pasados (turnos del historial)
+        data={historial} 
         enableEmptySections={true}
         renderItem={TurnoPasado}
       />

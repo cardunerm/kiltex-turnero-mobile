@@ -6,7 +6,6 @@ export const registerApi = (
   setVisbRegister,
   visbRegister,
   setCargando,
-  cargando
 ) => {
   const url = environment.api.url + "/api/v1/Auth/register";
   axios

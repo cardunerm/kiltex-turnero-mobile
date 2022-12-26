@@ -1,15 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
-import { View, Text, Switch, StyleSheet, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Switch, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
 
 
 //notificacion
 const NotificacionesStack = () => {
   //Hooks
-  const navigation = useNavigation();
   const [isEnabled, setIsEnabled] = useState(true);
 
   useEffect(() => {
