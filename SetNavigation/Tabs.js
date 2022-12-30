@@ -1,10 +1,6 @@
 import React from "react";
-import {  Alert } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
 
 //partes
 import { MyStack } from "./StackHome";
@@ -12,8 +8,6 @@ import { MyStackTurno } from "./StackMisTurnos";
 import { MyStackPerfil } from "./StackPerfil";
 const Tab = createBottomTabNavigator();
 export function MyTabs({ navigation }) {
-  const navigat = useNavigation();
-  const [gatillo, setGatillo]=useState(true)
 
   return (
     <>

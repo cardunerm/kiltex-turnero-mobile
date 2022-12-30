@@ -29,6 +29,7 @@ const FormSignIn = ({
       emailAddress: "",
       password: "",
       confirmPassword: "",
+      phoneNumber:''
     },
   });
 
@@ -39,6 +40,7 @@ const FormSignIn = ({
   );
 
   const onSubmit = (data) => {
+    console.log(data)
     registerApi(data, setVisbRegister, visbRegister, setCargando, cargando);
     setCargando(true);
 
@@ -189,7 +191,7 @@ const FormSignIn = ({
             placeholder="Telefono..."
           />
         )}
-        name="confirmPassword"
+        name="phoneNumber"
       />
       <Text style={styles.errorText}>{errors.confirmPassword?.message}</Text>
 

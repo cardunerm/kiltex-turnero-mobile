@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, Pressable, SectionList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-
-import { Dialog, Portal, Provider } from "react-native-paper";
+import React from "react";
+import { Text, View, Pressable} from "react-native";
 import { FlatGrid } from "react-native-super-grid";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../../css/CssTurnoLibre";
-import { alert } from "../../Alert";
-import { TurnoLibreApi } from "../../../Service/ServSolicitarTurno";
-import { Calendario } from "./CalendarioTurno";
-import { Boton } from "./CalendarioTurno";
-import { set } from "react-hook-form";
-
-
-
 
 export const Schedule = ({ tiempo, setTiempo,fecha,setHorario,horario}) => {
     const turnos = fecha
-    
   return (
     <>
     {turnos[0] == undefined ? (<View style={styles.containInfo}><Text style={styles.mnsjHorarioNoDisp}>No se encuentran turnos disponibles en esa fecha</Text></View>):(<View>

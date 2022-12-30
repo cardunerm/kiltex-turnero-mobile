@@ -7,29 +7,23 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../../css/CssViewTurn";
-import { alertBD, alertCancelar } from "../../Alert";
+import { alertCancelar } from "../../Alert";
 import { CancelarTurnoApi } from "../../../Service/ServCancelarTurno"
 import { useNavigation } from "@react-navigation/native";
-import { turnosApi } from "../../../Service/ServMyTurno";
 const ViewTurn = ({ route }) => {
   const navigation = useNavigation();
   //HOOKS
   const { item } = route.params;
-  console.log(route)
   const [isNavigation, setIsNavigation] = useState(false);
   useEffect(() => {
     if (isNavigation) {
       navigation.navigate("Turnos");
-//setCargaTurn(true)
     }
     setIsNavigation(false)
   }, [isNavigation]);
   //BODY PRINCIPAL
   const accionCanelar = () => {
     CancelarTurnoApi(id, setIsNavigation)
-  }
-  const accionMover = () => {
-    console.log("Se movio el turno")
   }
   return (
     <>

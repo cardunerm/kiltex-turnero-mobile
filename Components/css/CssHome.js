@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { View, StyleSheet, Animated, Dimensions} from 'react-native';
+const {width} = Dimensions.get('screen')
 export const styles = StyleSheet.create({
   top: {
     backgroundColor: "#fff",
@@ -44,8 +45,8 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   newsletterContainer: {
-    marginTop: 10,
-    marginHorizontal:10,    
+    marginTop: 10,  
+    width:width,
   },
   newsletterCont: {
     marginTop: 5,

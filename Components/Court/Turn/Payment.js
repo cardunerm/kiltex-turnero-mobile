@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Text,
   View,
   StyleSheet,
   Pressable,
-  TouchableWithoutFeedback,
   Linking,
 } from "react-native";
 import { Foundation } from "@expo/vector-icons";

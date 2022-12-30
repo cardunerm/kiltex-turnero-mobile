@@ -1,13 +1,11 @@
-import React, { useEffect, useState} from "react";
+import React from "react";
 import {
   Text,
-  View,
   Pressable,
-  SectionList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { Dialog, Portal, Provider } from "react-native-paper";
+import { Dialog, Portal} from "react-native-paper";
 import { styles } from "../../css/CssTurnoLibre";
 
 export const TiposTurnos =({visible,setVisible})=>{

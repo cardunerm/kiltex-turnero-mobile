@@ -6,7 +6,8 @@ import { BottomSheet, Button, ListItem } from "@rneui/themed";
 import { styles } from "../css/CssDetailsCourts";
 import { stylesvar } from "../css/variables_Css";
 
-const BtnTurnFijoLibre = ({ id , params}) => {
+const BtnTurnFijoLibre = ({ params,court}) => {
+  
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState(false);
   const list = [
@@ -15,23 +16,9 @@ const BtnTurnFijoLibre = ({ id , params}) => {
       containerStyle: { borderColor: "#0853b5", borderWidth: 2, marginVertical: 50, },
       titleStyle: { color: "#000", fontSize: 25 },
       onPress: () => {
-        navigation.navigate("TurnoLibre", params), setIsVisible(false);
+        navigation.navigate("TurnoLibre", {id:params,court:court}), setIsVisible(false);
       },
     },
-    /*{
-      title: "Turno Fijo",
-      containerStyle: {
-        borderColor: "#0853b5",
-        borderWidth: 2,
-        marginTop: 20,
-        marginBottom: 20,
-      },
-      titleStyle: { color: "#000", fontSize: 25, fontWeight: "600" },
-
-      onPress: () => {
-        navigation.navigate("TurnoFijo", id), setIsVisible(false);
-      },
-    },*/
     {
       title: "Cancelar",
       containerStyle: {

@@ -3,12 +3,6 @@ import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
 
-/*
-Existen dos formas de manejar notificaciones
-una es de formalocal, la notificacion ya esta garcodeada y se envia desde el front a una api de expo
-otra forma es haciendo una funcionalidad en el back que se encarge de enviar notificaciones 
-*/
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,

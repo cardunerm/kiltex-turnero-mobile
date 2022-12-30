@@ -13,7 +13,6 @@ export const CancelarTurnoApi = async (data) => {
     }
 };
 const get = async (data, token) => {
-    console.log(token)
     const url =
         environment.api.url + "/api/v1/client/Reservation/cancel_my_reservation?id=" + data;
     await axios({

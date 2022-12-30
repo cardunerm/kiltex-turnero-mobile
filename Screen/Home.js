@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Text,
   View,
@@ -24,7 +24,7 @@ const Home = ({ navigation }) => {
   const [token, setToken] = useState();
   useEffect(() => {
     getData()
-    if(token === null){
+    if (token === null) {
       navigation.navigate("login");
       return
     }
@@ -37,12 +37,49 @@ const Home = ({ navigation }) => {
       console.log(error);
     }
   };
+  const setTime = () => {
+    let si = 'si'
+    return si
+  }
+  const timerRef = useRef(null)
+  const [current, setCurrent] = useState(0);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    if (novedades.length == 0) {
+      newsletterHomeApi(setNovedades);
+      courtHomeApi(setCourts, setCargando,setIsError);
+      if(isError){
+        console.log()
+        navigation.navigate("login")
+      }
+      setTimeout(() => {
+        setCurrent(1)
+      }, 3000)
+
+    }
+    if (novedades.length != 0) {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      if (current > novedades.length) {
+        setCurrent(1)
+      }
+      timerRef.current = setTimeout(() => {
+        ref?.current?.scrollToIndex({ index: current - 1 });
+        setCurrent(c => c + 1)
+      }, 4000);
+      return () => clearTimeout(timerRef.current);
+    }
+  }, [current]);
 
   React.useEffect(() => {
-
     const unsubscribe = navigation.addListener("focus", () => {
       newsletterHomeApi(setNovedades);
-      courtHomeApi(setCourts, setCargando);
+      courtHomeApi(setCourts, setCargando,setIsError);
+      if(isError){
+        navigation.navigate("login")
+      }
     });
 
     return unsubscribe;
@@ -53,15 +90,17 @@ const Home = ({ navigation }) => {
   const [cargando, setCargando] = useState(true);
   const [refreshing, setRefreshing] = useState(true);
   const [novedades, setNovedades] = useState([]);
-
+  const [index, setIndex] = useState(0);
   const navigationn = useNavigation();
   //BODY DEL ELEMENTO - LA CANCHA
+  const ref = useRef();
+
   const Court = ({ item }) => {
     return (
       <>
         <Pressable
-          style={[styles.court,stylesvar.var_border]}
-          onPress={() => navigationn.navigate("Details", item)}
+          style={[styles.court, stylesvar.var_border]}
+          onPress={() => navigationn.navigate("Details", item.id)}
         >
           <MaterialCommunityIcons name="tennis" size={50} color="black" />
           <Text style={styles.textName}>{item.name}</Text>
@@ -73,10 +112,10 @@ const Home = ({ navigation }) => {
   //NOVEDADES
   //BODY DEL ELEMENTO - NOVEDADES
   const Novedad = ({ item }) => {
-    
+
     return (
       <>
-        <Pressable style={[styles.newsletterContainer,stylesvar.var_border]}>
+        <Pressable style={[styles.newsletterContainer, stylesvar.var_border]}>
           <View style={styles.newsletter}>
             <Text style={styles.TextNewsletterTitle}>{item.title}</Text>
             <Text style={styles.TextNewsletterDesc}>{item.description}</Text>
@@ -85,36 +124,37 @@ const Home = ({ navigation }) => {
       </>
     );
   };
-  const [index, setIndex] = useState(0);
+
   const scrollX = useRef(new Animated.Value(0)).current;
-    const handleOnScroll = event => {
-      Animated.event(
-        [
-          {
-            nativeEvent:{
-              contentOffset:{
-                x:scrollX,
-              },
+  const handleOnScroll = event => {
+    Animated.event(
+      [
+        {
+          nativeEvent: {
+            contentOffset: {
+              x: scrollX,
             },
           },
-        ],
-        {
-          useNativeDriver:false,
         },
-      )(event);
-    };
-    const handleonViewableItemsChanged = useRef(({viewableItems})=>{
-      setIndex(viewableItems[0].index);
-    }).current;
+      ],
+      {
+        useNativeDriver: false,
+      },
+    )(event);
+  };
+  const handleonViewableItemsChanged = useRef(({ viewableItems }) => {
+    setIndex(viewableItems[0].index);
+  }).current;
 
-    const viewabilityConfig = useRef({
-      itemVisiblePercentThreshold:50,
-    }).current;
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 50,
+  }).current;
 
   const flatList = (
-    
+
     <View style={styles.newsletterCont}>
       <FlatList
+        ref={ref}
         data={novedades}
         renderItem={Novedad}
         horizontal
@@ -129,7 +169,7 @@ const Home = ({ navigation }) => {
           <RefreshControl refreshing={cargando} onRefresh={courtHomeApi} />
         }
       />
-      <Pagination data={novedades} scrollX={scrollX} index={index}/>
+      <Pagination data={novedades} scrollX={scrollX} index={index} />
     </View>
   );
   //Lista de canchas
@@ -169,7 +209,7 @@ const Home = ({ navigation }) => {
   //BODY GENERAL
   return (
     <>
-    {(Platform.OS === "android")?(<View></View>):(<SafeAreaView></SafeAreaView>)}
+      {(Platform.OS === "android") ? (<View></View>) : (<SafeAreaView></SafeAreaView>)}
       <Pressable
         style={styles.top}
         onPress={() => navigationn.navigate("Informacion")}

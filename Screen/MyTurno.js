@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
   Text,
+  FlatList,
   View,
+  ActivityIndicator,
+  ScrollView,
+  RefreshControl,
   Pressable,
 } from "react-native";
 import { Button } from "react-native-paper";
@@ -23,48 +27,101 @@ const MyTurno = ({ navigation }) => {
   const [gatillo, setGatillo] = useState(1);
 
   const [cargaTurn, setCargaTurn] = useState(false);
-  useEffect(() => {
-    turnosApi(setReservationLibre, setCargando, setlistEmpty);
-    setCargaTurn(false)
-  }, [cargaTurn])
+  
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setCargaTurn(true)
       turnosApi(setReservationLibre, setCargando, setlistEmpty)
+      setTimeout(() => {
+        setCargaTurn(true)
+      turnosApi(setReservationLibre, setCargando, setlistEmpty)
+      }, 1500);
     });
     return unsubscribe;
   }, [navigation]);
-  const refresh = () => {
-    const [reservationLibre, setReservationLibre] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
     turnosApi(setReservationLibre, setCargando, setlistEmpty)
-  }
-  return (
-    <>
-      <View style={styles.containerBot}>
+  }, []);
+  const Turno = ({ item }) => {
+    return (
+      <>
+        <View style={styles.card}>
+          <View style={styles.contTurno}>
+            <Text style={[styles.titulo, styles.horario]}>
+              Fecha: {item.turn.slice(0, 10)}
+            </Text>
+            <Text style={[styles.titulo, styles.horario]}>
+              Inicio del turno: {item.turn.slice(11, 13)} :{" "}
+              {item.turn.slice(14, 16)} hs
+            </Text>
+            <Pressable onPress={() => 
+              navigationn.navigate("ViewTurn", { item: item })}>
+              <Text style={styles.viewTurno}>Ver Turno</Text>
+            </Pressable>
+          </View>
+        </View>
+      </>
+    );
+  };
+  return (     
+      cargando ? (
+        <View>
+          <ActivityIndicator size="large" color="#1258B1" />
+        </View>
         
-      </View>
-      <Carga
-        refresh={refresh}
-        reservationLibre={reservationLibre}
-        reservationFijo={reservationFijo}
-        cargando={cargando}
-        listEmpty={listEmpty}
-        listEmptyTwo={listEmptyTwo}
-        gatillo={gatillo}
-        navigationn={navigationn}
-
-        setCargaTurn={setCargaTurn}
-      />
-      <Button
-        onPress={() => navigationn.navigate("Historial")}
-        icon="history"
-        mode="outlined"
-        color="blue"
-        style={styles.btnHistorial}
-      >
-        My Historial
-      </Button>
-    </>
+      ) : listEmpty ? (
+        <View style={styles.contGeneral}>
+          <View style={styles.containerTF}>
+          <FlatList
+            data={reservationLibre}
+            keyExtractor={(item) => item.id}
+            enableEmptySections={true}
+            renderItem={Turno}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+          />
+        </View>
+        <View style={styles.contGeneralHistorial}>
+          <Button
+            onPress={() => navigationn.navigate("Historial")}
+            icon="history"
+            mode="outlined"
+            color="blue"
+            style={styles.btnHistorial}
+          >
+            My Historial
+          </Button>
+        </View>
+        </View>       
+      ) : (
+        <View style={styles.mssgContainer}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            <Text style={styles.mssg}>No se encuentra ningún turno Libre</Text>
+          </ScrollView>
+          <View style={styles.contGeneralHistorial}>
+          <Button
+            onPress={() => navigationn.navigate("Historial")}
+            icon="history"
+            mode="outlined"
+            color="blue"
+            style={styles.btnHistorial}
+          >
+            My Historial
+          </Button>
+        </View>
+        </View>
+      )
+           
+    
   );
 };
 

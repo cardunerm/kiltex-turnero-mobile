@@ -5,10 +5,8 @@ import {
   Pressable,
   SectionList,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-import { Dialog, Portal, Provider } from "react-native-paper";
-import { FlatGrid } from "react-native-super-grid";
+import { Provider } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "../../css/CssTurnoLibre";
 import { alert } from "../../Alert";
@@ -17,9 +15,6 @@ import { Calendario } from "./CalendarioTurno";
 import { Boton } from "./CalendarioTurno";
 import { Schedule } from "./Schedule";
 import { TiposTurnos } from "./TiposTurno";
-
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
 
 const TurnoFijo = ({ route }) => {
   const id = route.params;
