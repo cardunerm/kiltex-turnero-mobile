@@ -27,14 +27,15 @@ const MyTurno = ({ navigation }) => {
   const [gatillo, setGatillo] = useState(1);
 
   const [cargaTurn, setCargaTurn] = useState(false);
-  useEffect(() => {
-    turnosApi(setReservationLibre, setCargando, setlistEmpty);
-    setCargaTurn(false)
-  }, [cargaTurn])
+  
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setCargaTurn(true)
       turnosApi(setReservationLibre, setCargando, setlistEmpty)
+      setTimeout(() => {
+        setCargaTurn(true)
+      turnosApi(setReservationLibre, setCargando, setlistEmpty)
+      }, 1500);
     });
     return unsubscribe;
   }, [navigation]);

@@ -3,16 +3,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { environment } from "../env/env.develop";
 
 
-export const courtHomeApi = async (setCourts,setCargando) => {
+export const courtHomeApi = async (setCourts,setCargando,setIsError) => {
     try {
       const usuario = await AsyncStorage.getItem("token");
       const tokenn = JSON.parse(usuario);
-      get(tokenn,setCourts,setCargando);
+      get(tokenn,setCourts,setCargando,setIsError);
     } catch (error) {
       console.log(error);
+     
     }
   };
-  const get = async (token,setCourts,setCargando) => {
+  const get = async (token,setCourts,setCargando,setIsError) => {
     const url = environment.api.url + "/api/v1/client/Court/list_all_courts";
     await axios({
       method: "post",
@@ -23,9 +24,12 @@ export const courtHomeApi = async (setCourts,setCargando) => {
       .then((response) => {
         setCourts(response.data.data);
         setCargando(false);
+        setIsError(false)
       })
       .catch((e) => {
         console.log("ERR" + e);
+        console.log(e)
+        setIsError(true)
       });
   };
   const filter = {

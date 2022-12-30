@@ -18,7 +18,7 @@ import { Schedule } from "./Schedule";
 import { TiposTurnos } from "./TiposTurno";
 
 const TurnoLibre = ({ route }) => {
-  const{ id , name}= route.params;
+  const{ id , court}= route.params;
   const navigation = useNavigation();
   //HOOKS
   const [fecha, setFecha] = useState(null);
@@ -35,7 +35,7 @@ const TurnoLibre = ({ route }) => {
   const SolicitarTurno = () => {
     //body del turno
     const Cuerpo ={
-      nameCancha:name,
+      nameCancha:court.name,
       fecha:horario,
     } 
     const Turno ={

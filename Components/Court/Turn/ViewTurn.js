@@ -18,7 +18,6 @@ const ViewTurn = ({ route }) => {
   useEffect(() => {
     if (isNavigation) {
       navigation.navigate("Turnos");
-//setCargaTurn(true)
     }
     setIsNavigation(false)
   }, [isNavigation]);

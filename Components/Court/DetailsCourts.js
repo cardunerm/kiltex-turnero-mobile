@@ -5,12 +5,12 @@ import { detailsCourtsApi } from "../../Service/ServDetailsCourt";
 import BtnTurnFijoLibre from "./btnTurnFijoLibre";
 
 const DetailsCourts = ({ route }) => {
-  const {id} = route.params;
+  
   //Hooks
   const [detCourts, setDetCourts] = useState({});
   const [cargando, setCargando] = useState(true);
   useEffect(() => {
-    detailsCourtsApi(setDetCourts, setCargando, id);
+    detailsCourtsApi(setDetCourts, setCargando, route.params);
   }, []);
   //BODY PRINCIPAL
   return (
@@ -30,7 +30,7 @@ const DetailsCourts = ({ route }) => {
             </View>
           </View>
         </View>
-        <BtnTurnFijoLibre id={id} params={route.params}/>
+        <BtnTurnFijoLibre  params={route.params} court={detCourts}/>
       </ScrollView>
     </>
   );
