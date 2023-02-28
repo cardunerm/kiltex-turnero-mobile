@@ -23,6 +23,6 @@ export const ServCalendarioTurno = async (cuerpo,setFecha) => {
         setFecha(response.data.data)
       })
       .catch((e) => {
-        console.log("ERR" + e);
+        console.log(e);
       });
   };

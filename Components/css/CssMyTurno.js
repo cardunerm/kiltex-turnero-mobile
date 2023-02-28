@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
       borderBottomRightRadius: 25,
     },
     containerTF: {
-      paddingBottom: 128,
+      paddingBottom: 47,
     },
     contGeneral:{
       flex:1

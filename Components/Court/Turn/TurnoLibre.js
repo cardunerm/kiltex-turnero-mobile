@@ -17,9 +17,9 @@ import { Boton } from "./CalendarioTurno";
 import { Schedule } from "./Schedule";
 import { TiposTurnos } from "./TiposTurno";
 
-const TurnoLibre = ({ route }) => {
+const TurnoLibre = ({ route,navigation }) => {
   const{ id , court}= route.params;
-  const navigation = useNavigation();
+  const navigationn = useNavigation();
   //HOOKS
   const [fecha, setFecha] = useState(null);
   const [cancha, setCancha] = useState("");
@@ -27,12 +27,17 @@ const TurnoLibre = ({ route }) => {
   const [visible, setVisible] = React.useState(false);
   const [carga, setCarga] = useState(false);
   const [horario, setHorario] = useState();
+  const [recarga, setRecarga] = useState(true);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setCancha(id);
+    });
+    return unsubscribe;
+  }, [navigation]);
  
-  useEffect(() => {
-    setCancha(id);
-  }, [id]);
- 
-  const SolicitarTurno = () => {
+  const SolicitarTurno = (data) => {
+    
     //body del turno
     const Cuerpo ={
       nameCancha:court.name,
@@ -49,12 +54,14 @@ const TurnoLibre = ({ route }) => {
     } else {
       setCarga(true);
      TurnoLibreApi(Turno, setVisible, setCarga,tiempo);
-    
-      navigation.navigate("payment",Cuerpo);
+      navigationn.navigate("payment",Cuerpo);
       setCarga(false)
     }
+    if(data == true){
+      setFecha()
+      setRecarga(false)
+    }
   };
-
   const Fecha = [
     {
       title: "si",
@@ -104,7 +111,7 @@ const TurnoLibre = ({ route }) => {
                 fecha != undefined ? (
                   <View>
                     <Schedule tiempo={tiempo} setTiempo={setTiempo} fecha={fecha} setHorario={setHorario} horario={horario}/></View>
-                ) : (
+                ) : (recarga ? (
                   <View style={styles.containInfo}>
                     <Text>
                       <MaterialCommunityIcons
@@ -116,7 +123,16 @@ const TurnoLibre = ({ route }) => {
                       disponibles
                     </Text>
                   </View>
-                )
+                ) : (<View style={styles.containInfo}>
+                  <Text>
+                    <MaterialCommunityIcons
+                      name="information"
+                      size={17}
+                      color="black"
+                    />{" "}
+                    Seleccione una fecha nuevamente
+                  </Text>
+                </View>))
               ) : tiempo != "" ? (
                 <View>
                   <Boton SolicitarTurno={SolicitarTurno} carga={carga}  />
@@ -133,7 +149,6 @@ const TurnoLibre = ({ route }) => {
             stickySectionHeadersEnabled
           />
         </View>
-
         <TiposTurnos  visible={visible} setVisible={setVisible} />
       </View>
     </Provider>

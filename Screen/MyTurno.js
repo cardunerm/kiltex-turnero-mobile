@@ -18,14 +18,9 @@ const MyTurno = ({ navigation }) => {
   const navigationn = useNavigation();
   //HOOKS
   const [reservationLibre, setReservationLibre] = useState([]);
-  const [reservationFijo, setReservationFijo] = useState([1, 2, 3]);
 
   const [cargando, setCargando] = useState(true); //setCarga - Lugar donde se guardara el manejador del spin
   const [listEmpty, setlistEmpty] = useState(true);
-  const [listEmptyTwo, setlistEmptyTwo] = useState();
-
-  const [gatillo, setGatillo] = useState(1);
-
   const [cargaTurn, setCargaTurn] = useState(false);
   
   React.useEffect(() => {

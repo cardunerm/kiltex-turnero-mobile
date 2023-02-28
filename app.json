@@ -35,7 +35,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/LogoPadelPrueba.jpg",
         "backgroundColor": "#FFFFFF"
       },
       "package":"com.padel.turneroArauca",

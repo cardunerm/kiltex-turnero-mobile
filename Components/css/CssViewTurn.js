@@ -32,6 +32,9 @@ export const styles = StyleSheet.create({
       marginTop: 30,
       paddingVertical: 20,
     },
+    btnCancelNo: {
+    display:'none'
+    },
     btnCancel: {
       backgroundColor: colorBackSecundario,
       borderBottomLeftRadius: 20,

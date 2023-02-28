@@ -29,11 +29,26 @@ export const Calendario = ({ setFecha ,id}) => {
 
   const setFechaAct = (data) => {
     if (data !== undefined) {
+      let Mes;
       let mes = data._i.month +1
+      let day=data._i.day
+      let Day;
+      if(mes < 10){
+        Mes = '0'+mes.toString();
+      }
+      else{
+        Mes=mes;
+      }
+      if(day < 10){
+        Day = '0'+day.toString();
+      }
+      else{
+        Day=day;
+      }
       const cuerpo = {
         page: 0,
         pageSize: 10,
-        date: data._i.year + "-" +mes  + "-" + data._i.day,
+        date: data._i.year + "-" +Mes+ "-" + Day,
         idCourt: id,
       };
 ServCalendarioTurno(cuerpo,setFecha)
@@ -64,14 +79,14 @@ ServCalendarioTurno(cuerpo,setFecha)
   );
 };
 
-export const Boton = ({ SolicitarTurno, carga, tiempo}) => {
+export const Boton = ({SolicitarTurno, carga}) => {
   
   return (
     <>
       <Pressable
         style={styles.btnTurno}
         onPress={() => {
-          SolicitarTurno();
+          SolicitarTurno(true);
         }}
       >
         {carga ? (

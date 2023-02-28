@@ -21,6 +21,7 @@ const Payment = ({ route }) => {
   const open = () => {
     let url = "https://mpago.la/1YhXGKV";
     Linking.openURL(url).then((Response) => {
+      navigation.navigate("Courts");
     });
   };
 
@@ -43,7 +44,7 @@ const Payment = ({ route }) => {
             name="information"
             size={17}
             color={headerTintColor}
-          />{" "} Una ves realizado el pago se le enviara un mail confirmando el turno</Text>
+          />{" "} Una ves realizado el pago se le enviara un mail confirmando la recerva</Text>
         </View>
       </View>
       <View style={styles.containerPayment}>
