@@ -154,7 +154,6 @@ const Home = ({ navigation }) => {
     )(event);
   };
   const handleonViewableItemsChanged = useRef(({ viewableItems }) => {
-    console.log(viewableItems)
     viewableItems=[];
   }).current;
 

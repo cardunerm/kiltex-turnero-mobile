@@ -40,7 +40,6 @@ const FormSignIn = ({
   );
 
   const onSubmit = (data) => {
-    console.log(data)
     registerApi(data, setVisbRegister, visbRegister, setCargando, cargando);
     setCargando(true);
 

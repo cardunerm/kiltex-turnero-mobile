@@ -22,13 +22,11 @@ export const courtHomeApi = async (setCourts,setCargando,setIsError) => {
       headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
-        console.log('r')
         setCourts(response.data.data);
         setCargando(false);
         setIsError(false)
       })
       .catch((e) => {
-        console.log('e')
         console.log("ERR" + e);
         setIsError(true)
       });

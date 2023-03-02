@@ -23,9 +23,9 @@ const ViewTurn = ({ route }) => {
     }
     var d = new Date();
     let date = sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(8,10)+'-'+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(5,7)+'-'+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(0,4)+' '+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toString().slice(16,21);
-    if(date < item.turn.slice(0,16)){
+   /* if(date != item.turn.slice(0,16)){
       setIsVisible(true)
-    }
+    }*/
     if (isNavigation) {
       navigation.navigate("Turnos");
     }
