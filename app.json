@@ -13,8 +13,8 @@
         }
       ]
     ],
-    "name": "turneroPrueba1",
-    "slug": "turneroPrueba1",
+    "name": "turnero",
+    "slug": "turnero",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,18 +31,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.padel.turneroArauca"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/LogoPadelPrueba.jpg",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package":"com.padel.turneroArauca",
-      "versionCode":2
+      "package": "com.padel.turneroArauca",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a65cb416-3355-4d95-b7a4-92dd75ac49a5"
+      }
     }
   }
 }
