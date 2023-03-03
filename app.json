@@ -1,18 +1,6 @@
 {
   "expo": {
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./local/assets/notification-icon.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./local/assets/notification-sound.wav",
-            "./local/assets/notification-sound-other.wav"
-          ]
-        }
-      ]
-    ],
+    "plugins": [],
     "name": "turnero",
     "slug": "turnero",
     "version": "1.0.0",

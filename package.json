@@ -23,8 +23,8 @@
     "expo": "^48.0.0",
     "expo-constants": "~14.2.1",
     "expo-device": "~5.2.1",
-    "expo-notifications": "~0.18.1",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "~0.16.3",
     "mercadopago": "^1.5.14",
     "moment": "^2.29.4",
     "react": "18.2.0",
@@ -38,8 +38,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-super-grid": "^4.4.3",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.18.11",
-    "expo-updates": "~0.16.3"
+    "react-native-web": "~0.18.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
