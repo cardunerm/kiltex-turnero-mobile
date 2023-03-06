@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { styles } from "../css/CssSignIn";
 import { registerApi } from "../../Service/ServSignIn";
+import { FontAwesome } from '@expo/vector-icons';
 
 const FormSignIn = ({
   visbRegister,
@@ -16,6 +17,8 @@ const FormSignIn = ({
   cargando,
   setCargando,
 }) => {
+  const [viewPassword, setViewPassword] = useState(true);
+  const [viewPasswordConfirm, setViewPasswordConfirm] = useState(true);
   //MANEJO DEL FORMULARIO
   const {
     reset,
@@ -115,6 +118,7 @@ const FormSignIn = ({
             onChangeText={onChange}
             value={value}
             placeholder="E-mail"
+            keyboardType="email-address"
           />
         )}
         name="emailAddress"
@@ -136,12 +140,21 @@ const FormSignIn = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            secureTextEntry={true}
+            secureTextEntry={viewPassword}
             placeholder="Contraseña"
+          
           />
         )}
         name="password"
       />
+      <View>
+        <Pressable style={viewPassword ?{ position:'relative',marginTop:-35,right:-300,width:30,height:40}:{display:"none"}} color onPress={(e)=>{setViewPassword(false)}}>
+          <FontAwesome name="eye" size={24} color="black"/>
+        </Pressable>
+        <Pressable style={!viewPassword ?{ position:'relative',marginTop:-35,right:-300,width:30,height:40}:{display:"none"}} color onPress={(e)=>{setViewPassword(true)}}>
+        <FontAwesome name="eye-slash" size={24} color="black" />
+        </Pressable>
+      </View>
       <Text style={styles.errorText}>{errors.password?.message}</Text>
 
       <Text style={styles.label}>Confirmar Contraseña</Text>
@@ -160,12 +173,20 @@ const FormSignIn = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            secureTextEntry={true}
+            secureTextEntry={viewPasswordConfirm}
             placeholder="Confirmar contraseña"
           />
         )}
         name="confirmPassword"
       />
+      <View>
+        <Pressable style={viewPasswordConfirm ?{ position:'relative',marginTop:-35,right:-300,width:30,height:40}:{display:"none"}} color onPress={(e)=>{setViewPasswordConfirm(false)}}>
+          <FontAwesome name="eye" size={24} color="black"/>
+        </Pressable>
+        <Pressable style={!viewPasswordConfirm ?{ position:'relative',marginTop:-35,right:-300,width:30,height:40}:{display:"none"}} color onPress={(e)=>{setViewPasswordConfirm(true)}}>
+        <FontAwesome name="eye-slash" size={24} color="black" />
+        </Pressable>
+      </View>
       <Text style={styles.errorText}>{errors.confirmPassword?.message}</Text>
           
 
@@ -177,7 +198,7 @@ const FormSignIn = ({
           required: "Este campo es requerido",
           minLength: {
             value: 8,
-            message: "La contraseña debe ser alfanumerica y tener 8 caracteres",
+            message: "Ingrese su numero de telefono",
           },
         }}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -186,13 +207,13 @@ const FormSignIn = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            secureTextEntry={true}
             placeholder="Telefono..."
+            keyboardType="numeric"
           />
         )}
         name="phoneNumber"
       />
-      <Text style={styles.errorText}>{errors.confirmPassword?.message}</Text>
+      <Text style={styles.errorText}>{errors.phoneNumber?.message}</Text>
 
       <View>
         <Pressable style={styles.button} color onPress={handleSubmit(onSubmit)}>
