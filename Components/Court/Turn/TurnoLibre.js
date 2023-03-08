@@ -20,6 +20,7 @@ import { TiposTurnos } from "./TiposTurno";
 const TurnoLibre = ({ route,navigation }) => {
   const{ id , court}= route.params;
   const navigationn = useNavigation();
+
   //HOOKS
   const [fecha, setFecha] = useState(null);
   const [cancha, setCancha] = useState("");
@@ -34,14 +35,21 @@ const TurnoLibre = ({ route,navigation }) => {
       setCancha(id);
     });
     return unsubscribe;
-  }, [navigation]);
- 
+  }, [navigation]); 
+  const Cuerpo2 ={
+    nameCancha:court.name,
+    fecha:horario,
+    id:id,
+    court:court
+  } 
   const SolicitarTurno = (data) => {
     
     //body del turno
     const Cuerpo ={
       nameCancha:court.name,
       fecha:horario,
+      id:id,
+      court:court
     } 
     const Turno ={
       courtId:cancha ,
