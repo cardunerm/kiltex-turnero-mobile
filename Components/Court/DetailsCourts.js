@@ -13,6 +13,10 @@ const DetailsCourts = ({ route }) => {
     detailsCourtsApi(setDetCourts, setCargando, route.params);
   }, []);
   //BODY PRINCIPAL
+  /*<Image
+  style={styles.img}
+  source={{uri: detCourts.imageUrl}}
+/>*/
   return (
     <>
       <ScrollView style={styles.cuerpo}>
@@ -21,7 +25,7 @@ const DetailsCourts = ({ route }) => {
             <View style={styles.contImg}>
               <Image
                 style={styles.img}
-                source={{uri: detCourts.imageUrl}}
+                source={require('../.././assets/court1.jpg')}
               />
             </View>
             <View>

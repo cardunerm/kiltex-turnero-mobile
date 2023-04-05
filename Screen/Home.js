@@ -24,10 +24,14 @@ const Home = ({ navigation }) => {
   const [token, setToken] = useState();
   useEffect(() => {
     getData()
-    if (token === null) {
-      navigation.navigate("login");
+    setTimeout(() => {
+      if (token === null) {
+       navigationn.navigate("login");
+        return
+      }
       return
-    }
+    }, 3500);
+
   }, [token]);
   const getData = async () => {
     try {
@@ -37,60 +41,67 @@ const Home = ({ navigation }) => {
       console.log(error);
     }
   };
-  const setTime = () => {
-    let si = 'si'
-    return si
-  }
   const timerRef = useRef(null)
   const [current, setCurrent] = useState(0);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+    if (current == 0) {
+      setCurrent(1)
+    }
     if (novedades.length == 0) {
       newsletterHomeApi(setNovedades);
-      courtHomeApi(setCourts, setCargando,setIsError);
-      if(isError){
-        console.log()
-        navigation.navigate("login")
-      }
+      courtHomeApi(setCourts, setCargando, setIsError);
+      
       setTimeout(() => {
+        if (courts == []) {
+         navigationn.navigate("login")
+        }
         setCurrent(1)
       }, 3000)
+    }
+    if (isCaruselFoun) {
+      if (novedades.length != 0) {
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+        }
+        if (current > novedades.length) {
+          setCurrent(1)
+        }
+        timerRef.current = setTimeout(() => {
+          ref?.current?.scrollToIndex({ index: current - 1 });
+          setCurrent(c => c + 1)
 
-    }
-    if (novedades.length != 0) {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
+        }, 3000);
+        return () => clearTimeout(timerRef.current);
       }
-      if (current > novedades.length) {
-        setCurrent(1)
-      }
-      timerRef.current = setTimeout(() => {
-        ref?.current?.scrollToIndex({ index: current - 1 });
-        setCurrent(c => c + 1)
-      }, 4000);
-      return () => clearTimeout(timerRef.current);
     }
+
   }, [current]);
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
+      setIsCaruselFoun(true)
+      setCurrent(current)
       newsletterHomeApi(setNovedades);
-      courtHomeApi(setCourts, setCargando,setIsError);
-      if(isError){
-        navigation.navigate("login")
-      }
+      courtHomeApi(setCourts, setCargando, setIsError);
+      setTimeout(() => {
+        if (courts == []) {
+         navigationn.navigate("login")
+        }
+      }, 3000)
     });
-
+    navigation.addListener("blur", () => {
+      setIsCaruselFoun(false)
+    });
     return unsubscribe;
   }, [navigation]);
 
   const [courts, setCourts] = useState([]);
-  const [courtsFilter, setCourtsFilter] = useState([]);
+  const [isCaruselFoun, setIsCaruselFoun] = useState(true);
   const [cargando, setCargando] = useState(true);
   const [refreshing, setRefreshing] = useState(true);
   const [novedades, setNovedades] = useState([]);
-  const [index, setIndex] = useState(0);
   const navigationn = useNavigation();
   //BODY DEL ELEMENTO - LA CANCHA
   const ref = useRef();
@@ -143,7 +154,7 @@ const Home = ({ navigation }) => {
     )(event);
   };
   const handleonViewableItemsChanged = useRef(({ viewableItems }) => {
-    setIndex(viewableItems[0].index);
+    viewableItems=[];
   }).current;
 
   const viewabilityConfig = useRef({
@@ -169,7 +180,7 @@ const Home = ({ navigation }) => {
           <RefreshControl refreshing={cargando} onRefresh={courtHomeApi} />
         }
       />
-      <Pagination data={novedades} scrollX={scrollX} index={index} />
+      <Pagination data={novedades} scrollX={scrollX} />
     </View>
   );
   //Lista de canchas

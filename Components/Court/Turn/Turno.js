@@ -11,7 +11,6 @@ import {
 import { styles } from "../../css/CssMyTurno";
 //Manejador del spin de carga
 export const Carga = ({ refresh, reservationLibre, reservationFijo, cargando, listEmpty, listEmptyTwo, gatillo, navigationn, setCargaTurn }) => {
-  console.log(reservationLibre)
   const Turno = ({ item }) => {
     return (
       <>

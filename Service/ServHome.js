@@ -28,7 +28,6 @@ export const courtHomeApi = async (setCourts,setCargando,setIsError) => {
       })
       .catch((e) => {
         console.log("ERR" + e);
-        console.log(e)
         setIsError(true)
       });
   };

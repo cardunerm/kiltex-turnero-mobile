@@ -15,7 +15,17 @@ const ViewTurn = ({ route }) => {
   //HOOKS
   const { item } = route.params;
   const [isNavigation, setIsNavigation] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
+   function sumarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() + dias);
+      return fecha;
+    }
+    var d = new Date();
+    let date = sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(8,10)+'-'+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(5,7)+'-'+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(0,4)+' '+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toString().slice(16,21);
+   /* if(date != item.turn.slice(0,16)){
+      setIsVisible(true)
+    }*/
     if (isNavigation) {
       navigation.navigate("Turnos");
     }
@@ -44,12 +54,11 @@ const ViewTurn = ({ route }) => {
         </View>
         <View style={styles.containBtn}>
           <Pressable
-            style={styles.btnCancel}
+            style={isVisible? styles.btnCancel:styles.btnCancelNo}
             onPress={() => alertCancelar("Cancelar Turno", "¿Esta seguro que desea cancelar este turno?", item.id, setIsNavigation)}
           >
             <Text style={styles.btnCMText}>Cancelar Turno</Text>
           </Pressable>
-          
         </View>
         <View style={styles.containInfo}>
           <Text>
@@ -58,17 +67,8 @@ const ViewTurn = ({ route }) => {
               size={17}
               color="black"
             />{" "}
-            Los turnos deberan cancelarse con un plazo de 24 hs, caso contrario
-            no se le devolvera la seña
-          </Text>
-          <Text>
-            <MaterialCommunityIcons
-              name="information"
-              size={17}
-              color="black"
-            />{" "}
-            Al mover un turno se le asignara un bono que le permitira
-            seleccionar otro turno libre
+            Los turnos deberán cancelarse con un plazo de 24 hs, caso contrario
+            no se le devolverá la seña
           </Text>
         </View>
       </ScrollView>

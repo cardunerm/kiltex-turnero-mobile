@@ -1,20 +1,8 @@
 {
   "expo": {
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./local/assets/notification-icon.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./local/assets/notification-sound.wav",
-            "./local/assets/notification-sound-other.wav"
-          ]
-        }
-      ]
-    ],
-    "name": "turneroPrueba1",
-    "slug": "turneroPrueba1",
+    "plugins": [],
+    "name": "turnero",
+    "slug": "turnero",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,16 +19,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.padel.turneroArauca"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.padel.turneroArauca",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a65cb416-3355-4d95-b7a4-92dd75ac49a5"
+      }
     }
   }
 }

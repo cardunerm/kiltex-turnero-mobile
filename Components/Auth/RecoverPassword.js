@@ -53,7 +53,6 @@ const RecoverPassword = ({ visbRecuperarPass, setVisbRecuperarPass }) => {
       .then((response) => {
         setCargando(false)
        alert("","Solicitud realizada con exito")
-        console.log(response)
         
       })
       .catch((e) => {

@@ -10,9 +10,11 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { logApi } from "../../Service/ServLogin";
 import { styles } from "../css/CssLogin";
+import { FontAwesome } from '@expo/vector-icons';
 
 const FormLogin = ({ setToken, cargando, setCargando }) => {
   const navigation = useNavigation();
+  const [viewPassword, setViewPassword] = useState(true);
   //MANEJO DEL FORMULARIO
   const {
     reset,
@@ -79,12 +81,20 @@ const FormLogin = ({ setToken, cargando, setCargando }) => {
             placeholder="contraseña"
             onChangeText={onChange}
             value={value}
-            secureTextEntry={true}
+            secureTextEntry={viewPassword}
             keyboardType="default"
           />
         )}
         name="password"
       />
+      <View>
+        <Pressable style={viewPassword ?{ position:'relative',marginTop:-35,right:-280,width:30,height:40}:{display:"none"}} color onPress={(e)=>{setViewPassword(false)}}>
+          <FontAwesome name="eye" size={24} color="black"/>
+        </Pressable>
+        <Pressable style={!viewPassword ?{ position:'relative',marginTop:-35,right:-280,width:30,height:40}:{display:"none"}} color onPress={(e)=>{setViewPassword(true)}}>
+        <FontAwesome name="eye-slash" size={24} color="black" />
+        </Pressable>
+      </View>
       <Text style={styles.errorText}>{errors.password?.message}</Text>
 
       <View>

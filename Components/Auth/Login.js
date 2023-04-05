@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Text, Image, View, ScrollView,SafeAreaView } from "react-native";
+import React, { useEffect, useState} from "react";
+import { Text, Image, View, ScrollView,SafeAreaView , BackHandler} from "react-native";
 import SignIn from "./SignIn";
 import { useNavigation } from "@react-navigation/native";
 import RecoverPassword from "./RecoverPassword";
 import FormLogin from "./FormLogin";
 import { styles } from "../css/CssLogin";
-const Login = () => {
-  const navigation = useNavigation();
+const Login = ({ navigation }) => {
+  //Bloquea la accion de volver atras
+  const [text, setText] = React.useState('');
+  const hasUnsavedChanges = Boolean(text);
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        e.preventDefault();
+        BackHandler.exitApp();
+      }),
+    [navigation, hasUnsavedChanges]
+  );
+
+
+  const navigationn = useNavigation();
   //HOOKS
   const [visbRegister, setVisbRegister] = useState(false);
   const [visbRecuperarPass, setVisbRecuperarPass] = useState(false);
@@ -14,7 +27,7 @@ const Login = () => {
   const [cargando, setCargando] = useState(false);
   useEffect(() => {
     if (token != null) {
-      navigation.navigate("Court");
+      navigationn.navigate("Court");
       setToken(null);
       setCargando(false);
       return;

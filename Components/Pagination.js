@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Animated, Dimensions} from 'react-native';
 
 const {width} = Dimensions.get('screen')
-const Pagination = ({ data, scrollX, index }) => {
+const Pagination = ({ data, scrollX}) => {
     return (
         <>
             <View style={styles.container}>
@@ -20,7 +20,7 @@ const Pagination = ({ data, scrollX, index }) => {
                             extrapolate: 'clamp',
                         });
                         return <Animated.View key={idx.toString()} style={[styles.point,{width:dotWidth,backgroundColor},
-                            idx == index && styles.dotActive
+                            
                         ]} />
                     })
                 }

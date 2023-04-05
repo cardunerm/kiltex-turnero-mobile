@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
   },
   newsletterContainer: {
     marginTop: 10,  
-    width:width,
+    width:392.2,
   },
   newsletterCont: {
     marginTop: 5,
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 15,
     paddingHorizontal: 15,
-    width:335,
+    width:'100%',
   },
   TextNewsletterTitle: {
     fontSize: 20,

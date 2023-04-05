@@ -78,7 +78,7 @@ const Perfil = () => {
               <Text style={styles.funcionalidadText}>Preguntas Frecuentes</Text>
             </Pressable>
             <Pressable style={styles.funcionalidad} onPress={() => logout()}>
-              <Text style={styles.textCerrarSesion}>Cerrara sesion</Text>
+              <Text style={styles.textCerrarSesion}>Cerrar sesion</Text>
             </Pressable>
           </View>
         </ScrollView>

@@ -17,10 +17,11 @@ import {
 const Payment = ({ route }) => {
   const navigation = useNavigation();
 
-  const { nameCancha, fecha } = route.params;
+  const { nameCancha, fecha,id,court } = route.params;
   const open = () => {
     let url = "https://mpago.la/1YhXGKV";
     Linking.openURL(url).then((Response) => {
+      navigation.navigate("Courts");
     });
   };
 
@@ -43,7 +44,7 @@ const Payment = ({ route }) => {
             name="information"
             size={17}
             color={headerTintColor}
-          />{" "} Una ves realizado el pago se le enviara un mail confirmando el turno</Text>
+          />{" "} Una ves realizado el pago se le enviara un mail confirmando la recerva</Text>
         </View>
       </View>
       <View style={styles.containerPayment}>
@@ -53,7 +54,7 @@ const Payment = ({ route }) => {
             onPress={() => open()}>
             <Text style={styles.textPagar}>Pagar</Text>
           </Pressable>
-          <Pressable style={[styles.btnAccion, styles.btnAccionCancelar]} onPress={() => { navigation.navigate("TurnoLibre") }}>
+          <Pressable style={[styles.btnAccion, styles.btnAccionCancelar]} onPress={() => { navigation.navigate("TurnoLibre",{id:id,court:court}) }}>
             <Text style={styles.textPagar}>Cancelar</Text>
           </Pressable>
         </View>
