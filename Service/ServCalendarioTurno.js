@@ -10,7 +10,7 @@ export const ServCalendarioTurno = async (cuerpo,setFecha) => {
       console.log(error);
     }
   };
-  const get = (token,cuerpo,setFecha) => {    
+  const get = (token,cuerpo,setFecha) => {  
     const url =
       environment.api.url + "/api/v1/client/PublicTurn/availableTurns";
     axios({

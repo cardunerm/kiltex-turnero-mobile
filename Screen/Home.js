@@ -18,19 +18,31 @@ import { courtHomeApi } from "../Service/ServHome";
 import { newsletterHomeApi } from "../Service/ServHome";
 import { stylesvar } from "../Components/css/variables_Css";
 import Pagination from "../Components/Pagination";
-const Home = ({ navigation }) => {
+import { Alert } from "react-native";
 
+const Home = ({ navigation }) => {
+  const timerRef = useRef(null)
+  const [current, setCurrent] = useState(0);
+  const [isError, setIsError] = useState(false);
+
+  const alertClosedSession = () =>{
+    Alert.alert(
+      'La sesión ha caducado',
+      'Vuelve a iniciar sesión',
+      [{text: "Aceptar", style: "cancel", onPress: () => {navigationn.navigate("login")} }]);
+  };
+  
   //HOOKS
   const [token, setToken] = useState();
   useEffect(() => {
     getData()
     setTimeout(() => {
       if (token === null) {
-       navigationn.navigate("login");
+        alertClosedSession()
         return
       }
       return
-    }, 3500);
+    }, 2500);
 
   }, [token]);
   const getData = async () => {
@@ -41,10 +53,16 @@ const Home = ({ navigation }) => {
       console.log(error);
     }
   };
-  const timerRef = useRef(null)
-  const [current, setCurrent] = useState(0);
-  const [isError, setIsError] = useState(false);
 
+  useEffect(()=>{
+    courtHomeApi(setCourts, setCargando, setIsError);
+    setTimeout(() => {
+      if (isError == true && token != null) {
+        alertClosedSession()
+      }
+      setCurrent(1)
+    }, 3000)
+  },[isError])
   useEffect(() => {
     if (current == 0) {
       setCurrent(1)
@@ -52,13 +70,6 @@ const Home = ({ navigation }) => {
     if (novedades.length == 0) {
       newsletterHomeApi(setNovedades);
       courtHomeApi(setCourts, setCargando, setIsError);
-      
-      setTimeout(() => {
-        if (courts == []) {
-         navigationn.navigate("login")
-        }
-        setCurrent(1)
-      }, 3000)
     }
     if (isCaruselFoun) {
       if (novedades.length != 0) {
@@ -85,11 +96,6 @@ const Home = ({ navigation }) => {
       setCurrent(current)
       newsletterHomeApi(setNovedades);
       courtHomeApi(setCourts, setCargando, setIsError);
-      setTimeout(() => {
-        if (courts == []) {
-         navigationn.navigate("login")
-        }
-      }, 3000)
     });
     navigation.addListener("blur", () => {
       setIsCaruselFoun(false)
@@ -253,6 +259,6 @@ const Home = ({ navigation }) => {
       />
     </>
   );
-};
+}
 
 export default Home;
