@@ -17,15 +17,18 @@ const ViewTurn = ({ route }) => {
   const [isNavigation, setIsNavigation] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
-   function sumarDias(fecha, dias){
-    fecha.setDate(fecha.getDate() + dias);
-      return fecha;
-    }
-    var d = new Date();
-    let date = sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(8,10)+'-'+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(5,7)+'-'+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toISOString().slice(0,4)+' '+sumarDias(new Date((item.turn.slice(6,10)+'-'+item.turn.slice(3,5)+'-'+item.turn.slice(0,2)+' '+item.turn.slice(11,16)).toString()), -1).toString().slice(16,21);
-   /* if(date != item.turn.slice(0,16)){
+    const agregarCeroMes = item.turn.slice(4, 5).length < 2 ? '0' + item.turn.slice(4, 5).toString() : item.turn.slice(4, 5).toString()
+    const agregarCeroDia = item.turn.slice(0, 2).length < 2 ? '0' + item.turn.slice(0, 2).toString() : item.turn.slice(0, 2).toString()
+    const fechaTuno = `${item.turn.slice(6, 10)}-${agregarCeroMes}-${agregarCeroDia}T${item.turn.slice(11, 16)}`
+    const fechaOriginal = new Date(fechaTuno);
+    const fechaTurno = new Date(fechaOriginal.getTime() - 86400000);
+    const fechaActual = new Date();
+
+     if(fechaTurno > fechaActual){
       setIsVisible(true)
-    }*/
+    }else{
+      setIsVisible(false)
+    }
     if (isNavigation) {
       navigation.navigate("Turnos");
     }
@@ -54,7 +57,7 @@ const ViewTurn = ({ route }) => {
         </View>
         <View style={styles.containBtn}>
           <Pressable
-            style={isVisible? styles.btnCancel:styles.btnCancelNo}
+            style={isVisible ? styles.btnCancel : styles.btnCancelNo}
             onPress={() => alertCancelar("Cancelar Turno", "¿Esta seguro que desea cancelar este turno?", item.id, setIsNavigation)}
           >
             <Text style={styles.btnCMText}>Cancelar Turno</Text>
